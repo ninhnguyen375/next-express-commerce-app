@@ -1,0 +1,27 @@
+{
+  "author": "ninhnguyen375",
+  "name": "simple-nextjs-and-material-ui-setup",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "jss": "^9.8.7",
+    "mongoose": "^5.4.17",
+    "multer": "^1.4.1",
+    "next": "lastest",
+    "prop-types": "^15.7.2",
+    "react": "lastest",
+    "react-dom": "lastest",
+    "react-jss": "^8.6.1"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production node server/server.js",
+    "dev": "nodemon server/server.js",
+    "build": "next build"
+  }
+}
