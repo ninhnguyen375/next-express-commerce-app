@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/', controller.index);
 router.delete('/:id', controller.deleteBill);
+router.post('/', controller.addBill);
 router.put('/:id', controller.editBill);
 
 module.exports = router;

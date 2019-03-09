@@ -15,7 +15,6 @@ class product extends Component {
   async componentDidMount() {
     try {
       const promiseData = await Axios.get(`/api/products/${this.props.id}`);
-      console.log(promiseData);
       if (promiseData.data) {
         if (promiseData.data.err)
           this.setState({ getError: promiseData.data.err });

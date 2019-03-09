@@ -1,4 +1,7 @@
 const Users = require('../../models/user.model');
+const Products = require('../../models/products.model');
+const Cart = require('../../models/cart.model');
+const Bills = require('../../models/bills.model');
 
 module.exports.index = async (req, res) => {
   const users = await Users.find();
@@ -7,6 +10,49 @@ module.exports.index = async (req, res) => {
   };
   res.json(datas);
 };
+
+
+module.exports.postSignUp = async (req, res) => {
+  const users = await Users.find();
+  const reqUser = req.body;
+  if (
+    !reqUser ||
+    !reqUser.user_name ||
+    !reqUser.user_phone ||
+    !reqUser.user_email ||
+    !reqUser.user_password
+  ) {
+    return res.send({ err: 'Does not have enough data' });
+  }
+  const isDuplicatedEmail = users.find(
+    user => user.user_email === reqUser.user_email
+  );
+
+  if (isDuplicatedEmail) {
+    return res.send({ err: 'This email has been used' });
+  }
+  try {
+    const obj = {
+      user_name: reqUser.user_name,
+      user_password: reqUser.user_password,
+      user_phone: reqUser.user_phone,
+      user_status: true,
+      user_permission: {
+        user: false,
+        product: false,
+        bill: false,
+        category: false
+      },
+      user_group: 'client',
+      user_email: reqUser.user_email
+    };
+    await Users.insertMany(obj);
+    res.send('success');
+  } catch (err) {
+    res.send({ err: err.message });
+  }
+};
+
 module.exports.getUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -20,6 +66,7 @@ module.exports.getUser = async (req, res) => {
     return res.send({ err: err.message });
   }
 };
+
 module.exports.postSignIn = async (req, res) => {
   if (!req.body || !req.body.user_email || !req.body.user_password) {
     res.send({ err: 'Does not have enough data' });
@@ -41,6 +88,7 @@ module.exports.postSignIn = async (req, res) => {
     }
   }
 };
+
 module.exports.postSignInClient = async (req, res) => {
   const { user_password, user_email } = req.body;
 
@@ -50,7 +98,6 @@ module.exports.postSignInClient = async (req, res) => {
   });
   if (user) {
     if (!user.user_status) {
-      console.log(user);
       const err = 'Account is Blocked';
       res.send({ err });
     } else {
@@ -131,34 +178,54 @@ module.exports.getAdminPermission = async (req, res) => {
   return res.send({ admin: user.user_permission });
 };
 
-function validateEmail(email) {
-  return email.indexOf('@') !== -1;
-}
-module.exports.postSignup = async (req, res) => {
-  const users = await Users.find();
-  const reqUser = req.body;
-  let isDuplicatedEmail = false;
-  let isEmail = false;
-  const foundUser = users.find(user => user.user_email === reqUser.user_email);
-  if (foundUser) {
-    isDuplicatedEmail = true;
+module.exports.getCartsOfUser = async (req, res) => {
+  try {
+    const products = await Products.find();
+    const cartItems = await Cart.find({ userId: req.params.id });
+
+    makeupCarts = cartItems.map(item => {
+      const currPro = products.find(pro => pro.product_id === item.proId);
+      return {
+        currPro,
+        cartItem: item
+      };
+    });
+    return res.send({ makeupCarts });
+  } catch (err) {
+    return res.send({ err: err.message });
   }
-  if (validateEmail(reqUser.user_email)) {
-    isEmail = true;
-  }
-  if (isDuplicatedEmail || !isEmail) {
-    res.render('user/signup', { error: 'Fail to sign up, please try again' });
-  } else {
-    const obj = {
-      user_name: reqUser.user_name,
-      user_phone: reqUser.user_phone,
-      user_email: reqUser.user_email,
-      user_password: reqUser.user_password,
-      user_group: reqUser.user_group,
-      user_permission: reqUser.user_permission,
-      user_status: reqUser.user_status
-    };
-    await Users.insertMany(obj);
-    res.redirect('/user/login');
+};
+
+module.exports.getBillsOfUser = async (req, res) => {
+  try {
+    const products = await Products.find();
+
+    const bills = await Bills.find({ authId: req.params.id });
+
+    makeupBills = bills.map(bill => {
+      const productsOfBill = [];
+
+      for (let i = 0; i < bill.details.proId.length; i++) {
+        const id = bill.details.proId[i];
+        const currPrice = bill.details.proPrice[i];
+        const currQuantity = bill.details.proQuantity[i];
+        let currProduct = products.find(item => item.product_id === id);
+        currProduct = {
+          ...currProduct,
+          product_price: currPrice,
+          ...currProduct,
+          quantity: currQuantity
+        };
+        productsOfBill.push(currProduct);
+      }
+
+      return {
+        productsOfBill,
+        bill: bill
+      };
+    });
+    return res.send({ makeupBills });
+  } catch (err) {
+    return res.send({ err: err.message });
   }
 };

@@ -33,7 +33,6 @@ module.exports.postLogin = async (req, res) => {
   const user = await Users.findOne({ user_email: email, user_password: password });
   if (user) {
     if (!user.user_status) {
-      console.log(user);
       const err = 'Account is Blocked';
       res.render('user/login', {
         err,

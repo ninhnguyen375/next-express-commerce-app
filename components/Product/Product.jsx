@@ -1,74 +1,47 @@
 import React, { Component } from 'react';
 import ProductList from './ProductList';
-import { Grid, Fab } from '@material-ui/core';
 import Axios from 'axios';
 
 export class Product extends Component {
   state = {
-    products: null,
-    err: null,
-    productsOnPage: null,
-    pages: null,
-    currentPageButton: null
+    products: [],
+    err: null
   };
-  async componentDidMount() {
+  // Get product from server
+  getProducts = async category => {
     try {
-      const res = await Axios.get('/api/products');
+      const res = category
+        ? await Axios.get('/api/products?producer_id=' + category)
+        : await Axios.get('/api/products');
       const products = res.data.data;
 
       this.setState({
         ...this.state,
-        products,
-        productsOnPage: products.slice(0, 10),
-        pages: Math.ceil(products.length / 10),
-        currentPageButton: 1
+        products
       });
     } catch (err) {
       this.setState({ ...this.state, err: err.message });
     }
-  }
-  handleChagePage = page => () => {
-    if (!page) return;
-    const start = (page - 1) * 10;
-    const end = page * 10;
-    this.setState({
-      ...this.state,
-      productsOnPage: this.state.products.slice(start, end),
-      currentPageButton: page
-    });
   };
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.category !== prevProps.category)
+      await this.getProducts(this.props.category);
+  }
+
+  async componentDidMount() {
+    this.props.category
+      ? await this.getProducts(this.props.category)
+      : await this.getProducts();
+  }
+
   render() {
-    const pageButtons = () => {
-      let pageButtons = [];
-      for (let i = 0; i < this.state.pages; i++) {
-        pageButtons.push(
-          <Fab
-            onClick={this.handleChagePage(i + 1)}
-            key={i}
-            size="small"
-            style={{ margin: 5, boxShadow: 'none' }}
-            color={
-              this.state.currentPageButton === i + 1 ? 'secondary' : 'default'
-            }
-          >
-            {i + 1}
-          </Fab>
-        );
-      }
-      return pageButtons;
-    };
     return (
       <>
-        {this.state.products ? (
-          <>
-            <ProductList products={this.state.productsOnPage} />
-            <br />
-            <Grid container justify="center">
-              {pageButtons().map(btn => btn)}
-            </Grid>
-          </>
+        {this.state.products[0] ? (
+          <ProductList products={this.state.products} />
         ) : (
-          <h3 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h3>
+          <h3 style={{ color: 'gray', textAlign: 'center' }}>Empty</h3>
         )}
       </>
     );

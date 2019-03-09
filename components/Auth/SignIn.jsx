@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Axios from 'axios';
 import Router from 'next/router';
+import ShopContext from '../../context/shop-context';
 
 const styles = theme => ({
   main: {
@@ -49,11 +50,18 @@ const styles = theme => ({
 });
 
 class SignIn extends React.Component {
+  static contextType = ShopContext;
+
   state = {
     user_email: '',
     user_password: '',
     signInError: ''
   };
+
+  async componentDidMount() {
+    await this.context.checkLogin();
+    if (this.context.auth.auth_key) Router.push('/');
+  }
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });

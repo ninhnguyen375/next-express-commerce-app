@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import Axios from 'axios';
-
+import Router from 'next/router';
 class ProductDetails extends Component {
   state = {
     quantity: 1,
@@ -22,7 +22,7 @@ class ProductDetails extends Component {
       return false;
     }
   };
-  hanldeSubmit = async e => {
+  handleSubmit = async e => {
     e.preventDefault();
     if (!this.validated__input(this.state.quantity, 'quantity', /^[1-5]$/))
       return;
@@ -40,7 +40,11 @@ class ProductDetails extends Component {
       });
       if (addCart.data.err) this.setState({ addError: addCart.data.err });
       else {
-        alert('Added To Your Cart');
+        if (confirm('Added! Go to you Cart?')) {
+          Router.push('/cart');
+        } else {
+          Router.push('/');
+        }
       }
     } catch (err) {
       this.setState({ addError: err.message });
@@ -70,7 +74,7 @@ class ProductDetails extends Component {
               <br />
               Omnis beatae molestiae neque commodi odio quibusdam quo.
             </p>
-            <form noValidate onSubmit={this.hanldeSubmit}>
+            <form noValidate onSubmit={this.handleSubmit}>
               <TextField
                 name="quantity"
                 onChange={this.handleChange}

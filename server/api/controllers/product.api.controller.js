@@ -3,9 +3,22 @@ const Producers = require('../../models/producers.model');
 
 // index
 module.exports.index = async (req, res) => {
-  const products = await Products.find();
+  let products = req.query.producer_id
+    ? await Products.find({ producer: req.query.producer_id })
+    : await Products.find();
+  const producers = await Producers.find();
+
+  products = products.map(product => {
+    const producer = producers.find(
+      item => product.producer === item.producer_id
+    );
+    return {
+      ...product._doc,
+      producer: producer.producer_name
+    };
+  });
   const datas = {
-    data: products,
+    data: products
   };
   res.json(datas);
 };
@@ -19,7 +32,9 @@ module.exports.getProduct = async (req, res) => {
       const product = await Products.findById(req.params.id);
       if (!product) res.send({ err: 'This product does not exist' });
       else {
-        const producer = await Producers.find({ producer_id: product.producer });
+        const producer = await Producers.find({
+          producer_id: product.producer
+        });
         if (!producer[0]) res.send({ err: 'producer does not exist' });
         else {
           res.send({ product, producer: producer[0] });
@@ -46,7 +61,7 @@ module.exports.addProduct = async (req, res) => {
         product_name: req.body.product_name,
         producer: req.body.producer,
         product_price: req.body.product_price,
-        quantity: req.body.quantity,
+        quantity: req.body.quantity
       });
       res.send({ added: true });
     } catch (err) {
@@ -73,7 +88,7 @@ module.exports.editProduct = async (req, res) => {
         product_name: req.body.product_name,
         producer: req.body.producer,
         product_price: req.body.product_price,
-        quantity: req.body.quantity,
+        quantity: req.body.quantity
       });
       res.send('edit success');
     } else {
@@ -81,11 +96,16 @@ module.exports.editProduct = async (req, res) => {
         product_name: req.body.product_name,
         producer: req.body.producer,
         product_price: req.body.product_price,
-        quantity: req.body.quantity,
+        quantity: req.body.quantity
       });
       res.send('edit success');
     }
   } catch (err) {
     res.send({ err });
   }
+};
+
+module.exports.search = async (req, res) => {
+  const products = await Products.find(req.body.query);
+  res.json(products);
 };

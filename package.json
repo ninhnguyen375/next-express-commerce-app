@@ -16,6 +16,7 @@
     "next": "lastest",
     "prop-types": "^15.7.2",
     "react": "lastest",
+    "react-animated-slider": "^1.1.4",
     "react-dom": "lastest",
     "react-jss": "^8.6.1"
   },

@@ -75,7 +75,10 @@ export class Footer extends Component {
               Ninh Nguyen
             </a>{' '}
             |{' '}
-            <a href="https://github.com/ninhnguyen375/simple-next-materialui-setup">
+            <a
+              target="blank"
+              href="https://github.com/ninhnguyen375/next-express-commerce-app"
+            >
               Project on GitHub
             </a>
           </p>

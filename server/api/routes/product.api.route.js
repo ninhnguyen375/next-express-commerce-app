@@ -11,11 +11,12 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
-  },
+  }
 });
 const upload = multer({ storage });
 
 router.get('/', controller.index);
+router.post('/search', controller.search);
 router.get('/:id', controller.getProduct);
 router.delete('/:product_id', controller.deleteProduct);
 router.post('/', upload.single('product_img'), controller.addProduct);

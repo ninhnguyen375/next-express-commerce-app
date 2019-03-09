@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/Navbar/Navbar.test';
 import Footer from '../components/Footer/Footer';
 import Axios from 'axios';
-const hello = React.createContext('world');
-
-export { hello };
+import Router from 'next/router';
+import GlobalState from '../context/GlobalState';
 export class Main extends Component {
   state = {
     auth: {}
@@ -12,7 +11,8 @@ export class Main extends Component {
 
   handleLogout = () => {
     window.sessionStorage.removeItem('auth');
-    this.forceUpdate();
+    // this.forceUpdate();
+    Router.push('/signin');
   };
 
   checkLogin = async () => {
@@ -38,21 +38,37 @@ export class Main extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    this.checkLogin();
+  async componentDidUpdate() {
+    await this.checkLogin();
   }
 
-  componentDidMount() {
-    this.checkLogin();
+  async componentDidMount() {
+    window.scrollTo({ top: 0 });
+    await this.checkLogin();
   }
 
   render() {
     return (
-      <hello.Provider value="world">
+      <GlobalState auth={this.state.auth} checkLogin={this.checkLogin}>
         {/* Global CSS */}
         <style jsx global>{`
           * {
             font-family: Roboto;
+            scroll-behavior: smooth;
+          }
+          .full-height {
+            min-height: 80vh;
+          }
+          .fadeIn {
+            animation: fadeIn 0.5s;
+          }
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
           }
         `}</style>
 
@@ -60,11 +76,11 @@ export class Main extends Component {
         <Navbar auth={this.state.auth} onLogout={this.handleLogout} />
 
         {/* Content here */}
-        {this.props.children}
+        <div className="full-height">{this.props.children}</div>
 
         {/* Footer */}
         <Footer />
-      </hello.Provider>
+      </GlobalState>
     );
   }
 }
