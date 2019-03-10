@@ -13,11 +13,11 @@
     "jss": "^9.8.7",
     "mongoose": "^5.4.17",
     "multer": "^1.4.1",
-    "next": "lastest",
+    "next": "8.0.4-canary.9",
     "prop-types": "^15.7.2",
-    "react": "lastest",
+    "react": "16.8.4",
     "react-animated-slider": "^1.1.4",
-    "react-dom": "lastest",
+    "react-dom": "16.8.4",
     "react-jss": "^8.6.1"
   },
   "scripts": {
