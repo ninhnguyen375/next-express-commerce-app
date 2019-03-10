@@ -42,10 +42,9 @@ export class ProductList extends Component {
     let pageButtons = [];
     for (let i = 0; i < this.state.pages; i++) {
       pageButtons.push(
-        <a href="#content">
+        <a href="#content" key={i}>
           <Fab
             onClick={this.handleChagePage(i + 1)}
-            key={i}
             size="small"
             style={{ margin: 5, boxShadow: 'none' }}
             color={

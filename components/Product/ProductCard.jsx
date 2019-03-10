@@ -70,15 +70,13 @@ export class ProductCard extends Component {
               image={`/static${this.props.product.product_img}`}
             />
             <CardContent>
-              <Typography variant="h6">
-                {this.props.product.product_name}
-              </Typography>
-              <Typography variant="h6" color="error">
+              <h3>{this.props.product.product_name}</h3>
+
+              <h3 style={{ color: 'gray' }}>{this.props.product.producer}</h3>
+
+              <h3 style={{ color: 'red' }}>
                 ${this.props.product.product_price}
-              </Typography>
-              <Typography variant="h6" color="textSecondary">
-                {this.props.product.producer}
-              </Typography>
+              </h3>
               {/* <Typography component="p">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </Typography> */}

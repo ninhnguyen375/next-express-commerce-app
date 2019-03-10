@@ -7,7 +7,7 @@ export class about extends Component {
       <Paper>
         <Grid container justify="center">
           <Grid item>
-            <h1 style={{ color: 'gray' }}>ĐỒ ÁN WEB 2</h1>
+            <h1 style={{ color: 'gray' }}>DO AN WEB 2</h1>
           </Grid>
         </Grid>
       </Paper>

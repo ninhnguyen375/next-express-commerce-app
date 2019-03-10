@@ -31,8 +31,7 @@ class product extends Component {
       this.setState({ ...this.state, err: err.message });
     }
   };
-  async componentDidMount() {
-    this.getProducts();
+  getProduct = async () => {
     try {
       const promiseData = await Axios.get(`/api/products/${this.props.id}`);
 
@@ -48,6 +47,13 @@ class product extends Component {
     } catch (err) {
       this.setState({ getError: err.message });
     }
+  };
+  componentDidUpdate() {
+    this.getProduct();
+  }
+  componentDidMount() {
+    this.getProducts();
+    this.getProduct();
   }
   render() {
     return (
@@ -55,18 +61,22 @@ class product extends Component {
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Product Details</h1>
         <Divider />
 
-        <>
-          {this.state.getError ? (
-            <h3 style={{ color: 'gray', textAlign: 'center' }}>
-              {this.state.getError}
-            </h3>
-          ) : (
-            <ProductDetails
-              product={this.state.product}
-              producer={this.state.producer}
-            />
-          )}
-        </>
+        {this.state.getError ? (
+          <h3 style={{ color: 'gray', textAlign: 'center' }}>
+            {this.state.getError}
+          </h3>
+        ) : (
+          <>
+            {this.state.product ? (
+              <ProductDetails
+                product={this.state.product}
+                producer={this.state.producer}
+              />
+            ) : (
+              <h4 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h4>
+            )}
+          </>
+        )}
 
         <div style={{ marginTop: 100 }} />
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Another Products</h1>

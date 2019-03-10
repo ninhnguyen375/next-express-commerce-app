@@ -53,7 +53,7 @@ export class Main extends Component {
         {/* Global CSS */}
         <style jsx global>{`
           * {
-            font-family: Roboto;
+            // font-family: Roboto;
             scroll-behavior: smooth;
           }
           .full-height {
