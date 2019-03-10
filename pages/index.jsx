@@ -13,6 +13,7 @@ export class index extends Component {
       <div className="fadeIn">
         <MySlider />
         <div id="content" />
+        {console.log('hello')}
         <h1 style={{ color: 'gray', textAlign: 'center', marginTop: 70 }}>
           Products
         </h1>
