@@ -51,6 +51,11 @@ class product extends Component {
   componentDidUpdate() {
     this.getProduct();
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
   componentDidMount() {
     this.getProducts();
     this.getProduct();

@@ -10,6 +10,10 @@ class ProductDetails extends Component {
     addSuccess: false
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps !== this.props;
+  }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
