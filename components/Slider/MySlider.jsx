@@ -130,21 +130,27 @@ export class MySlider extends Component {
               }}
             >
               <div className="center">
-                <h1>{item.title}</h1>
+                <h1 style={{ color: 'gray' }}>{item.title}</h1>
                 <p
                   style={{
                     maxWidth: '600px',
                     wordWrap: 'break-word',
-                    margin: 'auto'
+                    margin: 'auto',
+                    color: 'gray'
                   }}
                 >
                   {item.description}
                 </p>
                 <a href="#content">
                   <Button
-                    style={{ marginTop: 20 }}
+                    style={{
+                      marginTop: 20,
+                      borderRadius: '9999px',
+                      boxShadow: '0 0 20px blue',
+                      padding: '10px 20px'
+                    }}
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                   >
                     {item.button}
                   </Button>

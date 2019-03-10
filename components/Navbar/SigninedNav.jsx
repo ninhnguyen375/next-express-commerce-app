@@ -10,25 +10,33 @@ export class SigninedNav extends Component {
         <Button
           onClick={this.props.handleProfileMenuOpen}
           style={{ marginRight: 5 }}
-          color="default"
+          color="inherit"
           variant="outlined"
         >
           Hello {this.props.userName}
         </Button>
         <Button
           onClick={this.props.onLogout}
-          color="primary"
+          color="inherit"
           variant="outlined"
         >
           Logout
         </Button>
         <Link href="/cart">
-          <Button color="primary" variant="contained" style={{ marginLeft: 5 }}>
+          <Button
+            color="inherit"
+            variant="contained"
+            style={{ marginLeft: 5, background: '#5773f3' }}
+          >
             <ShoppingCart />
           </Button>
         </Link>
         <Link href="/bill">
-          <Button color="primary" variant="contained" style={{ marginLeft: 5 }}>
+          <Button
+            color="inherit"
+            variant="contained"
+            style={{ marginLeft: 5, background: '#5773f3' }}
+          >
             Bills
           </Button>
         </Link>

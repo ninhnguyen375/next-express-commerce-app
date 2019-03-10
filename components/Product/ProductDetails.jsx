@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import Axios from 'axios';
-import Router from 'next/router';
+import Link from 'next/link';
+import { ShoppingCart, AddShoppingCart } from '@material-ui/icons';
 class ProductDetails extends Component {
   state = {
     quantity: 1,
-    addError: ''
+    addError: '',
+    addSuccess: false
   };
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -22,6 +25,9 @@ class ProductDetails extends Component {
       return false;
     }
   };
+  componentWillUnmount() {
+    this.setState({ addSuccess: false });
+  }
   handleSubmit = async e => {
     e.preventDefault();
     if (!this.validated__input(this.state.quantity, 'quantity', /^[1-5]$/))
@@ -40,16 +46,13 @@ class ProductDetails extends Component {
       });
       if (addCart.data.err) this.setState({ addError: addCart.data.err });
       else {
-        if (confirm('Added! Go to you Cart?')) {
-          Router.push('/cart');
-        } else {
-          Router.push('/');
-        }
+        this.setState({ addSuccess: true });
       }
     } catch (err) {
       this.setState({ addError: err.message });
     }
   };
+
   render() {
     const { product, producer } = this.props;
     return (
@@ -87,14 +90,30 @@ class ProductDetails extends Component {
                 <p style={{ color: 'red' }}>{this.state.addError}</p>
               )}
               <br />
-              <Button
-                style={{ marginTop: 20 }}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Add To Cart
-              </Button>
+              {this.state.addSuccess ? (
+                <Link href="/cart">
+                  <a>
+                    <Button
+                      style={{ marginTop: 20 }}
+                      variant="contained"
+                      color="secondary"
+                      type="submit"
+                    >
+                      In Your Cart
+                      <ShoppingCart style={{ marginLeft: 5 }} />
+                    </Button>
+                  </a>
+                </Link>
+              ) : (
+                <Button
+                  style={{ marginTop: 20 }}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Add To Cart <AddShoppingCart style={{ marginLeft: 5 }} />
+                </Button>
+              )}
             </form>
           </Grid>
         </Grid>

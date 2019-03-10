@@ -71,7 +71,7 @@ export class cart extends Component {
     }
   };
   async componentDidMount() {
-    window.scrollTo({ top: 0 });
+    // window.scrollTo({ top: 0 });
     await this.context.checkLogin();
     if (this.context.auth.auth_key) {
       await this.getCarts(this.context.auth.auth_key);
@@ -200,19 +200,24 @@ export class cart extends Component {
                 <TableRow>
                   <TableCell colSpan={3}>
                     <Link href="/">
-                      <Button color="inherit" variant="contained">
+                      <Button
+                        color="secondary"
+                        style={{ display: 'block', width: '100%' }}
+                        variant="contained"
+                      >
                         Back To Shopping
                       </Button>
                     </Link>
                   </TableCell>
-                  <TableCell colSpan={4}>
+                  <TableCell />
+                  <TableCell colSpan={3}>
                     <Button
-                      style={{ float: 'right' }}
+                      style={{ display: 'block', width: '100%' }}
                       variant="contained"
                       color="primary"
                       onClick={this.handleCheckout}
                     >
-                      Check OutCart
+                      Check Out
                     </Button>
                   </TableCell>
                 </TableRow>

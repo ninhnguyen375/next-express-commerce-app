@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from '../components/Navbar/Navbar.test';
+import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import Axios from 'axios';
 import Router from 'next/router';
@@ -43,7 +43,7 @@ export class Main extends Component {
   }
 
   async componentDidMount() {
-    window.scrollTo({ top: 0 });
+    // window.scrollTo({ top: 0 });
     await this.checkLogin();
   }
 

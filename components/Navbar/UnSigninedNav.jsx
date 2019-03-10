@@ -8,9 +8,9 @@ export class UnSigninedNav extends Component {
         <Link href="/signin">
           <a>
             <Button
-              color="primary"
+              color="inherit"
               variant="outlined"
-              style={{ marginLeft: 10 }}
+              style={{ marginLeft: 10, color: 'white' }}
             >
               Login
             </Button>
@@ -19,8 +19,8 @@ export class UnSigninedNav extends Component {
         <Link href="/signup">
           <a>
             <Button
-              style={{ marginLeft: 10 }}
-              color="primary"
+              style={{ marginLeft: 10, color: 'white' }}
+              color="inherit"
               variant="outlined"
             >
               Sign Up

@@ -77,9 +77,11 @@ export class ProductList extends Component {
               </Grid>
             ))}
         </Grid>
-        <Grid container justify="center" style={{ marginTop: 30 }}>
-          {this.pageButtons().map(btn => btn)}
-        </Grid>
+        {this.state.pages !== 1 && (
+          <Grid container justify="center" style={{ marginTop: 30 }}>
+            {this.pageButtons().map(btn => btn)}
+          </Grid>
+        )}
       </>
     );
   }

@@ -2,19 +2,40 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import ProductDetails from '../components/Product/ProductDetails';
 import { Divider } from '@material-ui/core';
+import ProductList from '../components/Product/ProductList';
 
 class product extends Component {
   state = {
     product: '',
     producer: '',
-    getError: ''
+    getError: '',
+    products: [],
+    err: ''
   };
   static async getInitialProps({ query }) {
     return { id: query.id };
   }
+  // Get product from server
+  getProducts = async category => {
+    try {
+      const res = category
+        ? await Axios.get('/api/products?producer_id=' + category)
+        : await Axios.get('/api/products');
+      const products = res.data.data;
+
+      this.setState({
+        ...this.state,
+        products
+      });
+    } catch (err) {
+      this.setState({ ...this.state, err: err.message });
+    }
+  };
   async componentDidMount() {
+    this.getProducts();
     try {
       const promiseData = await Axios.get(`/api/products/${this.props.id}`);
+
       if (promiseData.data) {
         if (promiseData.data.err)
           this.setState({ getError: promiseData.data.err });
@@ -33,22 +54,24 @@ class product extends Component {
       <>
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Product Details</h1>
         <Divider />
-        {this.state.product ? (
-          <>
-            {this.state.getError ? (
-              <h3 style={{ color: 'gray', textAlign: 'center' }}>
-                {this.state.getError}
-              </h3>
-            ) : (
-              <ProductDetails
-                product={this.state.product}
-                producer={this.state.producer}
-              />
-            )}
-          </>
-        ) : (
-          <h3 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h3>
-        )}
+
+        <>
+          {this.state.getError ? (
+            <h3 style={{ color: 'gray', textAlign: 'center' }}>
+              {this.state.getError}
+            </h3>
+          ) : (
+            <ProductDetails
+              product={this.state.product}
+              producer={this.state.producer}
+            />
+          )}
+        </>
+
+        <div style={{ marginTop: 100 }} />
+        <h1 style={{ color: 'gray', textAlign: 'center' }}>Another Products</h1>
+        <Divider style={{ margin: 30 }} />
+        <ProductList products={this.state.products.slice(15, 20)} />
       </>
     );
   }

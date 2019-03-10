@@ -79,9 +79,9 @@ export class ProductCard extends Component {
               <Typography variant="h6" color="textSecondary">
                 {this.props.product.producer}
               </Typography>
-              <Typography component="p">
+              {/* <Typography component="p">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </Typography>
+              </Typography> */}
             </CardContent>
           </CardActionArea>
         </Link>

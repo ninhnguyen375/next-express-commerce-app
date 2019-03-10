@@ -1,31 +1,52 @@
-import React, { Component } from 'react';
-import { AppBar, Toolbar, Typography, Menu, MenuItem } from '@material-ui/core';
+import React from 'react';
 import Link from 'next/link';
-import SigninedNav from './SigninedNav';
-import UnSigninedNav from './UnSigninedNav';
-import CategoryList from '../CategoryList';
-import SearchBar from './SearchBar';
-import { More } from '@material-ui/icons';
+import MoreIcon from '@material-ui/icons/MoreVert';
 
-export class Navbar extends Component {
+import {
+  Menu,
+  MenuItem,
+  Typography,
+  IconButton,
+  Toolbar,
+  AppBar
+} from '@material-ui/core';
+
+import { withStyles } from '@material-ui/core/styles';
+
+import UnSigninedNav from './UnSigninedNav';
+import SigninedNav from './SigninedNav';
+import { SearchBar } from './SearchBar';
+import CategoryList from '../CategoryList';
+import NavbarStyle from './Nabar.styles';
+
+const styles = NavbarStyle;
+
+class Navbar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null
   };
-  handleProfileMenuOpen = e => {
-    this.setState({ anchorEl: e.currentTarget });
+
+  handleProfileMenuOpen = event => {
+    this.setState({ anchorEl: event.currentTarget });
   };
+
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
+    this.handleMobileMenuClose();
   };
-  handleMobileMenuOpen = e => {
-    this.setState({ mobileMoreAnchorEl: e.currentTarget });
+
+  handleMobileMenuOpen = event => {
+    this.setState({ mobileMoreAnchorEl: event.currentTarget });
   };
+
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -33,6 +54,7 @@ export class Navbar extends Component {
       <Menu
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
@@ -47,8 +69,12 @@ export class Navbar extends Component {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMobileMenuOpen}
-        onClose={this.handleMobileMenuClose}
+        onClose={this.handleMenuClose}
       >
+        <MenuItem>
+          <CategoryList onMobileMenuClose={this.handleMobileMenuClose} />
+        </MenuItem>
+
         <MenuItem onClick={this.handleMobileMenuClose}>
           {!this.props.auth.auth_key ? (
             <UnSigninedNav />
@@ -59,39 +85,54 @@ export class Navbar extends Component {
             />
           )}
         </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>My account</MenuItem>
       </Menu>
     );
 
     return (
       <>
-        <AppBar position="sticky" color="default">
+        <AppBar position="sticky" color="primary">
           <Toolbar>
-            <Typography
-              variant="h6"
-              color="inherit"
-              noWrap
-              style={{ flexGrow: '1' }}
-            >
-              <Link href="/">
-                <a>ShopPhone</a>
-              </Link>
-            </Typography>
+            <Link href="/">
+              <a>
+                <Typography
+                  className={classes.title}
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  style={{ color: 'white' }}
+                >
+                  ShopPhone
+                </Typography>
+              </a>
+            </Link>
 
             {/* Search bar */}
-            <SearchBar />
+            <SearchBar classes={classes} />
 
-            <CategoryList />
-            {!this.props.auth.auth_key ? (
-              <UnSigninedNav />
-            ) : (
-              <SigninedNav
-                onLogout={this.props.onLogout}
-                userName={this.props.auth.auth_name}
-              />
-            )}
-            <More onClick={this.handleProfileMenuOpen} />
-            <More onClick={this.handleMobileMenuOpen} />
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              {/* Categories */}
+              <CategoryList />
+
+              {!this.props.auth.auth_key ? (
+                <UnSigninedNav />
+              ) : (
+                <SigninedNav
+                  onLogout={this.props.onLogout}
+                  userName={this.props.auth.auth_name}
+                  handleProfileMenuOpen={this.handleProfileMenuOpen}
+                />
+              )}
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-haspopup="true"
+                onClick={this.handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
         {renderMenu}
@@ -101,4 +142,4 @@ export class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withStyles(styles)(Navbar);
