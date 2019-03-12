@@ -7,6 +7,19 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
 import AdminMain from '../layouts/AdminMain';
 import Main from '../layouts/Main';
+import Router from 'next/router';
+import Nprogress from 'nprogress';
+
+Router.events.on('routeChangeStart', () => {
+  console.log('change start');
+  Nprogress.start();
+});
+Router.events.on('routeChangeComplete', () => {
+  Nprogress.done();
+});
+Router.events.on('routeChangeError', () => {
+  Nprogress.done();
+});
 
 class MyApp extends App {
   static async getInitialProps({ ctx }) {

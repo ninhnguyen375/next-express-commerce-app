@@ -26,6 +26,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
+          <link rel="stylesheet" href="/static/nprogress.css" />
           <link rel="icon" href="/static/react-512.png" />
         </Head>
         <body>

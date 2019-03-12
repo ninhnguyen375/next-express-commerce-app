@@ -15,6 +15,7 @@
     "mongoose": "^5.4.17",
     "multer": "^1.4.1",
     "next": "8.0.4-canary.9",
+    "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
     "react": "16.8.4",
     "react-animated-slider": "^1.1.4",
