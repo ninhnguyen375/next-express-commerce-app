@@ -5,6 +5,7 @@ import Axios from 'axios';
 import Router from 'next/router';
 import GlobalState from '../context/GlobalState';
 import { MainStyles } from './main.styles';
+import { ToVietnamese } from '../translate/ToVietnamese';
 
 class Main extends Component {
   state = {
@@ -62,6 +63,7 @@ class Main extends Component {
 
         {/* Footer */}
         <Footer />
+        {/* <ToVietnamese /> */}
       </GlobalState>
     );
   }

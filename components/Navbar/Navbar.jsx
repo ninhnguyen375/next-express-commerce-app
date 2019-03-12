@@ -8,7 +8,8 @@ import {
   Typography,
   IconButton,
   Toolbar,
-  AppBar
+  AppBar,
+  Button
 } from '@material-ui/core';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -86,16 +87,22 @@ class Navbar extends React.Component {
           <CategoryList onMobileMenuClose={this.handleMobileMenuClose} />
         </MenuItem>
 
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          {!this.props.auth.auth_key ? (
-            <UnSigninedNav />
-          ) : (
-            <SigninedNav
-              onLogout={this.props.onLogout}
-              userName={this.props.auth.auth_name}
-            />
-          )}
-        </MenuItem>
+        {!this.props.auth.auth_key ? (
+          <UnSigninedNav
+            handleMobileMenuClose={this.handleMobileMenuClose}
+            screen="mobile"
+            btnColor="primary"
+          />
+        ) : (
+          <SigninedNav
+            isAdmin={this.props.auth.auth_group === 'admin'}
+            handleMobileMenuClose={this.handleMobileMenuClose}
+            screen="mobile"
+            btnColor="primary"
+            onLogout={this.props.onLogout}
+            userName={this.props.auth.auth_name}
+          />
+        )}
       </Menu>
     );
 
@@ -120,15 +127,32 @@ class Navbar extends React.Component {
             {/* Search bar */}
             <SearchBar classes={classes} />
 
+            <Link href="/">
+              <a>
+                <Button
+                  color="inherit"
+                  variant="contained"
+                  style={{
+                    marginLeft: 5,
+                    background: '#5773f3',
+                    color: 'white'
+                  }}
+                >
+                  Home
+                </Button>
+              </a>
+            </Link>
+
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {/* Categories */}
               <CategoryList />
 
               {!this.props.auth.auth_key ? (
-                <UnSigninedNav />
+                <UnSigninedNav btnColor="inherit" />
               ) : (
                 <SigninedNav
+                  btnColor="inherit"
                   onLogout={this.props.onLogout}
                   userName={this.props.auth.auth_name}
                   handleProfileMenuOpen={this.handleProfileMenuOpen}

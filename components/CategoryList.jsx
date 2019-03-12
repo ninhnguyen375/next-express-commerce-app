@@ -35,7 +35,7 @@ class CategoryList extends React.Component {
           aria-haspopup="true"
           color="secondary"
           variant="contained"
-          style={{ marginRight: 5 }}
+          style={{ marginRight: 5, color: 'white' }}
           onClick={this.handleClick}
         >
           Categories

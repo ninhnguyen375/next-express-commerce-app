@@ -30,7 +30,7 @@ export class StepOne extends React.Component {
     return (
       <form
         style={{
-          width: '30%',
+          width: '80%',
           margin: 'auto'
         }}
         onSubmit={this.handleSubmit}
@@ -116,10 +116,15 @@ export class StepTwo extends React.Component {
               style={{ width: '30%' }}
               label="MM"
             />
-            <TextField inputProps={{ type: 'number' }} required style={{ width: '30%' }} label="YY" />
+            <TextField
+              inputProps={{ type: 'number' }}
+              required
+              style={{ width: '30%' }}
+              label="YY"
+            />
             <TextField
               required
-               inputProps={{ type: 'number'}}
+              inputProps={{ type: 'number' }}
               style={{ width: '30%', float: 'right' }}
               label="CVV"
             />

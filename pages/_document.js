@@ -11,9 +11,13 @@ class MyDocument extends Document {
       <html lang="en" dir="ltr">
         <Head>
           <meta charSet="utf-8" />
-          <meta
+          {/* <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+          /> */}
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
           />
           {/* PWA primary color */}
           <meta

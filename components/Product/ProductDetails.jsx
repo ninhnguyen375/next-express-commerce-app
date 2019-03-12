@@ -58,7 +58,7 @@ class ProductDetails extends Component {
     return (
       <div>
         <Grid container spacing={16} justify="center">
-          <Grid item xs={6}>
+          <Grid item xs="auto" sm="auto">
             <img
               src={`/static${product.product_img}`}
               style={{ float: 'right', margin: '25px 100px 0 0' }}
@@ -66,7 +66,7 @@ class ProductDetails extends Component {
               height="370px"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs="auto" sm="auto">
             <h1>{product.product_name}</h1>
             <h2 style={{ color: 'red' }}>${product.product_price}</h2>
             <h2 style={{ color: 'gray' }}>{producer.producer_name}</h2>
