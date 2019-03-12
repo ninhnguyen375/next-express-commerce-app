@@ -23,22 +23,26 @@ export class SigninedNav extends Component {
           Logout
         </Button>
         <Link href="/cart">
-          <Button
-            color="inherit"
-            variant="contained"
-            style={{ marginLeft: 5, background: '#5773f3' }}
-          >
-            <ShoppingCart />
-          </Button>
+          <a>
+            <Button
+              color="inherit"
+              variant="contained"
+              style={{ marginLeft: 5, background: '#5773f3', color: 'white' }}
+            >
+              <ShoppingCart />
+            </Button>
+          </a>
         </Link>
         <Link href="/bill">
-          <Button
-            color="inherit"
-            variant="contained"
-            style={{ marginLeft: 5, background: '#5773f3' }}
-          >
-            Bills
-          </Button>
+          <a>
+            <Button
+              color="inherit"
+              variant="contained"
+              style={{ marginLeft: 5, background: '#5773f3', color: 'white' }}
+            >
+              Bills
+            </Button>
+          </a>
         </Link>
       </>
     );

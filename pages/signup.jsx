@@ -6,7 +6,6 @@ import Router from 'next/router';
 import ShopContext from '../context/shop-context';
 
 class signup extends Component {
-
   static contextType = ShopContext;
 
   state = {
@@ -21,8 +20,7 @@ class signup extends Component {
 
   async componentDidMount() {
     await this.context.checkLogin();
-    if (this.context.auth.auth_key)
-      Router.push('/');
+    if (this.context.auth.auth_key) Router.push('/');
   }
 
   validated__input = (thisState, name, regex) => {
@@ -81,7 +79,7 @@ class signup extends Component {
   checkDuplicateEmail = async e => {
     try {
       const findUser = await Axios.get(
-        '/api/users/find?user_email=' + this.state.user_email
+        '/api/users/find/?user_email=' + this.state.user_email
       );
       if (findUser.data.found)
         this.setState({ signupError: 'This email has been used' });
@@ -124,11 +122,11 @@ class signup extends Component {
             `}</style>
             {/* Email */}
             <TextField
+              onBlur={this.checkDuplicateEmail}
               label="Email"
               name="user_email"
               value={this.state.user_email}
               onChange={this.handleChange}
-              onBlur={this.checkDuplicateEmail}
               margin="dense"
               className="textField"
               helperText="123456@example.com"
@@ -195,7 +193,9 @@ class signup extends Component {
           <p style={{ color: 'gray', fontSize: '12px' }}>
             Have account ?
             <Link href="/signin">
-              <Button color="primary">sign in</Button>
+              <a>
+                <Button color="primary">sign in</Button>
+              </a>
             </Link>
           </p>
         </Paper>

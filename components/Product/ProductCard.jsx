@@ -56,32 +56,28 @@ export class ProductCard extends Component {
           flexWrap: 'wrap'
         }}
       >
-        <style jsx global>{`
-          * {
-            animation: none;
-          }
-        `}</style>
-        {this.state.addError && console.log(this.state.addError)}
         <Link href={`/product?id=${this.props.product._id}`}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              width="220px"
-              image={`/static${this.props.product.product_img}`}
-            />
-            <CardContent>
-              <h3>{this.props.product.product_name}</h3>
+          <a>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                width="220px"
+                image={`/static${this.props.product.product_img}`}
+              />
+              <CardContent>
+                <h3>{this.props.product.product_name}</h3>
 
-              <h3 style={{ color: 'gray' }}>{this.props.product.producer}</h3>
+                <h3 style={{ color: 'gray' }}>{this.props.product.producer}</h3>
 
-              <h3 style={{ color: 'red' }}>
-                ${this.props.product.product_price}
-              </h3>
-              {/* <Typography component="p">
+                <h3 style={{ color: 'red' }}>
+                  ${this.props.product.product_price}
+                </h3>
+                {/* <Typography component="p">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </Typography> */}
-            </CardContent>
-          </CardActionArea>
+              </CardContent>
+            </CardActionArea>
+          </a>
         </Link>
         <CardActions style={{ alignSelf: 'flex-end' }}>
           {this.state.addError ? (

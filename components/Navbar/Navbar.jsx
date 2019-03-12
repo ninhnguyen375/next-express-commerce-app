@@ -51,16 +51,27 @@ class Navbar extends React.Component {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
+      <>
+        {this.props.auth.auth_group === 'admin' && (
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={this.handleMenuClose}
+          >
+            <div>
+              <Link href="/admin">
+                <a>
+                  <MenuItem onClick={this.handleMenuClose}>
+                    Admin Manager
+                  </MenuItem>
+                </a>
+              </Link>
+            </div>
+          </Menu>
+        )}
+      </>
     );
 
     const renderMobileMenu = (

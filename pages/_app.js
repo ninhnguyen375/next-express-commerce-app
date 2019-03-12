@@ -5,9 +5,14 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
+import AdminMain from '../layouts/AdminMain';
 import Main from '../layouts/Main';
 
 class MyApp extends App {
+  static async getInitialProps({ ctx }) {
+    return { pathname: ctx.pathname, query: ctx.query };
+  }
+
   constructor() {
     super();
     this.pageContext = getPageContext();
@@ -43,9 +48,29 @@ class MyApp extends App {
             <CssBaseline />
             {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server-side. */}
-            <Main>
-              <Component pageContext={this.pageContext} {...pageProps} />
-            </Main>
+            {this.props.pathname ? (
+              <>
+                {this.props.pathname.indexOf('/admin') !== -1 ? (
+                  <AdminMain>
+                    <Component
+                      query={this.props.query}
+                      pageContext={this.pageContext}
+                      {...pageProps}
+                    />
+                  </AdminMain>
+                ) : (
+                  <Main>
+                    <Component
+                      query={this.props.query}
+                      pageContext={this.pageContext}
+                      {...pageProps}
+                    />
+                  </Main>
+                )}
+              </>
+            ) : (
+              <h1>Something wrong :(((</h1>
+            )}
           </MuiThemeProvider>
         </JssProvider>
       </Container>

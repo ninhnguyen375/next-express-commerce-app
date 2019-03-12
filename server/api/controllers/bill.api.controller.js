@@ -11,8 +11,27 @@ module.exports.index = async (req, res) => {
 };
 
 module.exports.deleteBill = async (req, res) => {
-  if (req.params.id) {
+  const { id } = req.params;
+  if (id) {
     try {
+      const bill = await Bills.findById(id);
+      let productsNeedUpdate = [];
+      for (let i = 0; i < bill.details.proId.length; i++) {
+        const obj = {
+          proId: bill.details.proId[i],
+          proQuan: bill.details.proQuantity[i]
+        };
+        productsNeedUpdate.push(obj);
+      }
+      productsNeedUpdate.forEach(async d => {
+        const currPro = await Products.find({ product_id: d.proId });
+        const newQuan = currPro[0].quantity + d.proQuan;
+        await Products.findOneAndUpdate(
+          { product_id: d.proId },
+          { quantity: newQuan }
+        );
+      });
+
       await Bills.findByIdAndDelete(req.params.id);
       res.send('Success');
     } catch (err) {

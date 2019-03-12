@@ -31,12 +31,14 @@ app.prepare().then(() => {
   const apiBillRoute = require('./api/routes/bill.api.route');
   const apiProducerRoute = require('./api/routes/producer.api.route');
   const apiCartRoute = require('./api/routes/cart.api.route');
+  const apiDashboard = require('./api/routes/dashboard.route');
 
   server.use('/api/products', apiProductRoute);
   server.use('/api/users', apiUserRoute);
   server.use('/api/bills', apiBillRoute);
   server.use('/api/producers', apiProducerRoute);
   server.use('/api/carts', apiCartRoute);
+  server.use('/api/dashboard', apiDashboard);
 
   // handle next app
   server.get('*', (req, res) => {

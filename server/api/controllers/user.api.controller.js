@@ -11,7 +11,6 @@ module.exports.index = async (req, res) => {
   res.json(datas);
 };
 
-
 module.exports.postSignUp = async (req, res) => {
   const users = await Users.find();
   const reqUser = req.body;
@@ -174,8 +173,16 @@ module.exports.editUser = async (req, res) => {
 };
 
 module.exports.getAdminPermission = async (req, res) => {
-  const user = await Users.findById(req.params.id);
-  return res.send({ admin: user.user_permission });
+  try {
+    const user = await Users.findById(req.params.id);
+    if (!user || user.user_group !== 'admin') {
+      return res.status(401).send({ err: 'Permission denied' });
+    } else {
+      return res.send({ admin: user.user_permission });
+    }
+  } catch (err) {
+    return res.status(401).send({ err: 'Permission denied' });
+  }
 };
 
 module.exports.getCartsOfUser = async (req, res) => {
@@ -227,5 +234,20 @@ module.exports.getBillsOfUser = async (req, res) => {
     return res.send({ makeupBills });
   } catch (err) {
     return res.send({ err: err.message });
+  }
+};
+module.exports.findUserByEmail = async (req, res) => {
+  if (!req.query || !req.query.user_email)
+    return res.send({
+      err: 'Not have any query',
+      found: false
+    });
+  try {
+    const user = await Users.findOne({ user_email: req.query.user_email });
+    if (!user)
+      return res.send({ err: 'No user have this email', found: false });
+    res.send({ found: true, user });
+  } catch (err) {
+    res.send({ found: false, err: err.message });
   }
 };

@@ -7,7 +7,7 @@ export class Product extends Component {
     products: [],
     err: null
   };
-  // Get product from server
+  // Get products from server
   getProducts = async category => {
     try {
       const res = category

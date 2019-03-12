@@ -48,13 +48,13 @@ class CategoryList extends React.Component {
         >
           {this.state.categories &&
             this.state.categories.map(item => (
-              <Link href={`/?category=${item.producer_id}`} key={item._id}>
-                <a>
-                  <MenuItem onClick={this.handleClose}>
-                    {item.producer_name}
-                  </MenuItem>
-                </a>
-              </Link>
+              <div onClick={this.handleClose} key={item._id}>
+                <Link href={`/?category=${item.producer_id}`}>
+                  <a>
+                    <MenuItem>{item.producer_name}</MenuItem>
+                  </a>
+                </Link>
+              </div>
             ))}
         </Menu>
       </>

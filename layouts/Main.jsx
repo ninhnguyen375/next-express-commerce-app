@@ -4,14 +4,15 @@ import Footer from '../components/Footer/Footer';
 import Axios from 'axios';
 import Router from 'next/router';
 import GlobalState from '../context/GlobalState';
-export class Main extends Component {
+import { MainStyles } from './main.styles';
+
+class Main extends Component {
   state = {
     auth: {}
   };
 
   handleLogout = () => {
     window.sessionStorage.removeItem('auth');
-    // this.forceUpdate();
     Router.push('/signin');
   };
 
@@ -27,7 +28,8 @@ export class Main extends Component {
       if (!user.err) {
         newAuth = {
           auth_name: user.data.user.user_name,
-          auth_key: user.data.user._id
+          auth_key: user.data.user._id,
+          auth_group: user.data.user.user_group
         };
       }
     }
@@ -38,39 +40,19 @@ export class Main extends Component {
     }
   };
 
-  async componentDidUpdate() {
-    await this.checkLogin();
+  componentDidUpdate() {
+    this.checkLogin();
   }
 
-  async componentDidMount() {
-    // window.scrollTo({ top: 0 });
-    await this.checkLogin();
+  componentDidMount() {
+    this.checkLogin();
   }
 
   render() {
     return (
       <GlobalState auth={this.state.auth} checkLogin={this.checkLogin}>
         {/* Global CSS */}
-        <style jsx global>{`
-          * {
-            // font-family: Roboto;
-            scroll-behavior: smooth;
-          }
-          .full-height {
-            min-height: 80vh;
-          }
-          .fadeIn {
-            animation: fadeIn 0.5s;
-          }
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-        `}</style>
+        {MainStyles}
 
         {/* Navigation Bar */}
         <Navbar auth={this.state.auth} onLogout={this.handleLogout} />

@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import ShopContext from '../context/shop-context';
+import Payment from '../components/Payment/Payment';
 
 class CartItem extends Component {
   render() {
@@ -54,7 +55,9 @@ export class cart extends Component {
 
   state = {
     getError: '',
-    carts: ''
+    carts: '',
+    renderPayment: false,
+    loading: true
   };
 
   getCarts = async userID => {
@@ -70,11 +73,13 @@ export class cart extends Component {
       this.setState({ getError: err.message });
     }
   };
+
   async componentDidMount() {
-    // window.scrollTo({ top: 0 });
     await this.context.checkLogin();
     if (this.context.auth.auth_key) {
       await this.getCarts(this.context.auth.auth_key);
+
+      this.setState({ loading: false });
     } else {
       this.setState({ getError: 'You must to Login first!' });
     }
@@ -134,6 +139,7 @@ export class cart extends Component {
       else {
         alert('Check Out Success ');
         this.getCarts(this.context.auth.auth_key);
+        this.setState({ renderPayment: false });
       }
     } catch (err) {
       alert(err.message);
@@ -142,101 +148,137 @@ export class cart extends Component {
   render() {
     return (
       <>
+        <style jsx global>{`
+          * {
+            scroll-behavior: smooth;
+          }
+        `}</style>
         <h1 style={{ color: 'gray', textAlign: 'center' }}>YOUR CART</h1>
         <Divider variant="middle" style={{ margin: '30px' }} />
-        <Paper style={{ width: '80%', margin: 'auto' }}>
-          {this.state.getError && (
-            <p style={{ color: 'red' }}>{this.state.getError}</p>
-          )}
-          {this.state.carts[0] ? (
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Product Id</TableCell>
-                  <TableCell>Image</TableCell>
-                  <TableCell>Product Name</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Product Price ($)</TableCell>
-                  <TableCell>Total Item Price ($)</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.carts.map((item, index) => (
-                  <CartItem
-                    key={index}
-                    item={item}
-                    onDelete={this.handleDelete}
-                    id={index.toString()}
-                    handleChange={this.handleChange}
-                  />
-                ))}
-                <TableRow>
-                  <TableCell colSpan={6} align="right">
-                    <h4>SUMMARY</h4>
-                  </TableCell>
-                  <TableCell />
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={6} align="right">
-                    Total Price :
-                  </TableCell>
-                  <TableCell colSpan={6}>{this.getTotalPrice()}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={6} align="right">
-                    Shipping :
-                  </TableCell>
-                  <TableCell colSpan={6}>$0</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={6} align="right">
-                    Result :
-                  </TableCell>
-                  <TableCell colSpan={6}>
-                    <b style={{ color: 'red' }}>${this.getTotalPrice()}</b>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={3}>
-                    <Link href="/">
-                      <Button
-                        color="secondary"
-                        style={{ display: 'block', width: '100%' }}
-                        variant="contained"
-                      >
-                        Back To Shopping
-                      </Button>
-                    </Link>
-                  </TableCell>
-                  <TableCell />
-                  <TableCell colSpan={3}>
-                    <Button
-                      style={{ display: 'block', width: '100%' }}
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleCheckout}
-                    >
-                      Check Out
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+        <Paper style={{ width: '80%', margin: 'auto', padding: '10px 0' }}>
+          {this.state.loading ? (
+            <h2 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h2>
           ) : (
             <>
-              <h3 style={{ color: 'gray', textAlign: 'center', padding: 20 }}>
-                Your cart is Empty
-                <Link href="/">
-                  <Button
-                    style={{ marginLeft: 20 }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Go To Shopping
-                  </Button>
-                </Link>
-              </h3>
+              {this.state.renderPayment ? (
+                <Payment onCheckOut={this.handleCheckout} />
+              ) : (
+                <>
+                  {this.state.carts[0] ? (
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Product Id</TableCell>
+                          <TableCell>Image</TableCell>
+                          <TableCell>Product Name</TableCell>
+                          <TableCell>Quantity</TableCell>
+                          <TableCell>Product Price ($)</TableCell>
+                          <TableCell>Total Item Price ($)</TableCell>
+                          <TableCell>Action</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.carts.map((item, index) => (
+                          <CartItem
+                            key={index}
+                            item={item}
+                            onDelete={this.handleDelete}
+                            id={index.toString()}
+                            handleChange={this.handleChange}
+                          />
+                        ))}
+                        <TableRow>
+                          <TableCell colSpan={6} align="right">
+                            <h4>SUMMARY</h4>
+                          </TableCell>
+                          <TableCell />
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={6} align="right">
+                            Total Price :
+                          </TableCell>
+                          <TableCell colSpan={6}>
+                            {this.getTotalPrice()}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={6} align="right">
+                            Shipping :
+                          </TableCell>
+                          <TableCell colSpan={6}>$0</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={6} align="right">
+                            Result :
+                          </TableCell>
+                          <TableCell colSpan={6}>
+                            <b style={{ color: 'red' }}>
+                              ${this.getTotalPrice()}
+                            </b>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={3}>
+                            <Link href="/">
+                              <a>
+                                <Button
+                                  color="secondary"
+                                  style={{ display: 'block', width: '100%' }}
+                                  variant="contained"
+                                >
+                                  Back To Shopping
+                                </Button>
+                              </a>
+                            </Link>
+                          </TableCell>
+                          <TableCell />
+                          <TableCell colSpan={3}>
+                            <a href="#">
+                              <Button
+                                style={{ display: 'block', width: '100%' }}
+                                variant="contained"
+                                color="primary"
+                                onClick={() => {
+                                  this.setState({ renderPayment: true });
+                                }}
+                              >
+                                Check Out
+                              </Button>
+                            </a>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  ) : (
+                    <>
+                      <h3
+                        style={{
+                          color: 'gray',
+                          textAlign: 'center',
+                          padding: 20
+                        }}
+                      >
+                        {this.state.getError ? (
+                          <p style={{ color: 'red' }}>{this.state.getError}</p>
+                        ) : (
+                          'Your cart is Empty'
+                        )}
+                        <Link href="/">
+                          <a>
+                            <Button
+                              style={{ marginLeft: 20 }}
+                              variant="contained"
+                              color="primary"
+                            >
+                              Go To Shopping
+                            </Button>
+                          </a>
+                        </Link>
+                      </h3>
+                    </>
+                  )}
+                </>
+              )}
             </>
           )}
         </Paper>

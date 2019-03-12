@@ -7,6 +7,7 @@ router.get('/', controller.index);
 router.post('/signin', controller.postSignIn);
 router.post('/', controller.postSignUp);
 router.get('/email', controller.getEmail);
+router.get('/find/', controller.findUserByEmail);
 
 router.post('/signinClient', controller.postSignInClient);
 router.get('/checkAdmin/:id', controller.checkAdmin);

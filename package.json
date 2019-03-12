@@ -11,6 +11,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jss": "^9.8.7",
+    "moment": "^2.24.0",
     "mongoose": "^5.4.17",
     "multer": "^1.4.1",
     "next": "8.0.4-canary.9",
@@ -18,7 +19,10 @@
     "react": "16.8.4",
     "react-animated-slider": "^1.1.4",
     "react-dom": "16.8.4",
-    "react-jss": "^8.6.1"
+    "react-jss": "^8.6.1",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "next build && NODE_ENV=production node server/server.js",

@@ -5,10 +5,6 @@ import ProductList from '../components/Product/ProductList';
 import { Divider } from '@material-ui/core';
 
 export class search extends Component {
-  static async getInitialProps({ query }) {
-    return { searchByName: query.searchValue };
-  }
-
   state = {
     categories: [],
     products: [],
@@ -24,7 +20,7 @@ export class search extends Component {
       products: products.data.data
     });
     this.renderSearchResult({
-      product_name: this.props.searchByName
+      product_name: this.props.query.searchValue
     });
   }
 
@@ -58,7 +54,6 @@ export class search extends Component {
 
     // sort by price
     if (query.sortByPrice) {
-      console.log(query.sortByPrice);
       products.sort((a, b) => {
         if (query.sortByPrice === 'Asc')
           return a.product_price - b.product_price;
@@ -68,7 +63,6 @@ export class search extends Component {
 
     // sort by name
     if (query.sortByName) {
-      console.log(query.sortByName);
       products.sort((a, b) => {
         const name_a = a.product_name.toLowerCase();
         const name_b = b.product_name.toLowerCase();
@@ -82,7 +76,7 @@ export class search extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <h1 style={{ color: 'gray', textAlign: 'center' }}>YOUR SEARCH</h1>
         <Divider style={{ margin: 30 }} />
         <SearchForm
@@ -94,7 +88,7 @@ export class search extends Component {
         ) : (
           <h1 style={{ color: 'gray', textAlign: 'center' }}>Empty</h1>
         )}
-      </div>
+      </>
     );
   }
 }

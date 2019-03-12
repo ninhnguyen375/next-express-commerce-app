@@ -98,12 +98,14 @@ export class bill extends Component {
 
   state = {
     getError: '',
-    bills: []
+    bills: [],
+    loading: true
   };
 
   getBills = async userID => {
     try {
       const getBills = await Axios.get(`/api/users/${userID}/bills`);
+
       if (getBills.data.err) this.setState({ getError: getBills.data.err });
       else {
         this.setState({
@@ -113,7 +115,9 @@ export class bill extends Component {
     } catch (err) {
       this.setState({ getError: err.message });
     }
+    this.setState({ loading: false });
   };
+
   async componentDidMount() {
     await this.context.checkLogin();
     if (this.context.auth.auth_key) {
@@ -122,6 +126,7 @@ export class bill extends Component {
       this.setState({ getError: 'You must to Login first!' });
     }
   }
+
   handleDelete = id => async e => {
     if (!confirm('Are you sure to Cancel this Bill?')) {
       return;
@@ -141,34 +146,47 @@ export class bill extends Component {
       <>
         <h1 style={{ color: 'gray', textAlign: 'center' }}>YOUR BILLS</h1>
         <Divider variant="middle" style={{ margin: '30px' }} />
-        <Paper
-          style={{ width: '80%', margin: 'auto', paddingBottom: 50 }}
-        >
-          {this.state.getError && (
-            <p style={{ color: 'red' }}>{this.state.getError}</p>
-          )}
-          {this.state.bills[0] ? (
-            this.state.bills.map(bill => (
-              <BillDetails
-                key={bill.bill._id}
-                onDelete={this.handleDelete}
-                item={bill}
-              />
-            ))
+
+        <Paper style={{ width: '80%', margin: 'auto', padding: '10px 0' }}>
+          {this.state.loading ? (
+            <h2 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h2>
           ) : (
             <>
-              <h3 style={{ color: 'gray', textAlign: 'center', padding: 20 }}>
-                Empty
-                <Link href="/">
-                  <Button
-                    style={{ marginLeft: 20 }}
-                    variant="contained"
-                    color="primary"
+              {this.state.getError && (
+                <p style={{ color: 'red' }}>{this.state.getError}</p>
+              )}
+              {this.state.bills[0] ? (
+                this.state.bills.map(bill => (
+                  <BillDetails
+                    key={bill.bill._id}
+                    onDelete={this.handleDelete}
+                    item={bill}
+                  />
+                ))
+              ) : (
+                <>
+                  <h3
+                    style={{ color: 'gray', textAlign: 'center', padding: 20 }}
                   >
-                    Go To Shopping
-                  </Button>
-                </Link>
-              </h3>
+                    {this.state.getError ? (
+                      <p style={{ color: 'red' }}>{this.state.getError}</p>
+                    ) : (
+                      'Empty'
+                    )}
+                    <Link href="/">
+                      <a>
+                        <Button
+                          style={{ marginLeft: 20 }}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Go To Shopping
+                        </Button>
+                      </a>
+                    </Link>
+                  </h3>
+                </>
+              )}
             </>
           )}
         </Paper>
