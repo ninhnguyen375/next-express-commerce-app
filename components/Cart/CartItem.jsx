@@ -10,6 +10,7 @@ import { Delete } from '@material-ui/icons';
 import CartStyles from './Cart.styles.jss';
 
 const styles = CartStyles;
+
 class CartItem extends Component {
   render() {
     const { item, id, onDelete, classes } = this.props;

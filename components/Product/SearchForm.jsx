@@ -106,7 +106,7 @@ export class SearchForm extends Component {
             >
               <MenuItem value="">All</MenuItem>
               <MenuItem value="Asc">Asc</MenuItem>
-              <MenuItem value="Dest">Dest</MenuItem>
+              <MenuItem value="Desc">Desc</MenuItem>
             </Select>
           </div>
 

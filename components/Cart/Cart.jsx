@@ -20,7 +20,6 @@ import Payment from '../Payment/Payment';
 const styles = CartStyles;
 
 class Cart extends Component {
-  // Context API in React
   static contextType = ShopContext;
 
   state = {
@@ -54,6 +53,26 @@ class Cart extends Component {
       this.setState({ getError: 'You must to Login first!' });
     }
   }
+
+  handleClickCheckout = async () => {
+    try {
+      let products = await Axios.get('/api/products');
+      products = products.data.data;
+      for (let i = 0; i < this.state.carts.length; i++) {
+        const proId = this.state.carts[i].cartItem.proId;
+        const proQuantity = this.state.carts[i].cartItem.quantity;
+
+        const product = products.find(p => p.product_id === proId);
+        if (product.quantity < proQuantity) {
+          alert(`Product ${product.product_name} is out of stock!`);
+        } else {
+          this.setState({ renderPayment: true });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   handleDelete = id => async e => {
     try {
       const deleteCart = await Axios.delete('/api/carts/' + id);
@@ -65,6 +84,7 @@ class Cart extends Component {
       alert(err.message);
     }
   };
+
   handleChange = e => {
     const { id, value } = e.target;
     const { carts } = this.state;
@@ -72,6 +92,7 @@ class Cart extends Component {
     carts[id].cartItem.quantity = value;
     this.setState({ carts });
   };
+
   getTotalPrice = () => {
     let total = 0;
     this.state.carts.forEach(item => {
@@ -79,11 +100,13 @@ class Cart extends Component {
     });
     return total;
   };
+
   handleCheckout = async () => {
     try {
       let proId = [];
       let proPrice = [];
       let proQuantity = [];
+
       for (let i = 0; i < this.state.carts.length; i++) {
         proId.push(this.state.carts[i].cartItem.proId);
         proPrice.push(this.state.carts[i].cartItem.proPrice);
@@ -111,6 +134,7 @@ class Cart extends Component {
       alert(err.message);
     }
   };
+
   render() {
     const { classes } = this.props;
     return (
@@ -207,9 +231,7 @@ class Cart extends Component {
                                 style={{ display: 'block', width: '100%' }}
                                 variant="contained"
                                 color="primary"
-                                onClick={() => {
-                                  this.setState({ renderPayment: true });
-                                }}
+                                onClick={this.handleClickCheckout}
                               >
                                 Check Out
                               </Button>

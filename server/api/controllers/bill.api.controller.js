@@ -67,23 +67,28 @@ module.exports.editBill = async (req, res) => {
 
 module.exports.addBill = async (req, res) => {
   const theBill = req.body;
-  await Bills.insertMany(theBill);
-  await Carts.deleteMany({ userId: theBill.authId });
+
   let pro = [];
   for (let i = 0; i < theBill.details.proId.length; i += 1) {
     const proId = theBill.details.proId[i];
     const proQua = theBill.details.proQuantity[i];
     const obj = { proId, proQua };
+
     pro.push(obj);
   }
-  pro.forEach(async p => {
-    // find() return an array
-    const curr = await Products.find({ product_id: p.proId });
-    const newQua = curr[0].quantity - p.proQua;
+
+  await pro.forEach(async p => {
+    const curr = await Products.findOne({ product_id: p.proId });
+    const newQua = curr.quantity - parseInt(p.proQua, 10);
+
     await Products.findOneAndUpdate(
       { product_id: p.proId },
       { quantity: newQua }
     );
   });
+
+  await Bills.insertMany(theBill);
+  await Carts.deleteMany({ userId: theBill.authId });
+
   res.send('success');
 };

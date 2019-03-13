@@ -1,21 +1,41 @@
 const Carts = require('../../models/cart.model');
+const Products = require('../../models/products.model');
 
 module.exports.addCart = async (req, res) => {
+  const { proId, userId, quantity } = req.body;
+
   try {
-    const cart = await Carts.find({
-      userId: req.body.userId,
-      proId: req.body.proId
+    const product = await Products.findOne({ product_id: proId });
+
+    const cart = await Carts.findOne({
+      userId: userId,
+      proId: proId
     });
-    if (cart[0]) {
-      const newQuantity =
-        parseInt(cart[0].quantity, 10) + parseInt(req.body.quantity, 10);
+
+    if (cart) {
+      const newQuantity = cart.quantity + parseInt(quantity, 10);
+
       if (newQuantity > 5)
         return res.send({
           err: 'Only 5 products of the same type in your cart!!'
         });
-      await Carts.findByIdAndUpdate(cart[0].id, { quantity: newQuantity });
+
+      if (product.quantity - newQuantity < 0)
+        return res.send({
+          err: 'This product is out of stock',
+          product_name: product.product_name
+        });
+
+      await Carts.findByIdAndUpdate(cart.id, { quantity: newQuantity });
       return res.send('success');
     }
+
+    if (product.quantity - parseInt(quantity, 10) < 0)
+      return res.send({
+        err: 'This product is out of stock',
+        product_name: product.product_name
+      });
+
     await Carts.insertMany(req.body);
     return res.send('success');
   } catch (err) {
