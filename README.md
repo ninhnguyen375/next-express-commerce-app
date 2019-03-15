@@ -1,4 +1,4 @@
-# An e-commerce project using NextJS, ReactJS, NodeJS, MongoDB
+## An e-commerce project using NextJS, ReactJS, NodeJS, MongoDB
 
 **What is** [NextJS](https://github.com/zeit/next.js), [ReactJS](https://reactjs.org/), [NodeJS](https://nodejs.org/), [MongoDB](https://www.mongodb.com/)
 
@@ -29,3 +29,7 @@ npm run dev
 ```
 npm start
 ```
+
+## Authors
+
+- Nguyen An Ninh ([Facebook](https://www.facebook.com/ninhnguyen375)) - [Email](ninhnguyen375@gmail.com)
