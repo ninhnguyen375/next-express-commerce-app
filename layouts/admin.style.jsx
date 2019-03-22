@@ -9,6 +9,7 @@ const styles = (
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       background: rgb(241, 241, 241);
+      min-height: 100vh;
     }
 
     code {

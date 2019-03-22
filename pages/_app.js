@@ -27,7 +27,7 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-    return { pageProps };
+    return { pageProps, query: ctx.query };
   }
 
   constructor() {

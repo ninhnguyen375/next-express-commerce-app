@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import ProductDetails, {
-  PlaceASeat
-} from '../components/Product/ProductDetails';
+import ProductDetails from '../components/Product/ProductDetails';
 import { Divider } from '@material-ui/core';
 import ProductList from '../components/Product/ProductList';
 

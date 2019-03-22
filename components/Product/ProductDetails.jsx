@@ -121,40 +121,5 @@ class ProductDetails extends Component {
     );
   }
 }
-export const PlaceASeat = () => (
-  <Grid container spacing={16} justify="center">
-    <Grid item xs={6}>
-      <div
-        style={{
-          width: '310px',
-          height: '370px',
-          background: 'gray',
-          float: 'right',
-          margin: '25px 100px 0 0'
-        }}
-      />
-    </Grid>
-    <Grid item xs={6}>
-      <h1>Place for Product Name</h1>
-      <h2 style={{ color: 'red' }}>$999</h2>
-      <h2 style={{ color: 'gray' }}>Place for producer</h2>
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. <br />
-        Repellendus, tempore! Nulla consectetur quisquam excepturi <br />
-        officiis, laboriosam vero tenetur ut! Nemo, officiis doloremque. <br />
-        Omnis beatae molestiae neque commodi odio quibusdam quo.
-      </p>
-      <TextField />
-      <br />
-      <Button
-        style={{ marginTop: 20 }}
-        variant="contained"
-        color="primary"
-        type="submit"
-      >
-        Add To Cart <AddShoppingCart style={{ marginLeft: 5 }} />
-      </Button>
-    </Grid>
-  </Grid>
-);
+
 export default ProductDetails;
