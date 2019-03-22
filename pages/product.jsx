@@ -7,10 +7,35 @@ import { Divider } from '@material-ui/core';
 import ProductList from '../components/Product/ProductList';
 
 class product extends Component {
+  static async getInitialProps(ctx) {
+    const id = ctx.query.id;
+    let url = '';
+
+    // check for server render or client render
+    if (!ctx.req || !ctx.req.headers) {
+      url = `/api/products/${id}`;
+    } else {
+      url = `http://${ctx.req.headers.host}/api/products/${id}`;
+    }
+
+    try {
+      const res = await Axios.get(url);
+
+      if (res.data) {
+        if (res.data.err) {
+          return { getError: res.data.err };
+        } else {
+          return {
+            product: res.data.product,
+            producer: res.data.producer
+          };
+        }
+      } else return { getError: 'server not response' };
+    } catch (err) {
+      return { getError: err.message };
+    }
+  }
   state = {
-    product: '',
-    producer: '',
-    getError: '',
     products: [],
     err: ''
   };
@@ -29,35 +54,8 @@ class product extends Component {
     }
   };
 
-  getProduct = async () => {
-    if (!this.props.query.id) return;
-    try {
-      const res = await Axios.get(`/api/products/${this.props.query.id}`);
-
-      if (res.data) {
-        if (res.data.err) {
-          this.setState({ getError: res.data.err });
-        } else {
-          this.setState({
-            product: res.data.product,
-            producer: res.data.producer
-          });
-        }
-      } else this.setState({ getError: 'server not response' });
-    } catch (err) {
-      this.setState({ getError: err.message });
-    }
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.query.id !== prevProps.query.id) {
-      this.getProduct();
-    }
-  }
-
   componentDidMount() {
     this.getProducts();
-    this.getProduct();
   }
   render() {
     return (
@@ -65,28 +63,26 @@ class product extends Component {
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Product Details</h1>
         <Divider />
 
-        {this.state.getError ? (
+        {this.props.getError ? (
           <h3 style={{ color: 'gray', textAlign: 'center' }}>
-            {this.state.getError}
+            {this.props.getError}
           </h3>
         ) : (
-          <>
-            {this.state.producer ? (
-              <ProductDetails
-                product={this.state.product}
-                producer={this.state.producer}
-              />
-            ) : (
-              <PlaceASeat />
-            )}
-          </>
+          <ProductDetails
+            product={this.props.product}
+            producer={this.props.producer}
+          />
         )}
 
         <div style={{ marginTop: 100 }} />
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Another Products</h1>
         <Divider style={{ margin: 30 }} />
 
-        <ProductList products={this.state.products.slice(15, 20)} />
+        {this.state.products[0] ? (
+          <ProductList products={this.state.products.slice(15, 20)} />
+        ) : (
+          <div style={{ textAlign: 'center', color: 'gray' }}>loading</div>
+        )}
       </>
     );
   }

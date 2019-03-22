@@ -11,7 +11,6 @@ import Router from 'next/router';
 import Nprogress from 'nprogress';
 
 Router.events.on('routeChangeStart', () => {
-  console.log('change start');
   Nprogress.start();
 });
 Router.events.on('routeChangeComplete', () => {
@@ -22,8 +21,13 @@ Router.events.on('routeChangeError', () => {
 });
 
 class MyApp extends App {
-  static async getInitialProps({ ctx }) {
-    return { pathname: ctx.pathname, query: ctx.query };
+  static async getInitialProps({ Component, router, ctx }) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+    return { pageProps };
   }
 
   constructor() {
@@ -61,29 +65,26 @@ class MyApp extends App {
             <CssBaseline />
             {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server-side. */}
-            {this.props.pathname ? (
-              <>
-                {this.props.pathname.indexOf('/admin') !== -1 ? (
-                  <AdminMain>
-                    <Component
-                      query={this.props.query}
-                      pageContext={this.pageContext}
-                      {...pageProps}
-                    />
-                  </AdminMain>
-                ) : (
-                  <Main>
-                    <Component
-                      query={this.props.query}
-                      pageContext={this.pageContext}
-                      {...pageProps}
-                    />
-                  </Main>
-                )}
-              </>
-            ) : (
-              <h1>Something wrong :(((</h1>
-            )}
+
+            <>
+              {this.props.router.route.indexOf('/admin') !== -1 ? (
+                <AdminMain>
+                  <Component
+                    query={this.props.query}
+                    pageContext={this.pageContext}
+                    {...pageProps}
+                  />
+                </AdminMain>
+              ) : (
+                <Main>
+                  <Component
+                    query={this.props.query}
+                    pageContext={this.pageContext}
+                    {...pageProps}
+                  />
+                </Main>
+              )}
+            </>
           </MuiThemeProvider>
         </JssProvider>
       </Container>
