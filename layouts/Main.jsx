@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import Axios from 'axios';
 import Router from 'next/router';
 import GlobalState from '../context/GlobalState';
 import { MainStyles } from './main.styles';
 import { ToVietnamese } from '../translate/ToVietnamese';
+import Navbar from '../components/Navbar/Navbar';
 
 class Main extends Component {
   state = {

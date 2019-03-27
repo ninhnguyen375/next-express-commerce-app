@@ -1,180 +1,66 @@
-import React from 'react';
+import React, { Component } from 'react';
+import './Navbar.scss';
+import SignedNav from './SignedNav';
+import UnSignedNav from './UnSignedNav';
 import Link from 'next/link';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import Router from 'next/router';
 
-import {
-  Menu,
-  MenuItem,
-  Typography,
-  IconButton,
-  Toolbar,
-  AppBar,
-  Button
-} from '@material-ui/core';
-
-import { withStyles } from '@material-ui/core/styles';
-
-import UnSigninedNav from './UnSigninedNav';
-import SigninedNav from './SigninedNav';
-import { SearchBar } from './SearchBar';
-import CategoryList from '../CategoryList';
-import NavbarStyle from './Nabar.styles';
-
-const styles = NavbarStyle;
-
-class Navbar extends React.Component {
+class Navbar extends Component {
   state = {
-    anchorEl: null,
-    mobileMoreAnchorEl: null
+    signed: true,
+    searchValue: 'a'
   };
-
-  handleProfileMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
-
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
+  handleSearch = e => {
+    e.preventDefault();
+    Router.push(`/search?searchValue=${this.state.searchValue}`);
   };
-
-  handleMobileMenuOpen = event => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget });
-  };
-
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null });
-  };
-
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
-    const { classes } = this.props;
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const renderMenu = (
-      <>
-        {this.props.auth.auth_group === 'admin' && (
-          <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={this.handleMenuClose}
-          >
-            <div>
-              <Link href="/admin">
-                <a>
-                  <MenuItem onClick={this.handleMenuClose}>
-                    Admin Manager
-                  </MenuItem>
-                </a>
-              </Link>
-            </div>
-          </Menu>
-        )}
-      </>
-    );
-
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem>
-          <CategoryList onMobileMenuClose={this.handleMobileMenuClose} />
-        </MenuItem>
-
-        {!this.props.auth.auth_key ? (
-          <UnSigninedNav
-            handleMobileMenuClose={this.handleMobileMenuClose}
-            screen="mobile"
-            btnColor="primary"
-          />
-        ) : (
-          <SigninedNav
-            isAdmin={this.props.auth.auth_group === 'admin'}
-            handleMobileMenuClose={this.handleMobileMenuClose}
-            screen="mobile"
-            btnColor="primary"
-            onLogout={this.props.onLogout}
-            userName={this.props.auth.auth_name}
-          />
-        )}
-      </Menu>
-    );
-
     return (
       <>
-        <AppBar position="sticky" color="primary">
-          <Toolbar>
+        <div className="Navbar none-bg">
+          <div className="left-menu">
             <Link href="/">
               <a>
-                <Typography
-                  className={classes.title}
-                  variant="h6"
-                  color="inherit"
-                  noWrap
-                  style={{ color: 'white' }}
-                >
-                  ShopPhone
-                </Typography>
+                <img src="/static/logo.png" alt="logo-brand" />
               </a>
             </Link>
-
-            {/* Search bar */}
-            <SearchBar classes={classes} />
-
-            <Link href="/">
-              <a>
-                <Button
-                  color="inherit"
-                  variant="contained"
-                  style={{
-                    marginLeft: 5,
-                    background: '#5773f3',
-                    color: 'white'
-                  }}
-                >
-                  Home
-                </Button>
-              </a>
-            </Link>
-
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              {/* Categories */}
-              <CategoryList />
-
-              {!this.props.auth.auth_key ? (
-                <UnSigninedNav btnColor="inherit" />
-              ) : (
-                <SigninedNav
-                  btnColor="inherit"
+          </div>
+          <div className="right-menu">
+            <nav className="nav-item">
+              <Link href="/">
+                <a>
+                  <button>Home</button>
+                </a>
+              </Link>
+              {this.props.auth.auth_key ? (
+                <SignedNav
                   onLogout={this.props.onLogout}
                   userName={this.props.auth.auth_name}
-                  handleProfileMenuOpen={this.handleProfileMenuOpen}
+                  isAdmin={this.props.auth.auth_group === 'admin'}
                 />
+              ) : (
+                <UnSignedNav />
               )}
+            </nav>
+            <div className="search-bar">
+              <form onSubmit={this.handleSearch}>
+                <input
+                  placeholder="Search Here"
+                  type="search"
+                  name="searchValue"
+                  onChange={this.handleChange}
+                />
+                <button type="submit">Search</button>
+              </form>
             </div>
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-haspopup="true"
-                onClick={this.handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </div>
-          </Toolbar>
-        </AppBar>
-        {renderMenu}
-        {renderMobileMenu}
+          </div>
+        </div>
       </>
     );
   }
 }
 
-export default withStyles(styles)(Navbar);
+export default Navbar;

@@ -1,9 +1,8 @@
+import './CategoryList.scss';
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Axios from 'axios';
 import Link from 'next/link';
+import { Divider } from '@material-ui/core';
 
 class CategoryList extends React.Component {
   state = {
@@ -16,48 +15,34 @@ class CategoryList extends React.Component {
       this.setState({ ...this.state, categories: categories.data.data });
     }
   }
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-    if (this.props.onMobileMenuClose) this.props.onMobileMenuClose();
-  };
 
   render() {
-    const { anchorEl } = this.state;
-
+    const { category } = this.props.selectedCategory;
     return (
-      <>
-        <Button
-          aria-owns={anchorEl ? 'simple-menu' : undefined}
-          aria-haspopup="true"
-          color="secondary"
-          variant="contained"
-          style={{ marginRight: 5, color: 'white' }}
-          onClick={this.handleClick}
-        >
-          Categories
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-        >
-          {this.state.categories &&
-            this.state.categories.map(item => (
-              <div onClick={this.handleClose} key={item._id}>
-                <Link href={`/?category=${item.producer_id}`}>
+      <div>
+        <h1 className="header">Categories</h1>
+        <Divider />
+        <div className="CategoryList">
+          {this.state.categories && (
+            <>
+              {this.state.categories.map(item => (
+                <Link key={item._id} href={'/?category=' + item.producer_id}>
                   <a>
-                    <MenuItem>{item.producer_name}</MenuItem>
+                    <div
+                      data-aos="fade-up"
+                      className={
+                        category === item.producer_id ? 'item active' : 'item'
+                      }
+                    >
+                      {item.producer_name}
+                    </div>
                   </a>
                 </Link>
-              </div>
-            ))}
-        </Menu>
-      </>
+              ))}
+            </>
+          )}
+        </div>
+      </div>
     );
   }
 }

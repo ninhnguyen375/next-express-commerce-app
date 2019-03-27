@@ -48,7 +48,7 @@ export class ProductList extends Component {
             size="small"
             style={{ margin: 5, boxShadow: 'none' }}
             color={
-              this.state.currentPageButton === i + 1 ? 'secondary' : 'default'
+              this.state.currentPageButton === i + 1 ? 'primary' : 'default'
             }
           >
             {i + 1}

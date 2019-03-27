@@ -3,6 +3,7 @@ import Product from '../components/Product/Product';
 import MySlider from '../components/Slider/MySlider';
 import { Divider } from '@material-ui/core';
 import GoToTop from '../components/GoToTop';
+import CategoryList from '../components/CategoryList';
 
 export class index extends Component {
   render() {
@@ -16,6 +17,8 @@ export class index extends Component {
         <div>
           <MySlider />
           <div id="content" />
+          <CategoryList selectedCategory={this.props.query} />
+          <div />
           <h1 style={{ color: 'gray', textAlign: 'center', marginTop: 70 }}>
             Products
           </h1>
