@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ShoppingCart } from '@material-ui/icons';
 import Link from 'next/link';
 import ShopContext from '../../context/shop-context';
-import './ProductCard.scss';
 import Axios from 'axios';
 
 class ProductCard extends Component {

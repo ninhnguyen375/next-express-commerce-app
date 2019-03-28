@@ -9,6 +9,11 @@ import AdminMain from '../layouts/AdminMain';
 import Main from '../layouts/Main';
 import Router from 'next/router';
 import Nprogress from 'nprogress';
+import '../layouts/styles/profile.scss';
+import '../layouts/styles/Navbar.scss';
+import '../layouts/styles/MySlider.scss';
+import '../layouts/styles/ProductCard.scss';
+import '../layouts/styles/CategoryList.scss';
 
 Router.events.on('routeChangeStart', () => {
   Nprogress.start();

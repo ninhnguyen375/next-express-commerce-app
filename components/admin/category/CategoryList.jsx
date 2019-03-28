@@ -171,6 +171,7 @@ const toolbarStyles = theme => ({
 });
 class CategoryListToolbar extends React.Component {
   handleDelete = async () => {
+    if (!confirm('Are you sure?')) return;
     this.setState({ isDeleting: true });
     await this.props.deleteCategories(this.props.selected);
   };

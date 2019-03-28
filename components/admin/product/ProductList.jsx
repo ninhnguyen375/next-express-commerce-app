@@ -175,6 +175,7 @@ const toolbarStyles = theme => ({
 });
 class ProductListToolbar extends React.Component {
   handleDelete = async () => {
+    if(!confirm('Are you sure?')) return;
     this.setState({ isDeleting: true });
     await this.props.deleteProducts(this.props.selected);
     // this.setState({ isDeleting: false });

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Navbar.scss';
 import SignedNav from './SignedNav';
 import UnSignedNav from './UnSignedNav';
 import Link from 'next/link';
@@ -35,6 +34,9 @@ class Navbar extends Component {
                   <button>Home</button>
                 </a>
               </Link>
+              <a href="#about">
+                <button>About</button>
+              </a>
               {this.props.auth.auth_key ? (
                 <SignedNav
                   onLogout={this.props.onLogout}

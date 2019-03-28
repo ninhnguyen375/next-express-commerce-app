@@ -1,4 +1,3 @@
-import './CategoryList.scss';
 import React from 'react';
 import Axios from 'axios';
 import Link from 'next/link';

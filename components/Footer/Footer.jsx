@@ -51,7 +51,7 @@ export class Footer extends Component {
             color: #69afea;
           }
         `}</style>
-        <footer>
+        <footer id="about">
           <Grid container spacing={32} justify="space-evenly">
             {footers.map(footer => (
               <Grid item xs key={footer.title}>

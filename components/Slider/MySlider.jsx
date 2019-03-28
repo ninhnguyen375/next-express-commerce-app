@@ -2,7 +2,6 @@ import Slider from 'react-animated-slider';
 
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
-import './MySlider.scss';
 
 const content = [
   {

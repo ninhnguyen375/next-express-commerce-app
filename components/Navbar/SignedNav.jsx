@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-import { People } from '@material-ui/icons';
-import { Button, ButtonBase } from '@material-ui/core';
 
 class SignedNav extends Component {
   render() {
@@ -9,13 +7,20 @@ class SignedNav extends Component {
       <div>
         <button className="btn-outline-secondary dropdown">
           {this.props.userName}
-          {this.props.isAdmin && (
-            <div className="dropdown-content">
+          <div className="dropdown-content">
+            {this.props.isAdmin && (
               <Link href="/admin">
-                <a>Admin manager</a>
+                <a>
+                  <div className="dropdown-item">Admin manager</div>
+                </a>
               </Link>
-            </div>
-          )}
+            )}
+            <Link href="/profile">
+              <a>
+                <div className="dropdown-item">Profile</div>
+              </a>
+            </Link>
+          </div>
         </button>
         <button onClick={this.props.onLogout}>Sign Out</button>
         <Link href="/cart">

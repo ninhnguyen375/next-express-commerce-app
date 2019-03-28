@@ -251,3 +251,5 @@ module.exports.findUserByEmail = async (req, res) => {
     res.send({ found: false, err: err.message });
   }
 };
+
+module.exports.editPassword = async (req, res) => {};

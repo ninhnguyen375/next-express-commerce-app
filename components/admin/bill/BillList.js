@@ -215,6 +215,7 @@ const toolbarStyles = theme => ({
 });
 class BillListToolbar extends React.Component {
   handleDelete = async () => {
+    if (!confirm('Are you sure?')) return;
     this.setState({ isDeleting: true });
     await this.props.deleteBills(this.props.selected);
   };

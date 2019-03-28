@@ -1,0 +1,31 @@
+@import './App.scss';
+
+.header {
+  margin-top: 150px;
+  color: gray;
+  text-align: center;
+}
+.CategoryList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 60%;
+  margin: 20px auto;
+  .item {
+    padding: 15px 40px;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin: 20px 20px 0 0;
+    box-shadow: 1px 1px 3px gray;
+    border-radius: 9999px;
+    &:hover,
+    &.active {
+      box-shadow: 2px 2px 15px orange;
+      color: rgb(214, 74, 18);
+    }
+    @include mobile {
+      width: 60vw;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import './App.scss';
+.profile {
+  h1 {
+    text-align: center;
+    color: gray;
+  }
+  .profile-content {
+    .row {
+      width: 30%;
+      @include mobile {
+        width: 90%;
+      }
+      padding: 15px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      .col {
+        &.label {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
