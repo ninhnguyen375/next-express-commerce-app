@@ -9,9 +9,10 @@ class profile extends Component {
   state = {
     user: null,
     getError: null,
-    oldPassword: '',
+    currPassword: '',
     newPassword: '',
-    editPassword: false
+    editPassword: false,
+    editMess: ''
   };
   async componentDidMount() {
     await this.context.checkLogin();
@@ -46,7 +47,14 @@ class profile extends Component {
 
   handleEditPassword = async e => {
     e.preventDefault();
-    console.log(this.state);
+    try {
+      const res = await Axios.put(
+        `/api/users/${this.state.user._id}/editPassword`,
+        this.state
+      );
+      if (res.data.err) this.setState({ editMess: res.data.err });
+      else this.setState({ editMess: 'Success' });
+    } catch (err) {}
   };
 
   render() {
@@ -94,11 +102,11 @@ class profile extends Component {
           <div className="col">
             <TextField
               required
-              value={this.state.oldPassword}
+              value={this.state.currPassword}
               type="password"
               inputProps={{ pattern: '.{6,}' }}
-              name="oldPassword"
-              placeholder="Old password"
+              name="currPassword"
+              placeholder="Current password"
               onChange={this.handleChange}
             />
           </div>
@@ -114,6 +122,7 @@ class profile extends Component {
             />
           </div>
         </div>
+        <div className="row">{this.state.editMess}</div>
         <div className="row">
           <Button type="submit" color="primary" variant="contained">
             Edit

@@ -76,6 +76,7 @@ class ProductCard extends Component {
         </div>
         <div className="card-content">
           <div className="card-title">{product.product_name}</div>
+          <div className="card-title text-gray">{product.producer}</div>
           <div className="price">{product.product_price}</div>
         </div>
       </div>

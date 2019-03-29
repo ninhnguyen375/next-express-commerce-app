@@ -19,5 +19,6 @@ router.get('/:id/bills', controller.getBillsOfUser);
 router.delete('/:id', controller.deleteUser);
 router.get('/:id/adminPermission', controller.getAdminPermission);
 router.put('/:id', controller.editUser);
+router.put('/:id/editPassword', controller.editPassword);
 
 module.exports = router;

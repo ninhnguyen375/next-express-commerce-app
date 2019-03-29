@@ -4,6 +4,14 @@ class UnSignedNav extends Component {
   render() {
     return (
       <div>
+        <Link href="/">
+          <a>
+            <button>Home</button>
+          </a>
+        </Link>
+        <a href="#about">
+          <button>About</button>
+        </a>
         <Link href="/signin">
           <a>
             <button>Sign In</button>

@@ -29,14 +29,6 @@ class Navbar extends Component {
           </div>
           <div className="right-menu">
             <nav className="nav-item">
-              <Link href="/">
-                <a>
-                  <button>Home</button>
-                </a>
-              </Link>
-              <a href="#about">
-                <button>About</button>
-              </a>
               {this.props.auth.auth_key ? (
                 <SignedNav
                   onLogout={this.props.onLogout}

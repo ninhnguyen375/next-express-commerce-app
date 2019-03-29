@@ -12,8 +12,8 @@ export class ProductList extends Component {
 
   renderPage = products => {
     this.setState({
-      productsOnPage: products.slice(0, 10),
-      pages: Math.ceil(products.length / 10)
+      productsOnPage: products.slice(0, 8),
+      pages: Math.ceil(products.length / 8)
     });
   };
 
@@ -28,8 +28,8 @@ export class ProductList extends Component {
 
   handleChagePage = page => () => {
     if (!page) return;
-    const start = (page - 1) * 10;
-    const end = page * 10;
+    const start = (page - 1) * 8;
+    const end = page * 8;
     this.setState({
       ...this.state,
       productsOnPage: this.props.products.slice(start, end),
@@ -64,7 +64,7 @@ export class ProductList extends Component {
       <>
         <Grid
           container
-          spacing={16}
+          spacing={40}
           alignItems="stretch"
           justify="center"
           style={{ marginTop: 50 }}

@@ -1,0 +1,7 @@
+PUT http://localhost:3000/api/users/5c6d4ad217cc85001749e275/editPassword HTTP/1.1
+Content-Type: application/json
+
+{
+  "currPassword": "qwertyuiop",
+  "newPassword":"1234567890"
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import Axios from 'axios';
 import Link from 'next/link';
 import { Divider } from '@material-ui/core';
 
@@ -8,12 +7,12 @@ class CategoryList extends React.Component {
     anchorEl: null,
     categories: []
   };
-  async componentDidMount() {
-    const categories = await Axios.get('/api/producers');
-    if (!categories.data.err) {
-      this.setState({ ...this.state, categories: categories.data.data });
-    }
-  }
+  // async componentDidMount() {
+  //   const categories = await Axios.get('/api/producers');
+  //   if (!categories.data.err) {
+  //     this.setState({ ...this.state, categories: categories.data.data });
+  //   }
+  // }
 
   render() {
     const { category } = this.props.selectedCategory;
@@ -22,9 +21,9 @@ class CategoryList extends React.Component {
         <h1 className="header">Categories</h1>
         <Divider />
         <div className="CategoryList">
-          {this.state.categories && (
+          {this.props.categories && (
             <>
-              {this.state.categories.map(item => (
+              {this.props.categories.map(item => (
                 <Link key={item._id} href={'/?category=' + item.producer_id}>
                   <a>
                     <div

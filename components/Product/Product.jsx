@@ -5,10 +5,12 @@ import Axios from 'axios';
 export class Product extends Component {
   state = {
     products: [],
-    err: null
+    err: null,
+    loading: true
   };
   // Get products from server
   getProducts = async category => {
+    this.setState({ loading: true });
     try {
       const res = category
         ? await Axios.get('/api/products?producer_id=' + category)
@@ -22,6 +24,7 @@ export class Product extends Component {
     } catch (err) {
       this.setState({ ...this.state, err: err.message });
     }
+    this.setState({ loading: false });
   };
 
   async componentDidUpdate(prevProps) {
@@ -41,7 +44,9 @@ export class Product extends Component {
         {this.state.products[0] ? (
           <ProductList products={this.state.products} />
         ) : (
-          <h3 style={{ color: 'gray', textAlign: 'center' }}>Empty</h3>
+          <h3 style={{ color: 'gray', textAlign: 'center' }}>
+            {this.state.loading ? 'loading' : 'Empty'}
+          </h3>
         )}
       </>
     );

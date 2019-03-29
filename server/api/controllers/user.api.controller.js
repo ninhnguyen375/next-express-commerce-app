@@ -252,4 +252,18 @@ module.exports.findUserByEmail = async (req, res) => {
   }
 };
 
-module.exports.editPassword = async (req, res) => {};
+module.exports.editPassword = async (req, res) => {
+  const { currPassword, newPassword } = req.body;
+  const { id } = req.params;
+  const user = await Users.findById(id);
+  if (user) {
+    if (user.user_password === currPassword) {
+      await Users.findByIdAndUpdate(id, { user_password: newPassword });
+      return res.send('success');
+    } else {
+      return res.send({ err: 'incorrect password' });
+    }
+  } else {
+    return res.send({ err: 'Not have this user' });
+  }
+};
