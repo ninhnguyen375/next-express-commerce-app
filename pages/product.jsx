@@ -13,7 +13,7 @@ class product extends Component {
     if (!ctx.req || !ctx.req.headers) {
       url = `/api/products/${id}`;
     } else {
-      url = `http://${ctx.req.headers.host}/api/products/${id}`;
+      url = `https://${ctx.req.headers.host}/api/products/${id}`;
     }
 
     try {

@@ -10,9 +10,9 @@ export class index extends Component {
   static async getInitialProps(ctx) {
     let url = '';
     if (!ctx.req || !ctx.req.headers) {
-      url = `/api/producers`;
+      url = '/api/producers';
     } else {
-      url = `http://${ctx.req.headers.host}/api/producers`;
+      url = `https://${ctx.req.headers.host}/api/producers`;
     }
     const categories = await Axios.get(url);
     if (!categories.data.err) {
