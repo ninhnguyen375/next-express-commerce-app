@@ -11,7 +11,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
-  const MONGO_URI = !dev
+  const MONGO_URI = dev
     ? 'mongodb://127.0.0.1:27017/webbanhangdb'
     : process.env.MONGO_URI;
 
