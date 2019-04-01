@@ -106,7 +106,7 @@ class profile extends Component {
               type="password"
               inputProps={{ pattern: '.{6,}' }}
               name="currPassword"
-              placeholder="Current password"
+              label="Current password"
               onChange={this.handleChange}
             />
           </div>
@@ -117,7 +117,7 @@ class profile extends Component {
               type="password"
               inputProps={{ pattern: '.{6,}' }}
               name="newPassword"
-              placeholder="New password"
+              label="New password"
               onChange={this.handleChange}
             />
           </div>

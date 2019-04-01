@@ -16,6 +16,14 @@ import Axios from 'axios';
 import Router from 'next/router';
 import ShopContext from '../../context/shop-context';
 import SignInStyle from './SignIn.styles';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField
+} from '@material-ui/core';
 
 const styles = SignInStyle;
 
@@ -25,7 +33,11 @@ class SignIn extends React.Component {
   state = {
     user_email: '',
     user_password: '',
-    signInError: ''
+    signInError: '',
+    isOpenForgotPassword: false,
+    isSendingMail: false,
+    emailForgotPassword: '',
+    sendMailMess: ''
   };
 
   async componentDidMount() {
@@ -35,6 +47,29 @@ class SignIn extends React.Component {
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleClickForgotPassword = () => {
+    this.setState({ isOpenForgotPassword: true });
+  };
+
+  handleCloseForgotPassword = () => {
+    this.setState({ isOpenForgotPassword: false, sendMailMess: '' });
+  };
+
+  handleSubmitForgotPassword = async e => {
+    e.preventDefault();
+    this.setState({ isSendingMail: true });
+
+    const sendMail = await Axios.post('/api/users/forgotPassword', {
+      user_email: this.state.emailForgotPassword
+    });
+    if (sendMail.data.err) {
+      this.setState({ sendMailMess: sendMail.data.err });
+    } else {
+      this.setState({ sendMailMess: 'Success! Let check your mail!' });
+    }
+    this.setState({ isSendingMail: false });
   };
 
   handleSubmit = async e => {
@@ -70,7 +105,11 @@ class SignIn extends React.Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} onSubmit={this.handleSubmit}>
+          <form
+            className={classes.form}
+            onSubmit={this.handleSubmit}
+            id="signIn"
+          >
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="user_email">Email Address</InputLabel>
               <Input
@@ -95,6 +134,12 @@ class SignIn extends React.Component {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <p
+              onClick={this.handleClickForgotPassword}
+              style={{ textAlign: 'center', cursor: 'pointer' }}
+            >
+              <a>Forgot password?</a>
+            </p>
             <b style={{ color: 'red' }}>{this.state.signInError}</b>
             <Button
               type="submit"
@@ -102,10 +147,74 @@ class SignIn extends React.Component {
               variant="contained"
               color="primary"
               className={classes.submit}
+              form="signIn"
             >
               Sign in
             </Button>
           </form>
+          {/* dialog for forgot password */}
+          <Dialog
+            open={this.state.isOpenForgotPassword}
+            onClose={this.handleCloseForgotPassword}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            {
+              <>
+                {this.state.sendMailMess ? (
+                  <h3 style={{ color: 'gray', padding: '0 20px' }}>
+                    {this.state.sendMailMess}
+                  </h3>
+                ) : (
+                  <>
+                    {this.state.isSendingMail ? (
+                      <h3 style={{ color: 'gray', padding: '0 20px' }}>
+                        Sending...
+                      </h3>
+                    ) : (
+                      <form
+                        onSubmit={this.handleSubmitForgotPassword}
+                        id="formForgotPassword"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          Forgot Password
+                        </DialogTitle>
+                        <DialogContent>
+                          <TextField
+                            label="Your email"
+                            required
+                            type="email"
+                            onChange={this.handleChange}
+                            style={{ width: '100%' }}
+                            name="emailForgotPassword"
+                          />
+                          <DialogContentText id="alert-dialog-description">
+                            We will send the link for reset password to your
+                            email
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            onClick={this.handleCloseForgotPassword}
+                            color="primary"
+                          >
+                            Disagree
+                          </Button>
+                          <Button
+                            color="primary"
+                            type="submit"
+                            form="formForgotPassword"
+                          >
+                            Agree
+                          </Button>
+                        </DialogActions>
+                      </form>
+                    )}
+                  </>
+                )}
+              </>
+            }
+          </Dialog>
         </Paper>
       </main>
     );

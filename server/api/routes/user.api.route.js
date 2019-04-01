@@ -3,6 +3,10 @@ const controller = require('../controllers/user.api.controller');
 
 const router = express.Router();
 
+router.get('/resetPassword/:token', controller.renderResetPassword);
+router.post('/resetPassword', controller.resetPassword);
+router.post('/forgotPassword', controller.forgotPassword);
+
 router.get('/', controller.index);
 router.post('/signin', controller.postSignIn);
 router.post('/', controller.postSignUp);

@@ -77,6 +77,11 @@ export class search extends Component {
   render() {
     return (
       <>
+<style jsx global>{`
+          * {
+            scroll-behavior: smooth;
+          }
+        `}</style>
         <h1 style={{ color: 'gray', textAlign: 'center' }}>YOUR SEARCH</h1>
         <Divider style={{ margin: 30 }} />
         <SearchForm

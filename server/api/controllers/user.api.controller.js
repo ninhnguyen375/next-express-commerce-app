@@ -3,6 +3,11 @@ const Products = require('../../models/products.model');
 const Cart = require('../../models/cart.model');
 const Bills = require('../../models/bills.model');
 
+const moment = require('moment');
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const TokensResetPassword = require('../../models/tokenResetPassword.model');
+
 module.exports.index = async (req, res) => {
   const users = await Users.find();
   const datas = {
@@ -266,4 +271,94 @@ module.exports.editPassword = async (req, res) => {
   } else {
     return res.send({ err: 'Not have this user' });
   }
+};
+
+module.exports.renderResetPassword = async (req, res) => {
+  const { token } = req.params;
+  if (!token) return res.send({ err: 'invalid token' });
+
+  const reset = await TokensResetPassword.findOne({ token: token });
+
+  if (!reset) return res.send({ err: 'invalid token' });
+  const now = moment();
+  const expired = moment(reset.expired);
+  if (now.isBefore(expired)) {
+    res.send({ token: token });
+  } else {
+    return res.send({ err: 'Expired' });
+  }
+};
+
+module.exports.resetPassword = async (req, res) => {
+  const { newPassword, token } = req.body;
+  if (!newPassword || !token) {
+    return res.send('invalid new password or token');
+  }
+
+  const reset = await TokensResetPassword.findOne({ token: token });
+  if (!reset) return res.send({ err: 'invalid token' });
+  const now = moment();
+  const expired = moment(reset.expired);
+  if (!now.isBefore(expired)) {
+    return res.send({ err: 'Expired' });
+  }
+  const user = await Users.findById(reset.user);
+  if (!user) return res.send({ err: 'user does not exist' });
+
+  try {
+    await Users.findByIdAndUpdate(reset.user, { user_password: newPassword });
+    await TokensResetPassword.findByIdAndUpdate(reset._id, {
+      expired: moment()
+    });
+    return res.send('success');
+  } catch (err) {
+    return res.send({ err: err.message });
+  }
+};
+
+module.exports.forgotPassword = async (req, res) => {
+  const { user_email } = req.body;
+
+  if (!user_email) return res.send({ err: 'null' });
+
+  const user = await Users.findOne({ user_email: user_email });
+
+  if (!user) return res.send({ err: 'This email is not used by any user' });
+
+  let token = await bcrypt.hash(user.user_email, 5);
+  token = token.replace(/\//g, '');
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: 'ninhnguyen375@gmail.com', pass: 'ngocbich' }
+  });
+
+  const mailOptions = {
+    from: 'Shopphone',
+    to: user_email,
+    subject: 'SHOPPHONE, Reset Your Password',
+    html: `<a
+        href="${req.headers.origin}/resetPassword?token=${token}"
+      >
+        Reset Your Password
+      </a>
+      The Link will expire in 1 hour
+    `
+  };
+  transporter.sendMail(mailOptions, async (err, info) => {
+    if (err) return res.send(err);
+    else {
+      await TokensResetPassword.insertMany({
+        token: token,
+        expired: moment() + 3600000,
+        user: user._id
+      });
+      return res.send('success');
+    }
+  });
+};
+
+module.exports.getUsers = async (req, res) => {
+  const users = await Users.find();
+  res.json(users);
 };
