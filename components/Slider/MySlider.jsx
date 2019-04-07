@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 const content = [
   {
     image: '/static/image/banner_iphone_large.jpg',
-    description: 'Chào Bé Lê Văn Đạt.Em còn làm ở đó không taaaaa??',
+    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed cum eum exercitationem, aliquam vero iste? Minus sapiente officia animi amet ex maxime alias tempora est autem quia, illo iure nesciunt?',
     title: 'Wellcome To Shopphone',
     button: 'Buy now'
   },

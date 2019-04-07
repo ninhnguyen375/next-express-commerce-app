@@ -4,10 +4,10 @@ const Products = require('../../models/products.model');
 
 module.exports.index = async (req, res) => {
   const bills = await Bills.find();
-  const datas = {
+  const data = {
     data: bills
   };
-  res.json(datas);
+  res.json(data);
 };
 
 module.exports.deleteBill = async (req, res) => {

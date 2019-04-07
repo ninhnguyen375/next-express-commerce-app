@@ -17,10 +17,10 @@ module.exports.index = async (req, res) => {
       producer: producer.producer_name
     };
   });
-  const datas = {
+  const data = {
     data: products
   };
-  res.json(datas);
+  res.json(data);
 };
 
 // get product

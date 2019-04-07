@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import ProductDetails from '../components/Product/ProductDetails';
-import { Divider } from '@material-ui/core';
+import { Button, Divider } from '@material-ui/core';
 import ProductList from '../components/Product/ProductList';
 
 class product extends Component {
@@ -77,7 +77,7 @@ class product extends Component {
         <Divider style={{ margin: 30 }} />
 
         {this.state.products[0] ? (
-          <ProductList products={this.state.products.slice(15, 20)} />
+          <ProductList products={this.state.products.slice(12, 20)} />
         ) : (
           <div style={{ textAlign: 'center', color: 'gray' }}>loading</div>
         )}

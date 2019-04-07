@@ -1,7 +1,16 @@
+@import "./scrollBar";
+
 $primary-bg: #2323bb;
 $secondary: rgb(113, 54, 168);
 
 $desktop: 860px;
+
+
+
+
+* {
+  font-family: "Roboto", sans-serif;
+}
 
 @mixin mobile {
   @media screen and (max-width: $desktop) {

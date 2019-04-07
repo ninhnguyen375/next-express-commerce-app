@@ -7,12 +7,6 @@ class CategoryList extends React.Component {
     anchorEl: null,
     categories: []
   };
-  // async componentDidMount() {
-  //   const categories = await Axios.get('/api/producers');
-  //   if (!categories.data.err) {
-  //     this.setState({ ...this.state, categories: categories.data.data });
-  //   }
-  // }
 
   render() {
     const { category } = this.props.selectedCategory;

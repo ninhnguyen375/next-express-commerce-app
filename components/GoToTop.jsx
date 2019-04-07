@@ -10,7 +10,7 @@ const styles = theme => ({
     right: '10px'
   }
 });
-export class GoToTop extends Component {
+class GoToTop extends Component {
   handleClick = () => {
     window.scrollTo({ top: 0 });
   };

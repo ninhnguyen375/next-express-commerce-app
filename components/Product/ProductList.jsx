@@ -1,7 +1,13 @@
-import React, { Component } from 'react';
-import { Grid, Fab } from '@material-ui/core';
-import ProductCard from './ProductCard';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { Fab, Grid } from "@material-ui/core";
+import ProductCard from "./ProductCard";
+import PropTypes from "prop-types";
+import {
+  ChevronLeft,
+  ChevronRight,
+  FirstPage,
+  LastPage
+} from "@material-ui/icons";
 
 export class ProductList extends Component {
   state = {
@@ -26,7 +32,7 @@ export class ProductList extends Component {
       this.renderPage(nextProps.products);
   }
 
-  handleChagePage = page => () => {
+  handleChangePage = page => () => {
     if (!page) return;
     const start = (page - 1) * 8;
     const end = page * 8;
@@ -37,21 +43,105 @@ export class ProductList extends Component {
     });
   };
 
+  handleClickPrevPage = () => {
+    this.handleChangePage(this.state.currentPageButton - 1);
+  };
+  handleClickNextPage = () => {
+    this.handleChangePage(this.state.currentPageButton + 1);
+  };
+
   // get page buttons
   pageButtons = () => {
     let pageButtons = [];
-    for (let i = 0; i < this.state.pages; i++) {
+    if (this.state.currentPageButton > 1) {
       pageButtons.push(
-        <a href="#content" key={i}>
+        <a href="#content" key="firstPage">
           <Fab
-            onClick={this.handleChagePage(i + 1)}
+            onClick={this.handleChangePage(1)}
             size="small"
-            style={{ margin: 5, boxShadow: 'none' }}
-            color={
-              this.state.currentPageButton === i + 1 ? 'primary' : 'default'
-            }
+            style={{ margin: 5 }}
           >
-            {i + 1}
+            <FirstPage />
+          </Fab>
+        </a>
+      );
+      pageButtons.push(
+        <a key="prevPage" href="#content">
+          <Fab
+            onClick={this.handleChangePage(this.state.currentPageButton - 1)}
+            size="small"
+            style={{ margin: 5 }}
+            color={"default"}
+          >
+            <ChevronLeft />
+          </Fab>
+        </a>
+      );
+
+      if (this.state.currentPageButton - 2 > 0) {
+        pageButtons.push(
+          <Fab
+            key={"hiddenPageLeft"}
+            size="small"
+            title={`1 - ${this.state.currentPageButton - 2}`}
+            style={{ margin: 5, boxShadow: "none" }}
+          >
+            {"..."}
+          </Fab>
+        );
+      }
+    }
+    for (
+      let i = this.state.currentPageButton - 1;
+      i <= this.state.currentPageButton + 1 && i <= this.state.pages;
+      i++
+    ) {
+      if (i === 0) continue;
+      pageButtons.push(
+        <a href={"#content"} key={i}>
+          <Fab
+            onClick={this.handleChangePage(i)}
+            size="small"
+            style={{ margin: 5, boxShadow: "none" }}
+            color={this.state.currentPageButton === i ? "primary" : "default"}
+          >
+            {i}
+          </Fab>
+        </a>
+      );
+    }
+    if (this.state.currentPageButton < this.state.pages) {
+      if (this.state.currentPageButton + 2 < this.state.pages) {
+        pageButtons.push(
+          <Fab
+            key={"hiddenPageRight"}
+            title={`${this.state.currentPageButton + 2} - ${this.state.pages}`}
+            size="small"
+            style={{ margin: 5, boxShadow: "none" }}
+          >
+            {"..."}
+          </Fab>
+        );
+      }
+      pageButtons.push(
+        <a href="#content" key="nextPage">
+          <Fab
+            onClick={this.handleChangePage(this.state.currentPageButton + 1)}
+            size="small"
+            style={{ margin: 5 }}
+          >
+            <ChevronRight />
+          </Fab>
+        </a>
+      );
+      pageButtons.push(
+        <a href="#content" key="lastPage">
+          <Fab
+            onClick={this.handleChangePage(this.state.pages)}
+            size="small"
+            style={{ margin: 5 }}
+          >
+            <LastPage />
           </Fab>
         </a>
       );
@@ -62,22 +152,22 @@ export class ProductList extends Component {
   render() {
     return (
       <>
-        <Grid
-          container
-          spacing={40}
-          alignItems="stretch"
-          justify="center"
-          style={{ marginTop: 50 }}
-        >
+        {/* List Products */}
+        <div className={"product-list__container"}>
           {this.state.productsOnPage &&
             this.state.productsOnPage.map(product => (
-              <Grid item xs="auto" key={product._id}>
-                <ProductCard product={product} />
-              </Grid>
+              <ProductCard product={product} key={product._id} />
             ))}
-        </Grid>
+        </div>
+        {/* Page Buttons */}
         {this.state.pages !== 1 && (
-          <Grid container justify="center" style={{ marginTop: 30 }}>
+          <Grid
+            container
+            justify="center"
+            style={{
+              marginTop: 30
+            }}
+          >
             {this.pageButtons().map(btn => btn)}
           </Grid>
         )}

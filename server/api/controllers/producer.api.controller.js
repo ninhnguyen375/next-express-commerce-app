@@ -2,10 +2,10 @@ const Producers = require('../../models/producers.model');
 
 module.exports.index = async (req, res) => {
   const producers = await Producers.find();
-  const datas = {
+  const data = {
     data: producers,
   };
-  res.json(datas);
+  res.json(data);
 };
 
 module.exports.deleteProducer = async (req, res) => {

@@ -40,7 +40,7 @@ export class Footer extends Component {
             text-align: center;
             border-top: 1px solid #d8d8d8;
             margin-top: 50px;
-            background: #3e3e3e;
+            background: #2a2a2a;
             color: white;
           }
           h6 {

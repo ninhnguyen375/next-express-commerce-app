@@ -16,7 +16,7 @@ You may have to wait for the Heroku to start
 npm install
 ```
 
-**Well done, start this project :**
+**Start this project :**
 
 1. Dev (required nodemon and mongodb in your host) :
 
@@ -24,7 +24,7 @@ npm install
 npm run dev
 ```
 
-2. Run as production :
+2. Run as production (just type and run) :
 
 ```
 npm start
@@ -32,4 +32,4 @@ npm start
 
 ## Authors
 
-- Nguyen An Ninh ([Facebook](https://www.facebook.com/ninhnguyen375)) - [Email](ninhnguyen375@gmail.com)
+- Nguyễn An Ninh ([Facebook](https://www.facebook.com/ninhnguyen375)) - [Email](ninhnguyen375@gmail.com)

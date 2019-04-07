@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { ShoppingCart } from '@material-ui/icons';
-import Link from 'next/link';
-import ShopContext from '../../context/shop-context';
-import Axios from 'axios';
+import React, { Component } from "react";
+import { ShoppingCart } from "@material-ui/icons";
+import Link from "next/link";
+import ShopContext from "../../context/shop-context";
+import Axios from "axios";
 
 class ProductCard extends Component {
   static contextType = ShopContext;
   state = {
-    addError: '',
+    addError: "",
     addSuccess: false,
     loading: false
   };
@@ -21,12 +21,12 @@ class ProductCard extends Component {
   handleAddToCart = async () => {
     const { auth } = this.context;
     if (!auth || !auth.auth_key) {
-      alert('You must to Login First!');
+      alert("You must to Login First!");
       return;
     }
     this.setState({ loading: true });
     try {
-      const addCart = await Axios.post('/api/carts', {
+      const addCart = await Axios.post("/api/carts", {
         userId: auth.auth_key,
         quantity: 1,
         proId: this.props.product.product_id,
@@ -54,11 +54,11 @@ class ProductCard extends Component {
             </Link>
 
             {this.state.addError ? (
-              <div style={{ color: 'red' }}>{this.state.addError}</div>
+              <div style={{ color: "red" }}>{this.state.addError}</div>
             ) : (
               <>
                 {this.state.addSuccess ? (
-                  <Link href="/cart">
+                  <Link href={"/cart"}>
                     <a>
                       <div className="btn-cart active">
                         <ShoppingCart />
@@ -67,7 +67,7 @@ class ProductCard extends Component {
                   </Link>
                 ) : (
                   <div className="btn-cart" onClick={this.handleAddToCart}>
-                    {this.state.loading ? '...' : <ShoppingCart />}
+                    {this.state.loading ? "..." : <ShoppingCart />}
                   </div>
                 )}
               </>

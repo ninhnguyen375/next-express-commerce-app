@@ -38,9 +38,9 @@ class resetPassword extends Component {
     return (
       <>
         {this.state.resetMess ? (
-          <h3>{this.state.resetMess}</h3>
+          <h3 className="text-center">{this.state.resetMess}</h3>
         ) : (
-          <form onSubmit={this.handleSubmit}>
+          <form className="formResetPassword" onSubmit={this.handleSubmit}>
             <h1 className="title">Set New Password</h1>
             <TextField
               onChange={this.handleChange}

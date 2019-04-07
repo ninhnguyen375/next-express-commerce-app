@@ -67,7 +67,7 @@ export class search extends Component {
         const name_a = a.product_name.toLowerCase();
         const name_b = b.product_name.toLowerCase();
         if (query.sortByName === 'A-Z') return name_a < name_b ? -1 : 1;
-        else name_a > name_b ? -1 : 1;
+        else return name_a > name_b ? -1 : 1;
       });
     }
 

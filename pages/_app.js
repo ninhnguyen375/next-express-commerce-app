@@ -14,6 +14,7 @@ import '../layouts/styles/Navbar.scss';
 import '../layouts/styles/MySlider.scss';
 import '../layouts/styles/ProductCard.scss';
 import '../layouts/styles/CategoryList.scss';
+import '../layouts/styles/ResetPassword.scss';
 
 Router.events.on('routeChangeStart', () => {
   Nprogress.start();

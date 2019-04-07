@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Document, { Head, Main, NextScript } from 'next/document';
-import flush from 'styled-jsx/server';
+import React from "react";
+import PropTypes from "prop-types";
+import Document, { Head, Main, NextScript } from "next/document";
+import flush from "styled-jsx/server";
 
 class MyDocument extends Document {
   render() {
@@ -28,13 +28,13 @@ class MyDocument extends Document {
             }
           />
           <link
+            href="https://fonts.googleapis.com/css?family=Roboto"
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
           <link rel="stylesheet" href="/static/nprogress.css" />
           <link rel="icon" href="/static/react-512.png" />
         </Head>
-        <body>
+        <body id={"style-4"}>
           <Main />
           <NextScript />
         </body>

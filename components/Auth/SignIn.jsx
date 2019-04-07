@@ -130,10 +130,6 @@ class SignIn extends React.Component {
                 onChange={this.handleChange}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <p
               onClick={this.handleClickForgotPassword}
               style={{ textAlign: 'center', cursor: 'pointer' }}

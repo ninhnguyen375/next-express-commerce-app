@@ -19,6 +19,7 @@ class CartItem extends Component {
         <TableCell>{item.cartItem.proId}</TableCell>
         <TableCell>
           <img
+            alt={"product img"}
             src={`/static${item.currPro.product_img}`}
             className={classes.image}
           />

@@ -20,6 +20,7 @@ export class index extends Component {
     }
     return {};
   }
+
   render() {
     return (
       <>
@@ -47,6 +48,7 @@ export class index extends Component {
                 : null
             }
           />
+
           <GoToTop />
         </div>
       </>

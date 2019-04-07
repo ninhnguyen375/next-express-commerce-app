@@ -57,7 +57,7 @@ class ProductDetails extends Component {
     const { product, producer } = this.props;
     return (
       <div>
-        <Grid container spacing={16} justify="center">
+        <Grid container justify="center">
           <Grid item xs="auto" sm="auto">
             <img
               src={`/static${product.product_img}`}
