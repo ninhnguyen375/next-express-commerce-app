@@ -1,32 +1,38 @@
-import React, { Component } from "react";
-import { ShoppingCart } from "@material-ui/icons";
-import Link from "next/link";
-import ShopContext from "../../context/shop-context";
-import Axios from "axios";
+import React, { Component } from 'react';
+import { ShoppingCart } from '@material-ui/icons';
+import Link from 'next/link';
+import ShopContext from '../../context/shop-context';
+import Axios from 'axios';
 
 class ProductCard extends Component {
   static contextType = ShopContext;
   state = {
-    addError: "",
+    addError: '',
     addSuccess: false,
     loading: false
   };
+
   componentWillMount() {
     this.setState({ loading: false });
   }
+
   componentWillUnmount() {
     this.setState({ addSuccess: false });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.product !== nextProps.product;
   }
 
   handleAddToCart = async () => {
     const { auth } = this.context;
     if (!auth || !auth.auth_key) {
-      alert("You must to Login First!");
+      alert('You must to Login First!');
       return;
     }
     this.setState({ loading: true });
     try {
-      const addCart = await Axios.post("/api/carts", {
+      const addCart = await Axios.post('/api/carts', {
         userId: auth.auth_key,
         quantity: 1,
         proId: this.props.product.product_id,
@@ -41,6 +47,7 @@ class ProductCard extends Component {
     }
     this.setState({ loading: false });
   };
+
   render() {
     const { product } = this.props;
     return (
@@ -54,11 +61,11 @@ class ProductCard extends Component {
             </Link>
 
             {this.state.addError ? (
-              <div style={{ color: "red" }}>{this.state.addError}</div>
+              <div style={{ color: 'red' }}>{this.state.addError}</div>
             ) : (
               <>
                 {this.state.addSuccess ? (
-                  <Link href={"/cart"}>
+                  <Link href={'/cart'}>
                     <a>
                       <div className="btn-cart active">
                         <ShoppingCart />
@@ -67,18 +74,22 @@ class ProductCard extends Component {
                   </Link>
                 ) : (
                   <div className="btn-cart" onClick={this.handleAddToCart}>
-                    {this.state.loading ? "..." : <ShoppingCart />}
+                    {this.state.loading ? '...' : <ShoppingCart />}
                   </div>
                 )}
               </>
             )}
           </div>
         </div>
-        <div className="card-content">
-          <div className="card-title">{product.product_name}</div>
-          <div className="card-title text-gray">{product.producer}</div>
-          <div className="price">{product.product_price}</div>
-        </div>
+        <Link href={`/product?id=${product._id}`}>
+          <a>
+            <div className="card-content">
+              <div className="card-title">{product.product_name}</div>
+              <div className="card-title text-gray">{product.producer}</div>
+              <div className="price">{product.product_price}</div>
+            </div>{' '}
+          </a>
+        </Link>
       </div>
     );
   }

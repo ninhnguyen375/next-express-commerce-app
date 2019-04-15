@@ -183,7 +183,7 @@ class EditCategory extends Component {
             </Grid>
           </Grid>
         ) : (
-          <h1>Does not have this category.</h1>
+          <h1>Not have this category.</h1>
         )}
       </div>
     );

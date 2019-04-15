@@ -1,6 +1,4 @@
-@import "./App.scss";
-
-
+@import './App.scss';
 
 .dropdown {
   position: relative;
@@ -30,8 +28,13 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
+.bg-transparent {
+  background: rgba(0, 0, 0, 0) !important;
+  box-shadow: none !important;
+}
 .NavBar {
+  background: rgb(42, 42, 42);
+  box-shadow: 0 0 10px black;
   z-index: 1199;
   width: 100%;
   top: 0;
@@ -39,12 +42,15 @@
   color: white;
   padding: 20px;
   position: sticky;
-  background: rgb(42, 42, 42);
   display: flex;
+  border-radius: 0 0 15px 15px;
   @include mobile {
     justify-content: center;
     display: block;
     position: static;
+    background: rgb(42, 42, 42) !important;
+    box-shadow: 0 0 10px black !important;
+    border-radius: 0;
   }
   .left-menu {
     flex-grow: 1;
@@ -93,7 +99,7 @@
       justify-content: center;
       margin-top: 10px;
 
-      input[type="search"],
+      input[type='search'],
       button {
         padding: 10px 10px;
         border: none;

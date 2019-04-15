@@ -231,7 +231,7 @@ class EditBill extends Component {
             </div>
           </Paper>
         ) : (
-          <h1>Does not have this bill.</h1>
+          <h1>Not have this bill.</h1>
         )}
       </div>
     );

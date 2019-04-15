@@ -1,12 +1,12 @@
-const Users = require("../../models/user.model");
-const Products = require("../../models/products.model");
-const Cart = require("../../models/cart.model");
-const Bills = require("../../models/bills.model");
+const Users = require('../../models/user.model');
+const Products = require('../../models/products.model');
+const Cart = require('../../models/cart.model');
+const Bills = require('../../models/bills.model');
 
-const moment = require("moment");
-const bcrypt = require("bcrypt");
-const nodeMailer = require("nodemailer");
-const TokensResetPassword = require("../../models/tokenResetPassword.model");
+const moment = require('moment');
+const bcrypt = require('bcrypt');
+const nodeMailer = require('nodemailer');
+const TokensResetPassword = require('../../models/tokenResetPassword.model');
 
 module.exports.index = async (req, res) => {
   const users = await Users.find();
@@ -26,14 +26,14 @@ module.exports.postSignUp = async (req, res) => {
     !reqUser.user_email ||
     !reqUser.user_password
   ) {
-    return res.send({ err: "Does not have enough data" });
+    return res.send({ err: 'Not have enough data' });
   }
   const isDuplicatedEmail = users.find(
     user => user.user_email === reqUser.user_email
   );
 
   if (isDuplicatedEmail) {
-    return res.send({ err: "This email has been used" });
+    return res.send({ err: 'This email has been used' });
   }
   try {
     const obj = {
@@ -47,11 +47,11 @@ module.exports.postSignUp = async (req, res) => {
         bill: false,
         category: false
       },
-      user_group: "client",
+      user_group: 'client',
       user_email: reqUser.user_email
     };
     await Users.insertMany(obj);
-    res.send("success");
+    res.send('success');
   } catch (err) {
     res.send({ err: err.message });
   }
@@ -62,7 +62,7 @@ module.exports.getUser = async (req, res) => {
   try {
     const user = await Users.findById(id);
     if (!user) {
-      return res.send({ err: "User Does Not Exist" });
+      return res.send({ err: 'User Does Not Exist' });
     } else {
       return res.send({ user });
     }
@@ -73,7 +73,7 @@ module.exports.getUser = async (req, res) => {
 
 module.exports.postSignIn = async (req, res) => {
   if (!req.body || !req.body.user_email || !req.body.user_password) {
-    res.send({ err: "Does not have enough data" });
+    res.send({ err: 'Not have enough data' });
   } else {
     try {
       const user = await Users.findOne({
@@ -81,9 +81,9 @@ module.exports.postSignIn = async (req, res) => {
         user_password: req.body.user_password
       });
       if (!user) {
-        res.send({ err: "Account Does Not Exist" });
-      } else if (user.user_group !== "admin" || !user.user_status) {
-        res.send({ err: "Permission Denied" });
+        res.send({ err: 'Account Does Not Exist' });
+      } else if (user.user_group !== 'admin' || !user.user_status) {
+        res.send({ err: 'Permission Denied' });
       } else {
         res.send({ adminDetails: user });
       }
@@ -102,28 +102,28 @@ module.exports.postSignInClient = async (req, res) => {
   });
   if (user) {
     if (!user.user_status) {
-      const err = "Account is Blocked";
+      const err = 'Account is Blocked';
       res.send({ err });
     } else {
       res.send({ user });
     }
   } else {
-    const err = "Account incorrect";
+    const err = 'Account incorrect';
     res.send({ err });
   }
 };
 module.exports.getEmail = async (req, res) => {
-  const userEmails = await Users.find().select("user_email");
+  const userEmails = await Users.find().select('user_email');
   res.json(userEmails);
 };
 
 module.exports.checkAdmin = async (req, res) => {
   try {
     const user = await Users.findById(req.params.id);
-    if (user.user_group === "admin") {
+    if (user.user_group === 'admin') {
       res.send({ isAdmin: true });
     } else {
-      res.send({ err: "This user Is not admin" });
+      res.send({ err: 'This user Is not admin' });
     }
   } catch (err) {
     res.send({ err: err.message });
@@ -134,13 +134,13 @@ module.exports.deleteUser = async (req, res) => {
   if (req.params.id) {
     try {
       await Users.findByIdAndDelete(req.params.id);
-      res.send("success");
+      res.send('success');
     } catch (err) {
       res.send({ err });
     }
   } else {
     res.send({
-      err: "invalid id"
+      err: 'invalid id'
     });
   }
 };
@@ -149,16 +149,16 @@ module.exports.editUser = async (req, res) => {
   const { id } = req.params;
   let users = await Users.find();
   if (!req.body.user_name) {
-    res.send({ err: "Does not have any form" });
+    res.send({ err: 'Not have any form' });
   } else if (id) {
     const user = await Users.findById(id);
     if (!user) {
-      res.send({ err: "Does not have this user" });
+      res.send({ err: 'Not have this user' });
     } else {
       const u = req.body;
       users = users.filter(item => item.user_email !== user.user_email);
       const validEmail = users.find(item => item.user_email === u.user_email);
-      if (validEmail) res.send({ err: "Duplicate email" });
+      if (validEmail) res.send({ err: 'Duplicate email' });
       else {
         await Users.findByIdAndUpdate(id, {
           user_name: u.user_name,
@@ -169,24 +169,24 @@ module.exports.editUser = async (req, res) => {
           user_permission: u.user_permission,
           user_status: u.user_status
         });
-        res.send("Success");
+        res.send('Success');
       }
     }
   } else {
-    res.send({ err: "Invalid id" });
+    res.send({ err: 'Invalid id' });
   }
 };
 
 module.exports.getAdminPermission = async (req, res) => {
   try {
     const user = await Users.findById(req.params.id);
-    if (!user || user.user_group !== "admin") {
-      return res.status(401).send({ err: "Permission denied" });
+    if (!user || user.user_group !== 'admin') {
+      return res.status(401).send({ err: 'Permission denied' });
     } else {
       return res.send({ admin: user.user_permission });
     }
   } catch (err) {
-    return res.status(401).send({ err: "Permission denied" });
+    return res.status(401).send({ err: 'Permission denied' });
   }
 };
 
@@ -246,13 +246,13 @@ module.exports.getBillsOfUser = async (req, res) => {
 module.exports.findUserByEmail = async (req, res) => {
   if (!req.query || !req.query.user_email)
     return res.send({
-      err: "Not have any query",
+      err: 'Not have any query',
       found: false
     });
   try {
     const user = await Users.findOne({ user_email: req.query.user_email });
     if (!user)
-      return res.send({ err: "No user have this email", found: false });
+      return res.send({ err: 'No user have this email', found: false });
     res.send({ found: true, user });
   } catch (err) {
     res.send({ found: false, err: err.message });
@@ -266,53 +266,53 @@ module.exports.editPassword = async (req, res) => {
   if (user) {
     if (user.user_password === currPassword) {
       await Users.findByIdAndUpdate(id, { user_password: newPassword });
-      return res.send("success");
+      return res.send('success');
     } else {
-      return res.send({ err: "incorrect password" });
+      return res.send({ err: 'incorrect password' });
     }
   } else {
-    return res.send({ err: "Not have this user" });
+    return res.send({ err: 'Not have this user' });
   }
 };
 
 module.exports.renderResetPassword = async (req, res) => {
   const { token } = req.params;
-  if (!token) return res.send({ err: "invalid token" });
+  if (!token) return res.send({ err: 'invalid token' });
 
   const reset = await TokensResetPassword.findOne({ token: token });
 
-  if (!reset) return res.send({ err: "invalid token" });
+  if (!reset) return res.send({ err: 'invalid token' });
   const now = moment();
   const expired = moment(reset.expired);
   if (now.isBefore(expired)) {
     res.send({ token: token });
   } else {
-    return res.send({ err: "Expired" });
+    return res.send({ err: 'Expired' });
   }
 };
 
 module.exports.resetPassword = async (req, res) => {
   const { newPassword, token } = req.body;
   if (!newPassword || !token) {
-    return res.send("invalid new password or token");
+    return res.send('invalid new password or token');
   }
 
   const reset = await TokensResetPassword.findOne({ token: token });
-  if (!reset) return res.send({ err: "invalid token" });
+  if (!reset) return res.send({ err: 'invalid token' });
   const now = moment();
   const expired = moment(reset.expired);
   if (!now.isBefore(expired)) {
-    return res.send({ err: "Expired" });
+    return res.send({ err: 'Expired' });
   }
   const user = await Users.findById(reset.user);
-  if (!user) return res.send({ err: "user does not exist" });
+  if (!user) return res.send({ err: 'user does not exist' });
 
   try {
     await Users.findByIdAndUpdate(reset.user, { user_password: newPassword });
     await TokensResetPassword.findByIdAndUpdate(reset._id, {
       expired: moment()
     });
-    return res.send("success");
+    return res.send('success');
   } catch (err) {
     return res.send({ err: err.message });
   }
@@ -321,28 +321,28 @@ module.exports.resetPassword = async (req, res) => {
 module.exports.forgotPassword = async (req, res) => {
   const { user_email } = req.body;
 
-  if (!user_email) return res.send({ err: "null" });
+  if (!user_email) return res.send({ err: 'null' });
 
   const user = await Users.findOne({ user_email: user_email });
 
-  if (!user) return res.send({ err: "This email is not used by any user" });
+  if (!user) return res.send({ err: 'This email is not used by any user' });
 
   let token = await bcrypt.hash(user.user_email, 5);
-  token = token.replace(/\//g, "");
+  token = token.replace(/\//g, '');
 
   const transporter = nodeMailer.createTransport({
-    service: "gmail",
+    service: 'gmail',
     auth: {
-      user: "ninhnguyen375@gmail.com",
+      user: 'ninhnguyen375@gmail.com',
       pass: `console.log('Hello World');`
     }
   });
   const mailOptions = {
-    from: "Shopphone",
+    from: 'Shopphone',
     to: user_email,
-    subject: "SHOPPHONE, Reset Your Password",
+    subject: 'SHOPPHONE, Reset Your Password',
     html: `<a
-        href="${req.headers.origin.split("://")[0]}://${
+        href="${req.headers.origin.split('://')[0]}://${
       req.headers.host
     }/resetPassword?token=${token}"
       >

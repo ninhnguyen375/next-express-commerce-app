@@ -3,7 +3,7 @@ const Producers = require('../../models/producers.model');
 module.exports.index = async (req, res) => {
   const producers = await Producers.find();
   const data = {
-    data: producers,
+    data: producers
   };
   res.json(data);
 };
@@ -18,7 +18,7 @@ module.exports.deleteProducer = async (req, res) => {
     }
   } else {
     res.send({
-      err: 'invalid id',
+      err: 'invalid id'
     });
   }
 };
@@ -27,9 +27,11 @@ module.exports.addProducer = async (req, res) => {
   const { body } = req;
   const producers = await Producers.find();
   if (!body) {
-    res.send({ err: 'Does not have any form' });
+    res.send({ err: 'Not have any form' });
   } else {
-    const isDuplicate = producers.find(item => item.producer_id === body.producer_id);
+    const isDuplicate = producers.find(
+      item => item.producer_id === body.producer_id
+    );
     if (isDuplicate) res.send({ err: 'Duplicate ID' });
     else {
       try {
@@ -46,20 +48,24 @@ module.exports.editProducer = async (req, res) => {
   const { id } = req.params;
   let producers = await Producers.find();
   if (!req.body.producer_name) {
-    res.send({ err: 'Does not have any form' });
+    res.send({ err: 'Not have any form' });
   } else if (id) {
     const producer = await Producers.findById(id);
     if (!producer) {
-      res.send({ err: 'Does not have this producer' });
+      res.send({ err: 'Not have this producer' });
     } else {
       const u = req.body;
-      producers = producers.filter(item => item.producer_id !== producer.producer_id);
-      const validId = producers.find(item => item.producer_id === u.producer_id);
+      producers = producers.filter(
+        item => item.producer_id !== producer.producer_id
+      );
+      const validId = producers.find(
+        item => item.producer_id === u.producer_id
+      );
       if (validId) res.send({ err: 'Duplicate ID' });
       else {
         await Producers.findByIdAndUpdate(id, {
           producer_name: u.producer_name,
-          producer_id: u.producer_id,
+          producer_id: u.producer_id
         });
         res.send('Success');
       }

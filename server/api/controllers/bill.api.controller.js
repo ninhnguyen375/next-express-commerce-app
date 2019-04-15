@@ -47,11 +47,11 @@ module.exports.deleteBill = async (req, res) => {
 module.exports.editBill = async (req, res) => {
   const { id } = req.params;
   if (!req.body) {
-    res.send({ err: 'Does not have any form' });
+    res.send({ err: 'Not have any form' });
   } else if (id) {
     const bill = await Bills.findById(id);
     if (!bill) {
-      res.send({ err: 'Does not have this bill' });
+      res.send({ err: 'Not have this bill' });
     } else {
       try {
         await Bills.findByIdAndUpdate(id, { status: req.body.status });

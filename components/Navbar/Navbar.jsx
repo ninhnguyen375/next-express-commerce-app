@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import SignedNav from "./SignedNav";
-import UnSignedNav from "./UnSignedNav";
-import Link from "next/link";
-import Router from "next/router";
-import { InputBase } from "@material-ui/core";
+import React, { Component } from 'react';
+import SignedNav from './SignedNav';
+import UnSignedNav from './UnSignedNav';
+import Link from 'next/link';
+import Router from 'next/router';
 
 class Navbar extends Component {
   state = {
     signed: true,
-    searchValue: "a"
+    searchValue: 'a'
   };
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -20,7 +19,7 @@ class Navbar extends Component {
   render() {
     return (
       <>
-        <div className="NavBar none-bg">
+        <div className="NavBar">
           <div className="left-menu">
             <Link href="/">
               <a>
@@ -34,7 +33,7 @@ class Navbar extends Component {
                 <SignedNav
                   onLogout={this.props.onLogout}
                   userName={this.props.auth.auth_name}
-                  isAdmin={this.props.auth.auth_group === "admin"}
+                  isAdmin={this.props.auth.auth_group === 'admin'}
                 />
               ) : (
                 <UnSignedNav />

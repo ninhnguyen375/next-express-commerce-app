@@ -1,15 +1,12 @@
-@import "./scrollBar";
+@import './scrollBar';
 
 $primary-bg: #2323bb;
 $secondary: rgb(113, 54, 168);
 
 $desktop: 860px;
 
-
-
-
 * {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 @mixin mobile {
@@ -34,4 +31,10 @@ body {
 }
 .text-gray {
   color: gray;
+}
+.text-center {
+  text-align: center;
+}
+.text-danger {
+  color: rgb(238, 73, 31);
 }

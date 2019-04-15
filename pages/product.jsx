@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import ProductDetails from '../components/Product/ProductDetails';
-import { Button, Divider } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import ProductList from '../components/Product/ProductList';
 
 class product extends Component {

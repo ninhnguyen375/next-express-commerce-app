@@ -18,7 +18,10 @@ class CategoryList extends React.Component {
           {this.props.categories && (
             <>
               {this.props.categories.map(item => (
-                <Link key={item._id} href={'/?category=' + item.producer_id}>
+                <Link
+                  key={item._id}
+                  href={`/?category=${item.producer_id}#content`}
+                >
                   <a>
                     <div
                       data-aos="fade-up"

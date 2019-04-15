@@ -11,6 +11,10 @@ class ProductDetails extends Component {
   };
 
   handleChange = e => {
+    if (e.target.value > 5 || e.target.value < 1) {
+      alert('1 to 5');
+      return;
+    }
     this.setState({ [e.target.name]: e.target.value });
   };
   validated__input = (stateValue, name, regex) => {

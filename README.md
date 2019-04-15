@@ -3,7 +3,7 @@
 **What is** [NextJS](https://github.com/zeit/next.js), [ReactJS](https://reactjs.org/), [NodeJS](https://nodejs.org/), [MongoDB](https://www.mongodb.com/)
 
 **Demo**
-[Hosting on Heroku](https://nextjs.org) -
+[Hosting on Heroku](https://nextjs-first-app.herokuapp.com) -
 You may have to wait for the Heroku to start
 
 **Setup**

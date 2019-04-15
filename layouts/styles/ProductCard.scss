@@ -1,19 +1,20 @@
-@import "./App.scss";
+@import './App.scss';
 
-.product-list__container{
+.product-list__container {
   margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 .ProductCard {
-  margin: 30px ;
+  margin: 30px;
   width: 240px;
   height: auto;
   padding: 10px;
   border-radius: 5px;
-  transition: .5s;
-  &:hover{
+  box-shadow: 0 0 10px #c5c5c5;
+  transition: 0.5s;
+  &:hover {
     box-shadow: 0 0 10px #c5c5c5;
   }
   .card-image {
@@ -76,7 +77,7 @@
       color: rgb(226, 90, 49);
       margin-top: 5px;
       &::before {
-        content: "$";
+        content: '$';
       }
     }
   }

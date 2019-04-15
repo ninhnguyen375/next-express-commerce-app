@@ -302,7 +302,7 @@ class EditProduct extends Component {
             </Grid>
           </Grid>
         ) : (
-          <h1>Does not have this product.</h1>
+          <h1>Not have this product.</h1>
         )}
       </div>
     );

@@ -320,7 +320,7 @@ class EditUser extends Component {
             </Grid>
           </Grid>
         ) : (
-          <h1>Does not have this user.</h1>
+          <h1>Not have this user.</h1>
         )}
       </div>
     );

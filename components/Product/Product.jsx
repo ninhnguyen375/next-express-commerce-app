@@ -6,46 +6,41 @@ export class Product extends Component {
   state = {
     products: [],
     err: null,
-    loading: true
+    isLoading: true
   };
-  // Get products from server
+
   getProducts = async category => {
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
     try {
       const res = category
-        ? await Axios.get('/api/products?producer_id=' + category)
+        ? await Axios.get(`/api/products?producer_id=${category}`)
         : await Axios.get('/api/products');
       const products = res.data.data;
-
-      this.setState({
-        ...this.state,
-        products
-      });
+      this.setState({ ...this.state, products });
     } catch (err) {
       this.setState({ ...this.state, err: err.message });
     }
-    this.setState({ loading: false });
+    this.setState({ isLoading: false });
   };
 
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.category !== prevProps.category)
-      await this.getProducts(this.props.category);
+      this.getProducts(this.props.category);
   }
 
-  async componentDidMount() {
-    this.props.category
-      ? await this.getProducts(this.props.category)
-      : await this.getProducts();
+  componentDidMount() {
+    this.getProducts(this.props.category);
   }
 
   render() {
+    const { products, isLoading } = this.state;
     return (
       <>
-        {this.state.products[0] ? (
-          <ProductList products={this.state.products} />
+        {products[0] ? (
+          <ProductList products={products} />
         ) : (
-          <h3 style={{ color: 'gray', textAlign: 'center' }}>
-            {this.state.loading ? 'loading' : 'Empty'}
+          <h3 className={'text-gray text-center'}>
+            {isLoading ? 'Loading...' : 'Empty'}
           </h3>
         )}
       </>

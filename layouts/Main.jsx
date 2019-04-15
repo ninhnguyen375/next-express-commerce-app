@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import Footer from "../components/Footer/Footer";
-import Axios from "axios";
-import Router from "next/router";
-import GlobalState from "../context/GlobalState";
-import { MainStyles } from "./main.styles";
-import { ToVietnamese } from "../translate/ToVietnamese";
-import Navbar from "../components/Navbar/Navbar";
+import React, { Component } from 'react';
+import Footer from '../components/Footer/Footer';
+import Axios from 'axios';
+import Router from 'next/router';
+import GlobalState from '../context/GlobalState';
+import { MainStyles } from './main.styles';
+import { ToVietnamese } from '../translate/ToVietnamese';
+import Navbar from '../components/Navbar/Navbar';
 
 class Main extends Component {
   state = {
@@ -13,19 +13,19 @@ class Main extends Component {
   };
 
   handleLogout = () => {
-    window.sessionStorage.removeItem("auth");
-    Router.push("/signin");
+    window.sessionStorage.removeItem('auth');
+    Router.push('/signin');
   };
 
   checkLogin = async () => {
     let newAuth = {};
 
     // get auth from session
-    const auth = JSON.parse(window.sessionStorage.getItem("auth"));
+    const auth = JSON.parse(window.sessionStorage.getItem('auth'));
 
     if (auth) {
       // check auth with database
-      const user = await Axios.get("/api/users/" + auth.auth_key);
+      const user = await Axios.get('/api/users/' + auth.auth_key);
       if (!user.err) {
         newAuth = {
           auth_name: user.data.user.user_name,
@@ -46,7 +46,29 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    const navbar = document.querySelector('.NavBar');
+    let slider = null;
+
     this.checkLogin();
+
+    const { route } = Router;
+
+    if (route === '/') {
+      slider = document.querySelector('.slider');
+      navbar.classList.add('bg-transparent');
+      navbar.style.position = 'fixed';
+
+      window.onscroll = () => {
+        if (window.scrollY > slider.clientHeight - navbar.clientHeight) {
+          navbar.classList.remove('bg-transparent');
+        } else {
+          navbar.classList.add('bg-transparent');
+        }
+      };
+    } else {
+      navbar.classList.remove('bg-transparent');
+      navbar.style.position = 'sticky';
+    }
   }
 
   render() {

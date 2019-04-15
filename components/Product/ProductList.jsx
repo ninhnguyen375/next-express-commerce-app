@@ -1,13 +1,9 @@
-import React, { Component } from "react";
-import { Fab, Grid } from "@material-ui/core";
-import ProductCard from "./ProductCard";
-import PropTypes from "prop-types";
-import {
-  ChevronLeft,
-  ChevronRight,
-  FirstPage,
-  LastPage
-} from "@material-ui/icons";
+import React, { Component } from 'react';
+import { Grid } from '@material-ui/core';
+import ProductCard from './ProductCard';
+import PropTypes from 'prop-types';
+
+import Pagination from './Pagination';
 
 export class ProductList extends Component {
   state = {
@@ -50,110 +46,10 @@ export class ProductList extends Component {
     this.handleChangePage(this.state.currentPageButton + 1);
   };
 
-  // get page buttons
-  pageButtons = () => {
-    let pageButtons = [];
-    if (this.state.currentPageButton > 1) {
-      pageButtons.push(
-        <a href="#content" key="firstPage">
-          <Fab
-            onClick={this.handleChangePage(1)}
-            size="small"
-            style={{ margin: 5 }}
-          >
-            <FirstPage />
-          </Fab>
-        </a>
-      );
-      pageButtons.push(
-        <a key="prevPage" href="#content">
-          <Fab
-            onClick={this.handleChangePage(this.state.currentPageButton - 1)}
-            size="small"
-            style={{ margin: 5 }}
-            color={"default"}
-          >
-            <ChevronLeft />
-          </Fab>
-        </a>
-      );
-
-      if (this.state.currentPageButton - 2 > 0) {
-        pageButtons.push(
-          <Fab
-            key={"hiddenPageLeft"}
-            size="small"
-            title={`1 - ${this.state.currentPageButton - 2}`}
-            style={{ margin: 5, boxShadow: "none" }}
-          >
-            {"..."}
-          </Fab>
-        );
-      }
-    }
-    for (
-      let i = this.state.currentPageButton - 1;
-      i <= this.state.currentPageButton + 1 && i <= this.state.pages;
-      i++
-    ) {
-      if (i === 0) continue;
-      pageButtons.push(
-        <a href={"#content"} key={i}>
-          <Fab
-            onClick={this.handleChangePage(i)}
-            size="small"
-            style={{ margin: 5, boxShadow: "none" }}
-            color={this.state.currentPageButton === i ? "primary" : "default"}
-          >
-            {i}
-          </Fab>
-        </a>
-      );
-    }
-    if (this.state.currentPageButton < this.state.pages) {
-      if (this.state.currentPageButton + 2 < this.state.pages) {
-        pageButtons.push(
-          <Fab
-            key={"hiddenPageRight"}
-            title={`${this.state.currentPageButton + 2} - ${this.state.pages}`}
-            size="small"
-            style={{ margin: 5, boxShadow: "none" }}
-          >
-            {"..."}
-          </Fab>
-        );
-      }
-      pageButtons.push(
-        <a href="#content" key="nextPage">
-          <Fab
-            onClick={this.handleChangePage(this.state.currentPageButton + 1)}
-            size="small"
-            style={{ margin: 5 }}
-          >
-            <ChevronRight />
-          </Fab>
-        </a>
-      );
-      pageButtons.push(
-        <a href="#content" key="lastPage">
-          <Fab
-            onClick={this.handleChangePage(this.state.pages)}
-            size="small"
-            style={{ margin: 5 }}
-          >
-            <LastPage />
-          </Fab>
-        </a>
-      );
-    }
-    return pageButtons;
-  };
-
   render() {
     return (
       <>
-        {/* List Products */}
-        <div className={"product-list__container"}>
+        <div className={'product-list__container'}>
           {this.state.productsOnPage &&
             this.state.productsOnPage.map(product => (
               <ProductCard product={product} key={product._id} />
@@ -168,7 +64,11 @@ export class ProductList extends Component {
               marginTop: 30
             }}
           >
-            {this.pageButtons().map(btn => btn)}
+            <Pagination
+              currPage={this.state.currentPageButton}
+              lastPage={this.state.pages}
+              handleChangePage={this.handleChangePage}
+            />
           </Grid>
         )}
       </>

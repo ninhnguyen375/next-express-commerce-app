@@ -6,7 +6,8 @@ import { Button } from '@material-ui/core';
 const content = [
   {
     image: '/static/image/banner_iphone_large.jpg',
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed cum eum exercitationem, aliquam vero iste? Minus sapiente officia animi amet ex maxime alias tempora est autem quia, illo iure nesciunt?',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed cum eum exercitationem, aliquam vero iste? Minus sapiente officia animi amet ex maxime alias tempora est autem quia, illo iure nesciunt?',
     title: 'Wellcome To Shopphone',
     button: 'Buy now'
   },
@@ -18,8 +19,7 @@ const content = [
     button: 'Buy now'
   },
   {
-    image:
-      '/static/image/0932-ssdc-dotcom-updates-september-if-awards-d3a-desktop-xz-premium-90b8b9fc58ca61e88cce10015c0f2b3e.jpg',
+    image: '/static/image/banner_iphone_large.jpg',
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed cum eum exercitationem, aliquam vero iste? Minus sapiente officia animi amet ex maxime alias tempora est autem quia, illo iure nesciunt?',
     title: 'Wellcome To Shopphone',

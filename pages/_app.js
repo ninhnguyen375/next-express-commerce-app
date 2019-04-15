@@ -15,15 +15,43 @@ import '../layouts/styles/MySlider.scss';
 import '../layouts/styles/ProductCard.scss';
 import '../layouts/styles/CategoryList.scss';
 import '../layouts/styles/ResetPassword.scss';
+import '../layouts/styles/FormCenter.scss';
 
-Router.events.on('routeChangeStart', () => {
-  Nprogress.start();
-});
+if (process.env.NODE_ENV === 'production') {
+  Router.events.on('routeChangeStart', () => {
+    Nprogress.start();
+  });
+  Router.events.on('routeChangeComplete', () => {
+    Nprogress.done();
+  });
+  Router.events.on('routeChangeError', () => {
+    Nprogress.done();
+  });
+}
+
+const toggleBgNavBar = (navbar, slider) => {
+  if (window.scrollY > slider.clientHeight - navbar.clientHeight) {
+    navbar.classList.remove('bg-transparent');
+  } else {
+    navbar.classList.add('bg-transparent');
+  }
+};
+
 Router.events.on('routeChangeComplete', () => {
-  Nprogress.done();
-});
-Router.events.on('routeChangeError', () => {
-  Nprogress.done();
+  const navbar = document.querySelector('.NavBar');
+  const { route } = Router;
+
+  if (route === '/') {
+    const slider = document.querySelector('.slider');
+    navbar.style.position = 'fixed';
+    toggleBgNavBar(navbar, slider);
+    window.onscroll = () => {
+      toggleBgNavBar(navbar, slider);
+    };
+  } else {
+    navbar.classList.remove('bg-transparent');
+    navbar.style.position = 'sticky';
+  }
 });
 
 class MyApp extends App {

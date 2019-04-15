@@ -1,0 +1,28 @@
+@import './App.scss';
+.text-center {
+  text-align: center;
+}
+.form-center {
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  margin: 50px auto;
+  justify-content: center;
+  padding: 20px 30px 30px 30px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px gray;
+
+  .title {
+    color: gray;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  input,
+  .submit {
+    width: 350px;
+    display: block;
+  }
+  .submit {
+    margin-top: 30px;
+  }
+}
