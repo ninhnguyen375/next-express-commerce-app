@@ -8,7 +8,8 @@ export class search extends Component {
   state = {
     categories: [],
     products: [],
-    searchResult: []
+    searchResult: [],
+    isLoading: true
   };
 
   async componentDidMount() {
@@ -16,6 +17,7 @@ export class search extends Component {
     const categories = await Axios.get('/api/producers');
     this.setState({
       ...this.state,
+      isLoading: false,
       categories: categories.data.data,
       products: products.data.data
     });
@@ -77,7 +79,7 @@ export class search extends Component {
   render() {
     return (
       <>
-<style jsx global>{`
+        <style jsx global>{`
           * {
             scroll-behavior: smooth;
           }
@@ -88,10 +90,16 @@ export class search extends Component {
           categories={this.state.categories}
           renderSearchResult={this.renderSearchResult}
         />
-        {this.state.searchResult[0] ? (
-          <ProductList products={this.state.searchResult} />
+        {this.state.isLoading ? (
+          <h1 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h1>
         ) : (
-          <h1 style={{ color: 'gray', textAlign: 'center' }}>Empty</h1>
+          <>
+            {this.state.searchResult[0] ? (
+              <ProductList products={this.state.searchResult} />
+            ) : (
+              <h1 style={{ color: 'gray', textAlign: 'center' }}>Empty</h1>
+            )}
+          </>
         )}
       </>
     );

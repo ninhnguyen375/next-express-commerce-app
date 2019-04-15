@@ -7,11 +7,16 @@ import CategoryList from '../components/CategoryList';
 import Axios from 'axios';
 
 const isServer = !process.browser;
+const isProduction = process.env.NODE_ENV === 'production';
 
 export class index extends Component {
   static async getInitialProps(ctx) {
+    console.log(isProduction, 'isproduction');
+
     const url = isServer
-      ? `httpsctx.req.headers.host}/api/producers`
+      ? `${isProduction ? 'https' : 'http'}://${
+          ctx.req.headers.host
+        }/api/producers`
       : '/api/producers';
 
     const categories = await Axios.get(url);

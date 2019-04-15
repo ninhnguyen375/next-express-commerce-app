@@ -4,17 +4,17 @@ import ProductDetails from '../components/Product/ProductDetails';
 import { Divider } from '@material-ui/core';
 import ProductList from '../components/Product/ProductList';
 
+const isServer = !process.browser;
+const isProduction = process.env.NODE_ENV === 'production';
+
 class product extends Component {
   static async getInitialProps(ctx) {
     const id = ctx.query.id;
-    let url = '';
-
-    // check for server render or client render
-    if (!ctx.req || !ctx.req.headers) {
-      url = `/api/products/${id}`;
-    } else {
-      url = `https://${ctx.req.headers.host}/api/products/${id}`;
-    }
+    const url = isServer
+      ? `${isProduction ? 'https' : 'http'}://${
+          ctx.req.headers.host
+        }/api/products/${id}`
+      : `/api/products/${id}`;
 
     try {
       const res = await Axios.get(url);

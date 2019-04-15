@@ -29,6 +29,7 @@ class Navbar extends React.Component {
     window.localStorage.removeItem('adminPageAccess');
     window.location = '/admin';
   };
+
   toggleSidebar = () => {
     const sidebar = window.document.getElementsByClassName('sidebar')[0];
     const app = window.document.getElementsByClassName('App')[0];
@@ -40,6 +41,7 @@ class Navbar extends React.Component {
       sidebar.style.display = 'none';
     }
   };
+
   render() {
     const { classes } = this.props;
 

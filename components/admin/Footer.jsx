@@ -15,7 +15,7 @@ class Footer extends Component {
         <Grid item>
           <a
             style={{ color: 'blue' }}
-            href="https://github.com/ninhnguyen375/doanweb2"
+            href="https://github.com/ninhnguyen375/next-express-commerce-app"
           >
             Project on Github
           </a>

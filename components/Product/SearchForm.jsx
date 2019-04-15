@@ -10,7 +10,16 @@ export class SearchForm extends Component {
     sortByName: '',
     sortByPrice: ''
   };
-
+  handleReset = () => {
+    this.setState({
+      searchByPriceTo: '',
+      searchByPriceFrom: '',
+      searchByName: '',
+      searchByCategory: '',
+      sortByName: '',
+      sortByPrice: ''
+    });
+  };
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -39,6 +48,9 @@ export class SearchForm extends Component {
             flex-wrap: wrap;
             align-items: flex-end;
             justify-content: center;
+          }
+          .search-form * {
+            margin: 3px;
           }
         `}</style>
         <form onSubmit={this.handleSubmitSearch} className="search-form">
@@ -128,6 +140,10 @@ export class SearchForm extends Component {
             </Select>
           </div>
 
+          {/* reset */}
+          <Button onClick={this.handleReset} type="reset">
+            reset
+          </Button>
           {/* Filter */}
           <Button type="submit" variant="contained" color="primary">
             Filter

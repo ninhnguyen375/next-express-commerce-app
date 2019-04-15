@@ -9,11 +9,11 @@ class ProductCard extends Component {
   state = {
     addError: '',
     addSuccess: false,
-    loading: false
+    isLoading: false
   };
 
   componentWillMount() {
-    this.setState({ loading: false });
+    this.setState({ isLoading: false });
   }
 
   componentWillUnmount() {
@@ -21,7 +21,7 @@ class ProductCard extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.product !== nextProps.product;
+    return this.props.product !== nextProps.product || nextState !== this.state;
   }
 
   handleAddToCart = async () => {
@@ -30,7 +30,7 @@ class ProductCard extends Component {
       alert('You must to Login First!');
       return;
     }
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
     try {
       const addCart = await Axios.post('/api/carts', {
         userId: auth.auth_key,
@@ -45,7 +45,7 @@ class ProductCard extends Component {
     } catch (err) {
       this.setState({ addError: err.message });
     }
-    this.setState({ loading: false });
+    this.setState({ isLoading: false });
   };
 
   render() {
@@ -74,7 +74,7 @@ class ProductCard extends Component {
                   </Link>
                 ) : (
                   <div className="btn-cart" onClick={this.handleAddToCart}>
-                    {this.state.loading ? '...' : <ShoppingCart />}
+                    {this.state.isLoading ? '...' : <ShoppingCart />}
                   </div>
                 )}
               </>
