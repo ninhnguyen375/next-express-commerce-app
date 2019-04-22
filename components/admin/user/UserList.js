@@ -194,7 +194,13 @@ class UserListToolbar extends React.Component {
   handleDelete = async () => {
     if (!confirm('Are you sure?')) return;
     this.setState({ isDeleting: true });
+
     await this.props.deleteUsers(this.props.selected);
+
+    if (this.props.deleteError) {
+      alert('Permission Denied!');
+      window.location = '/admin';
+    }
   };
 
   componentWillUnmount() {
@@ -256,7 +262,8 @@ UserListToolbar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    numDeleted: state.user.numDeleted
+    numDeleted: state.user.numDeleted,
+    deleteError: state.user.deleteError
   };
 };
 const mapDispatchToProps = dispatch => {

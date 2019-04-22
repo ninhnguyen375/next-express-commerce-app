@@ -10,6 +10,8 @@ router.post('/forgotPassword', controller.forgotPassword);
 router.get('/', controller.index);
 router.post('/signin', controller.postSignIn);
 router.post('/', controller.postSignUp);
+// router.post('/', controller.createUserByAdmin);
+
 router.get('/email', controller.getEmail);
 router.get('/find/', controller.findUserByEmail);
 

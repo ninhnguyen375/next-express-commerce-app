@@ -218,6 +218,10 @@ class BillListToolbar extends React.Component {
     if (!confirm('Are you sure?')) return;
     this.setState({ isDeleting: true });
     await this.props.deleteBills(this.props.selected);
+    if (this.props.deleteError) {
+      alert('Permission Denied!');
+      window.location = '/admin';
+    }
   };
 
   componentWillUnmount() {
@@ -283,7 +287,8 @@ BillListToolbar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    numDeleted: state.bill.numDeleted
+    numDeleted: state.bill.numDeleted,
+    deleteError: state.bill.deleteError
   };
 };
 const mapDispatchToProps = dispatch => {

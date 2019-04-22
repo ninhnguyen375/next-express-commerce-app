@@ -9,13 +9,14 @@ export class ProductList extends Component {
   state = {
     productsOnPage: null,
     pages: 1,
-    currentPageButton: 1
+    currentPage: 1
   };
 
   renderPage = products => {
     this.setState({
       productsOnPage: products.slice(0, 8),
-      pages: Math.ceil(products.length / 8)
+      pages: Math.ceil(products.length / 8),
+      currentPage: 1
     });
   };
 
@@ -35,15 +36,15 @@ export class ProductList extends Component {
     this.setState({
       ...this.state,
       productsOnPage: this.props.products.slice(start, end),
-      currentPageButton: page
+      currentPage: page
     });
   };
 
   handleClickPrevPage = () => {
-    this.handleChangePage(this.state.currentPageButton - 1);
+    this.handleChangePage(this.state.currentPage - 1);
   };
   handleClickNextPage = () => {
-    this.handleChangePage(this.state.currentPageButton + 1);
+    this.handleChangePage(this.state.currentPage + 1);
   };
 
   render() {
@@ -65,7 +66,7 @@ export class ProductList extends Component {
             }}
           >
             <Pagination
-              currPage={this.state.currentPageButton}
+              currPage={this.state.currentPage}
               lastPage={this.state.pages}
               handleChangePage={this.handleChangePage}
             />

@@ -56,7 +56,7 @@ class SignInAdmin extends Component {
           admin_name: admin.data.adminDetails.user_name,
           admin_key: admin.data.adminDetails._id
         };
-        window.localStorage.setItem(
+        window.sessionStorage.setItem(
           'adminPageAccess',
           JSON.stringify(objAdmin)
         );

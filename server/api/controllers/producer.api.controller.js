@@ -1,4 +1,5 @@
 const Producers = require('../../models/producers.model');
+const Products = require('../../models/products.model');
 
 module.exports.index = async (req, res) => {
   const producers = await Producers.find();
@@ -9,15 +10,28 @@ module.exports.index = async (req, res) => {
 };
 
 module.exports.deleteProducer = async (req, res) => {
-  if (req.params.id) {
+  const { id } = req.params;
+  if (id) {
     try {
-      await Producers.findByIdAndDelete(req.params.id);
-      res.send('success');
+      const producer = await Producers.findById(id);
+      const product = await Products.findOne({
+        producer: producer.producer_id
+      });
+      if (product) {
+        return res.send({
+          err: `Can't delete ${
+            producer.producer_name
+          }, this has a lot of products`
+        });
+      } else {
+        await Producers.findByIdAndDelete(id);
+        return res.send('success');
+      }
     } catch (err) {
-      res.send({ err });
+      return res.send({ err });
     }
   } else {
-    res.send({
+    return res.send({
       err: 'invalid id'
     });
   }

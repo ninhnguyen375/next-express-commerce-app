@@ -128,7 +128,7 @@ class EditProduct extends Component {
 
   // submit edit
   handleSubmit = async e => {
-    const { editError, editProduct } = this.props;
+    const { editProduct } = this.props;
     e.preventDefault();
     if (!this.valudated__form()) {
       return;
@@ -137,7 +137,7 @@ class EditProduct extends Component {
 
     await editProduct(this.state);
 
-    if (!editError) {
+    if (!this.props.editError) {
       this.setState({
         ...this.state,
         onLoading: false,
@@ -146,6 +146,14 @@ class EditProduct extends Component {
         stateImgPath: this.state.product_img_path
           ? `/static/uploads/${this.state.product_img_path.trim()}`
           : `${this.state.stateImgPath}`
+      });
+    } else {
+      alert('Permission Denied!');
+      window.location = '/admin';
+      this.setState({
+        ...this.state,
+        onLoading: false,
+        message: this.props.editError
       });
     }
   };
@@ -163,7 +171,6 @@ class EditProduct extends Component {
         product_price: pro.product_price,
         producer: producer.producer_id,
         quantity: pro.quantity,
-        product_img_path: pro.product_img,
         _id: pro._id,
         stateImgPath: `/static${pro.product_img}`
       });
@@ -310,7 +317,7 @@ class EditProduct extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
-  const products = state.product.products;
+  const { products } = state.product;
   let product = null;
   let haveProduct = false;
   if (products) {

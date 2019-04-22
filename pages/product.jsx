@@ -5,7 +5,7 @@ import { Divider } from '@material-ui/core';
 import ProductList from '../components/Product/ProductList';
 
 const isServer = !process.browser;
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = !process.env.NODE_ENV === 'production';
 
 class product extends Component {
   static async getInitialProps(ctx) {

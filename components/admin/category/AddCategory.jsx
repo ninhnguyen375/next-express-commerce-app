@@ -77,22 +77,27 @@ class AddCategory extends Component {
     return true;
   };
   handleSubmit = async e => {
+    this.setState({ isAdding: true });
+
     e.preventDefault();
     if (!this.valudated__form()) {
       return;
     }
-    this.setState({ isAdding: true });
+
     await this.props.createCategory(this.state);
+
     if (!this.props.createError) {
       this.props.getCategoriesWithRedux();
       this.setState({
-        isAdding: false,
         open: true,
         message: `Adding ${this.state.producer_id} success`
       });
-    } else {
-      this.setState({ isAdding: false });
+    } else if (this.props.createError === 'Permision Denied') {
+      alert('Permission Denied!');
+      window.location = '/admin';
     }
+
+    this.setState({ isAdding: false });
   };
 
   render() {

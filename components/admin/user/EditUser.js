@@ -117,24 +117,26 @@ class EditUser extends Component {
   };
   // submit edit
   handleSubmit = async e => {
-    e.preventDefault();
-    if (!this.valudated__form()) {
-      return;
-    }
     this.setState({ onLoading: true });
+    e.preventDefault();
+
+    if (!this.valudated__form()) return;
+
     await this.props.editUser(this.state);
+
     if (!this.props.editError) {
       this.setState({
-        onLoading: false,
         open: true,
         message: `Edit ${this.state.user_email} success`
       });
     } else {
-      this.setState({
-        onLoading: false
-      });
+      alert('Permission Denied!');
+      window.location = '/admin';
     }
+
+    this.setState({ onLoading: false });
   };
+
   async componentDidMount() {
     await this.props.getUsersWithRedux();
     if (this.props.haveUser) {

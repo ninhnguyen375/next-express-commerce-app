@@ -30,9 +30,16 @@ const styles = () => ({
   }
 });
 export class Category extends Component {
+  state = {
+    openSnackNumDeleted: false,
+    messDeleted: '',
+    adminAccess: true
+  };
+
   async componentDidMount() {
-    const admin_key = JSON.parse(window.localStorage.getItem('adminPageAccess'))
-      .admin_key;
+    const admin_key = JSON.parse(
+      window.sessionStorage.getItem('adminPageAccess')
+    ).admin_key;
     const admin = await Axios.get(`/api/users/${admin_key}/adminPermission`);
     if (!admin.data.admin.category) {
       this.setState({ ...this.state, adminAccess: false });
@@ -42,11 +49,13 @@ export class Category extends Component {
       await dispatch(getCategoriesWithRedux());
     }
   }
+
   handleClose = () => {
     this.setState({ openSnackNumDeleted: false });
     const { dispatch } = this.props;
     dispatch(closeAlertDeleted());
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.numDeleted) {
       this.setState({
@@ -55,11 +64,6 @@ export class Category extends Component {
       });
     }
   }
-  state = {
-    openSnackNumDeleted: false,
-    messDeleted: '',
-    adminAccess: true
-  };
   render() {
     const { classes, numDeleted } = this.props;
     return (

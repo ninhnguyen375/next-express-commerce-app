@@ -57,6 +57,50 @@ module.exports.postSignUp = async (req, res) => {
   }
 };
 
+module.exports.createUserByAdmin = async (req, res) => {
+  const users = await Users.find();
+  const reqUser = req.body;
+  if (
+    !reqUser ||
+    !reqUser.user_name ||
+    !reqUser.user_phone ||
+    !reqUser.user_email ||
+    !reqUser.user_password
+  ) {
+    return res.send({ err: 'Not have enough data' });
+  }
+  const isDuplicatedEmail = users.find(
+    user => user.user_email === reqUser.user_email
+  );
+
+  if (isDuplicatedEmail) {
+    return res.send({ err: 'This email has been used' });
+  }
+
+  try {
+    const obj = {
+      user_email: reqUser.user_email,
+      user_name: reqUser.user_name,
+      user_phone: reqUser.user_phone,
+      user_password: reqUser.user_password,
+      user_status: reqUser.user_status || true,
+      user_group: reqUser.user_group || 'client',
+      user_permission: reqUser.user_permission || {
+        product: false,
+        bill: false,
+        user: false,
+        category: false
+      }
+    };
+
+    await Users.insertMany(obj);
+
+    res.send('success');
+  } catch (err) {
+    res.send({ err: err.message });
+  }
+};
+
 module.exports.getUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -112,6 +156,7 @@ module.exports.postSignInClient = async (req, res) => {
     res.send({ err });
   }
 };
+
 module.exports.getEmail = async (req, res) => {
   const userEmails = await Users.find().select('user_email');
   res.json(userEmails);
@@ -243,6 +288,7 @@ module.exports.getBillsOfUser = async (req, res) => {
     return res.send({ err: err.message });
   }
 };
+
 module.exports.findUserByEmail = async (req, res) => {
   if (!req.query || !req.query.user_email)
     return res.send({

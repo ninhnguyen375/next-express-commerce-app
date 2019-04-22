@@ -3,6 +3,8 @@ const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const https = require('https');
 
 const PORT = process.env.PORT || 3002;
 const dev = process.env.NODE_ENV !== 'production';
@@ -44,6 +46,20 @@ app.prepare().then(() => {
   server.get('*', (req, res) => {
     return handle(req, res);
   });
+
+  // const options = {
+  //   key: fs.readFileSync('/home/ninh/ninh.key'),
+  //   cert: fs.readFileSync('/home/ninh/ninh.crt'),
+  //   passphrase: 'ninh',
+  //   requestCert: false,
+  //   rejectUnauthorized: false
+  // };
+
+  // const localServer = https.createServer(options, server);
+
+  // localServer.listen(PORT, function() {
+  //   console.log('Start at https://ninh:' + PORT);
+  // });
 
   // server listen
   server.listen(PORT, () => {

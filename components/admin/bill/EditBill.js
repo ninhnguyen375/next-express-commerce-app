@@ -79,9 +79,8 @@ class EditBill extends Component {
         message: `Edit ${this.state._id} success`
       });
     } else {
-      this.setState({
-        onLoading: false
-      });
+      alert('Permission Denied!');
+      window.location = '/admin';
     }
   };
   async componentDidMount() {

@@ -24,7 +24,10 @@ import {
 import { Build, FilterList, Delete } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import { deleteCategories } from '../../../store/action/categoryAction';
+import {
+  deleteCategories,
+  getCategoriesWithRedux
+} from '../../../store/action/categoryAction';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -172,8 +175,24 @@ const toolbarStyles = theme => ({
 class CategoryListToolbar extends React.Component {
   handleDelete = async () => {
     if (!confirm('Are you sure?')) return;
+
     this.setState({ isDeleting: true });
+
     await this.props.deleteCategories(this.props.selected);
+
+    if (this.props.deleteError && this.props.deleteError[0]) {
+      this.props.deleteError.forEach(item => {
+        alert(item);
+        if (item === 'Permission Denied') {
+          alert('Permission Denied!');
+          window.location = '/admin';
+        }
+      });
+    }
+
+    this.props.getCategoriesWithRedux();
+
+    this.setState({ isDeleting: false });
   };
 
   componentWillUnmount() {
@@ -235,12 +254,14 @@ CategoryListToolbar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    numDeleted: state.category.numDeleted
+    numDeleted: state.category.numDeleted,
+    deleteError: state.category.deleteError
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    deleteCategories: categories => dispatch(deleteCategories(categories))
+    deleteCategories: categories => dispatch(deleteCategories(categories)),
+    getCategoriesWithRedux: () => dispatch(getCategoriesWithRedux())
   };
 };
 

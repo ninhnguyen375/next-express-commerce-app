@@ -27,8 +27,9 @@ class Product extends Component {
   };
 
   async componentDidMount() {
-    const admin_key = JSON.parse(window.localStorage.getItem('adminPageAccess'))
-      .admin_key;
+    const admin_key = JSON.parse(
+      window.sessionStorage.getItem('adminPageAccess')
+    ).admin_key;
     const admin = await Axios.get(`/api/users/${admin_key}/adminPermission`);
     if (!admin.data.admin.product) {
       this.setState({ ...this.state, adminAccess: false });
@@ -99,7 +100,8 @@ class Product extends Component {
 const mapStateToProps = state => {
   return {
     products: state.product.products,
-    numDeleted: state.product.numDeleted
+    numDeleted: state.product.numDeleted,
+    deleteError: state.product.deleteError
   };
 };
 

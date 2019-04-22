@@ -29,9 +29,16 @@ const styles = () => ({
   }
 });
 export class Bill extends Component {
+  state = {
+    openSnackNumDeleted: false,
+    messDeleted: '',
+    adminAccess: true
+  };
+
   async componentDidMount() {
-    const admin_key = JSON.parse(window.localStorage.getItem('adminPageAccess'))
-      .admin_key;
+    const admin_key = JSON.parse(
+      window.sessionStorage.getItem('adminPageAccess')
+    ).admin_key;
     const admin = await Axios.get(`/api/users/${admin_key}/adminPermission`);
     if (!admin.data.admin.bill) {
       this.setState({ ...this.state, adminAccess: false });
@@ -41,10 +48,12 @@ export class Bill extends Component {
       this.props.getBillsWithRedux();
     }
   }
+
   handleClose = () => {
     this.setState({ openSnackNumDeleted: false });
     this.props.closeAlertDeleted();
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.numDeleted) {
       this.setState({
@@ -54,11 +63,7 @@ export class Bill extends Component {
       });
     }
   }
-  state = {
-    openSnackNumDeleted: false,
-    messDeleted: '',
-    adminAccess: true
-  };
+
   render() {
     const { classes, numDeleted } = this.props;
     return (

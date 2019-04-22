@@ -12,10 +12,10 @@
   height: auto;
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 10px #c5c5c5;
+  box-shadow: 0px 0px 15px #a1a1a1;
   transition: 0.5s;
   &:hover {
-    box-shadow: 0 0 10px #c5c5c5;
+    box-shadow: 0 0 5px orange;
   }
   .card-image {
     .card-image-wrap {

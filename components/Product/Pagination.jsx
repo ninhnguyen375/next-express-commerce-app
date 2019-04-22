@@ -8,7 +8,9 @@ import {
 } from '@material-ui/icons';
 
 class Pagination extends Component {
-  componentDidMount() {}
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps !== this.props;
+  }
 
   render() {
     const { currPage, lastPage, handleChangePage } = this.props;

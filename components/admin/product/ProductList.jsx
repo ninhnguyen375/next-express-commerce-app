@@ -175,10 +175,14 @@ const toolbarStyles = theme => ({
 });
 class ProductListToolbar extends React.Component {
   handleDelete = async () => {
-    if(!confirm('Are you sure?')) return;
+    if (!confirm('Are you sure?')) return;
     this.setState({ isDeleting: true });
     await this.props.deleteProducts(this.props.selected);
-    // this.setState({ isDeleting: false });
+
+    if (this.props.deleteError) {
+      alert('Permission Denied!');
+      window.location = '/admin';
+    }
   };
   componentWillUnmount() {
     this.setState({ isDeleting: false });
@@ -240,7 +244,8 @@ ProductListToolbar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    numDeleted: state.product.numDeleted
+    numDeleted: state.product.numDeleted,
+    deleteError: state.product.deleteError
   };
 };
 const mapDispatchToProps = dispatch => {

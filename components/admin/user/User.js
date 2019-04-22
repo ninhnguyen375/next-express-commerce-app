@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Divider } from '@material-ui/core';
+import { Divider, Button } from '@material-ui/core';
 import UserList from './UserList';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -12,6 +12,7 @@ import CustomizedSnackbars from '../snackbar/CustomizedSnackbars';
 import Axios from 'axios';
 import AddUser from './AddUser';
 import { UserStyles } from './user.styles.jss';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 
 const styles = UserStyles;
 
@@ -19,7 +20,8 @@ class User extends Component {
   state = {
     openSnackNumDeleted: false,
     messDeleted: '',
-    adminAccess: true
+    adminAccess: true,
+    isAddUserOpen: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -36,8 +38,9 @@ class User extends Component {
   }
 
   getUsers = async () => {
-    const admin_key = JSON.parse(window.localStorage.getItem('adminPageAccess'))
-      .admin_key;
+    const admin_key = JSON.parse(
+      window.sessionStorage.getItem('adminPageAccess')
+    ).admin_key;
     const admin = await Axios.get(`/api/users/${admin_key}/adminPermission`);
 
     // check access to "User permission"
@@ -57,8 +60,13 @@ class User extends Component {
     dispatch(closeAlertDeleted());
   };
 
+  handleToggleAddUser = () => {
+    this.setState({ isAddUserOpen: !this.state.isAddUserOpen });
+  };
+
   render() {
     const { classes, numDeleted } = this.props;
+    const { isAddUserOpen } = this.state;
     return (
       <>
         {this.state.adminAccess ? (
@@ -68,7 +76,28 @@ class User extends Component {
               <Divider variant="middle" className={classes.m_20} />
 
               {/* add user */}
-              <AddUser />
+
+              {isAddUserOpen ? (
+                <>
+                  <Button
+                    onClick={this.handleToggleAddUser}
+                    variant={'contained'}
+                    color={'primary'}
+                  >
+                    Add User <KeyboardArrowUp />
+                  </Button>
+                  <AddUser />
+                </>
+              ) : (
+                <Button
+                  onClick={this.handleToggleAddUser}
+                  variant={'contained'}
+                  color={'primary'}
+                >
+                  Add User <KeyboardArrowDown />
+                </Button>
+              )}
+
               <Divider variant="middle" className={classes.m_20} />
 
               {/* List User */}

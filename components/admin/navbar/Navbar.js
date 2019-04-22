@@ -26,7 +26,7 @@ const styles = {
 
 class Navbar extends React.Component {
   signOut = () => {
-    window.localStorage.removeItem('adminPageAccess');
+    window.sessionStorage.removeItem('adminPageAccess');
     window.location = '/admin';
   };
 

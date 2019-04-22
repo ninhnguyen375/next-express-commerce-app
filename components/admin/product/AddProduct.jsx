@@ -98,10 +98,14 @@ class AddProduct extends Component {
       ) ||
       !this.validated__input(
         this.state.product_price,
-        /^[1-9]{1,5}$/,
+        /^[1-9][0-9]{0,5}$/,
         'product_price'
       ) ||
-      !this.validated__input(this.state.quantity, /^[1-9]{1,5}$/, 'quantity') ||
+      !this.validated__input(
+        this.state.quantity,
+        /^[1-9][0-9]{0,5}$/,
+        'quantity'
+      ) ||
       !this.validated__input(
         this.state.producer,
         /^[\w]{1,20}$/,
@@ -116,21 +120,26 @@ class AddProduct extends Component {
   };
 
   handleSubmit = async e => {
-    const { createError, createProduct, getProductsWithRedux } = this.props;
-    e.preventDefault();
-    if (!this.valudated__form()) {
-      return;
-    }
+    const { createProduct, getProductsWithRedux } = this.props;
     this.setState({ isAdding: true });
+    e.preventDefault();
+
+    if (!this.valudated__form()) return;
+
     await createProduct(this.state);
-    if (!createError) {
+
+    if (!this.props.createError) {
       getProductsWithRedux();
       this.setState({
-        isAdding: false,
         open: true,
         message: `Adding ${this.state.product_name} success`
       });
+    } else if (this.props.createError === 'Permision Denied') {
+      alert('Permission Denied!');
+      window.location = '/admin';
     }
+
+    this.setState({ isAdding: false });
   };
 
   render() {

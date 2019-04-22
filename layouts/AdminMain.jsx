@@ -1,29 +1,29 @@
-import React, { Component } from "react";
-import Navbar from "../components/admin/navbar/Navbar";
-import Footer from "../components/admin/Footer";
-import Sidebar from "../components/admin/sidebar/Sidebar";
-import Axios from "axios";
-import AdminStyles from "./admin.style";
+import React, { Component } from 'react';
+import Navbar from '../components/admin/navbar/Navbar';
+import Footer from '../components/admin/Footer';
+import Sidebar from '../components/admin/sidebar/Sidebar';
+import Axios from 'axios';
+import AdminStyles from './admin.style';
 
 // setup redux
-import { createStore, applyMiddleware } from "redux";
-import { Provider } from "react-redux";
-import rootReducer from "../store/reducer/rootReducer";
-import thunk from "redux-thunk";
-import SignInAdmin from "../components/admin/SignInAdmin";
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from '../store/reducer/rootReducer';
+import thunk from 'redux-thunk';
+import SignInAdmin from '../components/admin/SignInAdmin';
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 class AdminMain extends Component {
   state = {
     isAdmin: false,
-    checkAdminError: "",
-    adminDetails: "",
-    adminPermission: "",
+    checkAdminError: '',
+    adminDetails: '',
+    adminPermission: '',
     loading: true
   };
 
   checkAdmin = async () => {
-    const admin = JSON.parse(window.localStorage.getItem("adminPageAccess"));
+    const admin = JSON.parse(window.sessionStorage.getItem('adminPageAccess'));
 
     if (!admin || !admin.admin_key || !admin.admin_name) {
       this.setState({
@@ -65,7 +65,7 @@ class AdminMain extends Component {
     return (
       <>
         {this.state.loading ? (
-          <h1 style={{ color: "gray", textAlign: "center" }}>Loading</h1>
+          <h1 style={{ color: 'gray', textAlign: 'center' }}>Loading</h1>
         ) : (
           <>
             {/* styles jsx */}
