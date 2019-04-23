@@ -11,23 +11,23 @@ class signup extends Component {
   state = {
     user_name: {
       value: '',
-      error: true
+      error: false
     },
     user_password: {
       value: '',
-      error: true
+      error: false
     },
     user_phone: {
       value: '',
-      error: true
+      error: false
     },
     user_email: {
       value: '',
-      error: true
+      error: false
     },
     confirmPassword: {
       value: '',
-      error: true
+      error: false
     },
     onLoading: false,
     isDoublicateEmail: false,
@@ -40,32 +40,20 @@ class signup extends Component {
   }
 
   validated__form = () => {
-    const {
-      confirmPassword,
-      user_email,
-      user_name,
-      user_phone,
-      user_password,
-      isDoublicateEmail
-    } = this.state;
+    const { confirmPassword, user_password, isDoublicateEmail } = this.state;
 
-    if (user_email.error || isDoublicateEmail) {
-      document.querySelector("input[name='user_email']").focus();
+    if (isDoublicateEmail) {
+      document.querySelector(`input[name='user_email']`).focus();
       return false;
     }
-    if (user_name.error) {
-      document.querySelector("input[name='user_name']").focus();
+
+    if (
+      !this.validate__input('user_email') ||
+      !this.validate__input('user_name') ||
+      !this.validate__input('user_phone') ||
+      !this.validate__input('user_password')
+    )
       return false;
-    }
-    if (user_phone.error) {
-      document.querySelector("input[name='user_phone']").focus();
-      return false;
-    }
-    if (user_password.error) {
-      document.querySelector("input[name='user_password']").focus();
-      return false;
-    }
-    console.log(user_password.value, confirmPassword.value);
 
     if (user_password.value !== confirmPassword.value) {
       this.setState({ confirmPassword: { ...confirmPassword, error: true } });
@@ -75,18 +63,26 @@ class signup extends Component {
     return true;
   };
 
+  validate__input = name => {
+    const input = document.querySelector(`input[name='${name}']`);
+    const regex = new RegExp(input.pattern);
+
+    if (regex.test(input.value)) return true;
+
+    input.focus();
+    this.setState({ [name]: { error: true } });
+    return false;
+  };
+
   handleChange = e => {
     const regex = new RegExp(e.target.pattern);
 
-    if (!regex.test(e.target.value)) {
-      this.setState({
-        [e.target.name]: { value: e.target.value, error: true }
-      });
-    } else {
-      this.setState({
-        [e.target.name]: { value: e.target.value, error: false }
-      });
-    }
+    this.setState({
+      [e.target.name]: {
+        value: e.target.value,
+        error: !regex.test(e.target.value)
+      }
+    });
   };
 
   checkDuplicateEmail = async () => {
@@ -96,11 +92,11 @@ class signup extends Component {
       const findUser = await Axios.get(
         '/api/users/find/?user_email=' + user_email.value
       );
-      if (findUser.data.found)
-        this.setState({ ...this.state, isDoublicateEmail: true });
-      else {
-        this.setState({ ...this.state, isDoublicateEmail: false });
-      }
+
+      this.setState({
+        ...this.state,
+        isDoublicateEmail: findUser.data.found ? true : false
+      });
     } catch (err) {
       console.log(err);
     }

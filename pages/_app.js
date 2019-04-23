@@ -16,6 +16,7 @@ import '../layouts/styles/ProductCard.scss';
 import '../layouts/styles/CategoryList.scss';
 import '../layouts/styles/ResetPassword.scss';
 import '../layouts/styles/FormCenter.scss';
+import '../layouts/styles/ProductDetails.scss';
 
 if (process.env.NODE_ENV === 'production') {
   Router.events.on('routeChangeStart', () => {
