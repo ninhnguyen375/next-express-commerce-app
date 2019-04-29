@@ -1,15 +1,30 @@
-import React, { Component } from "react";
-import { Grid, Paper } from "@material-ui/core";
+import React, { Component } from 'react';
+import { Grid, Paper } from '@material-ui/core';
 
 class about extends Component {
+  state = {
+    name: 'Ninh'
+  };
+
   handleClickHello = () => {
-    alert("Hello world!");
-    alert("hello world");
-    console.log("hello world");
+    alert('Hello Every Body, My name is Ninh.');
+    console.log('Hello world');
   };
 
   componentDidMount() {
-    alert("Hello World");
+    console.log('hello world');
+  }
+
+  handleDelete = () => {
+    alert('deleted');
+  };
+
+  helloFunc = () => {
+    console.log('hello');
+  };
+
+  componentDidMount() {
+    alert('Hello World');
   }
 
   render() {
@@ -17,7 +32,7 @@ class about extends Component {
       <Paper>
         <Grid container={true} justify="center">
           <Grid item={true}>
-            <h1 onClick={this.handleClickHello} style={{ color: "gray" }}>
+            <h1 onClick={this.handleClickHello} style={{ color: 'gray' }}>
               Do An Web 2
             </h1>
           </Grid>

@@ -1,7 +1,8 @@
 const initialState = {
   bills: [],
   getError: null,
-  createError: null
+  createError: null,
+  deleteError: null
 };
 
 export default (
@@ -9,25 +10,30 @@ export default (
   { type, payload, bills, err, numDeleted }
 ) => {
   switch (type) {
-    case 'GET_REQUEST':
+    case 'GET_BILLS_REQUEST':
       return { ...state, ...payload, bills: bills, getError: null };
-    case 'GET_SUCCESS':
+    case 'GET_BILLS_SUCCESS':
       return { ...state, ...payload, bills: bills, getError: null };
-    case 'GET_ERROR':
+    case 'GET_BILLS_ERROR':
       return { ...state, ...payload, getError: err };
-    case 'CREATE_SUCCESS':
+    case 'CREATE_BILL_SUCCESS':
       return { ...state, ...payload, createError: null };
-    case 'CREATE_ERROR':
+    case 'CREATE_BILL_ERROR':
       return { ...state, ...payload, createError: err };
-    case 'DELETE_SUCCESS':
-      return { ...state, ...payload, numDeleted: numDeleted };
-    case 'DELETE_ERROR':
+    case 'DELETE_BILLS_SUCCESS':
+      return {
+        ...state,
+        ...payload,
+        numDeleted: numDeleted,
+        deleteError: null
+      };
+    case 'DELETE_BILLS_ERROR':
       return { ...state, ...payload, deleteError: err };
     case 'CLOSE_ALERT_DELETED':
       return { ...state, ...payload, numDeleted: null };
-    case 'EDIT_SUCCESS':
+    case 'EDIT_BILL_SUCCESS':
       return { ...state, ...payload, editError: null };
-    case 'EDIT_ERROR':
+    case 'EDIT_BILL_ERROR':
       return { ...state, ...payload, editError: err };
 
     default:

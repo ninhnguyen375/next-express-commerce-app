@@ -3,9 +3,9 @@ import checkAdmin from './checkAdmin';
 
 export function getUsersWithRedux() {
   return async dispatch => {
-    dispatch({ type: 'GET_REQUEST' });
+    dispatch({ type: 'GET_USER_REQUEST' });
     const res = await Axios('/api/users/');
-    return dispatch({ type: 'GET_SUCCESS', users: res.data });
+    return dispatch({ type: 'GET_USER_SUCCESS', users: res.data });
   };
 }
 
@@ -13,7 +13,7 @@ export const createUser = user => {
   return async (dispatch, getState) => {
     const isAdmin = await checkAdmin();
     if (!isAdmin) {
-      return dispatch({ type: 'CREATE_ERROR', err: 'Permision Denied' });
+      return dispatch({ type: 'CREATE_USER_ERROR', err: 'Permision Denied' });
     }
     try {
       // adding user
@@ -21,11 +21,11 @@ export const createUser = user => {
       console.log(res);
 
       if (res.data.err)
-        return dispatch({ type: 'CREATE_ERROR', err: res.data.err });
+        return dispatch({ type: 'CREATE_USER_ERROR', err: res.data.err });
 
-      return dispatch({ type: 'CREATE_SUCCESS' });
+      return dispatch({ type: 'CREATE_USER_SUCCESS' });
     } catch (err) {
-      return dispatch({ type: 'CREATE_ERROR', err: err.message });
+      return dispatch({ type: 'CREATE_USER_ERROR', err: err.message });
     }
   };
 };
@@ -34,18 +34,33 @@ export const deleteUsers = users => {
   return async (dispatch, getState) => {
     const isAdmin = await checkAdmin();
     if (!isAdmin) {
-      return dispatch({ type: 'DELETE_ERROR', err: 'Permision Denied' });
+      return dispatch({ type: 'DELETE_USER_ERROR', err: 'Permision Denied' });
     }
     try {
       let del = [];
+      let err = [];
+
       users.forEach(user => {
         del.push(Axios.delete(`/api/users/${user}`));
       });
-      await Promise.all(del);
-      dispatch(getUsersWithRedux());
-      return dispatch({ type: 'DELETE_SUCCESS', numDeleted: users.length });
+      del = await Promise.all(del);
+
+      del.forEach(item => {
+        if (item.data.err) {
+          err.push(item.data.err);
+        }
+      });
+
+      if (err[0]) {
+        return dispatch({ type: 'DELETE_USER_ERROR', err: err });
+      }
+
+      return dispatch({
+        type: 'DELETE_USER_SUCCESS',
+        numDeleted: users.length
+      });
     } catch (err) {
-      return dispatch({ type: 'DELETE_ERROR', err: err.message });
+      return dispatch({ type: 'DELETE_USER_ERROR', err: err.message });
     }
   };
 };
@@ -60,16 +75,16 @@ export const editUser = user => {
   return async dispatch => {
     const isAdmin = await checkAdmin();
     if (!isAdmin) {
-      return dispatch({ type: 'EDIT_ERROR', err: 'Permision Denied' });
+      return dispatch({ type: 'EDIT_USER_ERROR', err: 'Permision Denied' });
     }
     try {
       const promiseData = await Axios.put(`/api/users/${user._id}`, user);
       if (promiseData.data.err) {
-        return dispatch({ type: 'EDIT_ERROR', err: promiseData.data.err });
+        return dispatch({ type: 'EDIT_USER_ERROR', err: promiseData.data.err });
       }
-      return dispatch({ type: 'EDIT_SUCCESS' });
+      return dispatch({ type: 'EDIT_USER_SUCCESS' });
     } catch (err) {
-      return dispatch({ type: 'EDIT_ERROR', err: err.message });
+      return dispatch({ type: 'EDIT_USER_ERROR', err: err.message });
     }
   };
 };

@@ -25,6 +25,7 @@ import { Build, FilterList, Delete } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { deleteUsers } from '../../../store/action/userAction';
+import { getUsersWithRedux } from '../../../store/action/userAction';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -191,24 +192,34 @@ const toolbarStyles = theme => ({
   }
 });
 class UserListToolbar extends React.Component {
+  state = {
+    isDeleting: false
+  };
+
   handleDelete = async () => {
     if (!confirm('Are you sure?')) return;
+
     this.setState({ isDeleting: true });
 
     await this.props.deleteUsers(this.props.selected);
 
-    if (this.props.deleteError) {
-      alert('Permission Denied!');
-      window.location = '/admin';
+    if (this.props.deleteError && this.props.deleteError[0]) {
+      this.props.deleteError.forEach(item => {
+        alert(item);
+        if (item === 'Permission Denied') {
+          alert('Permission Denied!');
+          window.location = '/admin';
+        }
+      });
     }
+
+    await this.props.getUsersWithRedux();
   };
 
   componentWillUnmount() {
     this.setState({ isDeleting: false });
   }
-  state = {
-    isDeleting: false
-  };
+
   render() {
     const { numSelected, classes } = this.props;
     return (
@@ -268,7 +279,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    deleteUsers: users => dispatch(deleteUsers(users))
+    deleteUsers: users => dispatch(deleteUsers(users)),
+    getUsersWithRedux: () => dispatch(getUsersWithRedux())
   };
 };
 

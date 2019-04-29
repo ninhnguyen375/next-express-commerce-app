@@ -10,30 +10,30 @@ export default (
   { type, payload, categories, err, numDeleted }
 ) => {
   switch (type) {
-    case 'GET_REQUEST':
+    case 'GET_CATEGORIES_REQUEST':
       return { ...state, ...payload, categories: categories, getError: null };
-    case 'GET_SUCCESS':
+    case 'GET_CATEGORIES_SUCCESS':
       return { ...state, ...payload, categories: categories, getError: null };
-    case 'GET_ERROR':
+    case 'GET_CATEGORIES_ERROR':
       return { ...state, ...payload, getError: err };
-    case 'CREATE_SUCCESS':
+    case 'CREATE_CATEGORY_SUCCESS':
       return { ...state, ...payload, createError: null };
-    case 'CREATE_ERROR':
+    case 'CREATE_CATEGORY_ERROR':
       return { ...state, ...payload, createError: err };
     case 'CLOSE_ALERT_DELETED':
       return { ...state, ...payload, numDeleted: null };
-    case 'DELETE_SUCCESS':
+    case 'DELETE_CATEGORIES_SUCCESS':
       return {
         ...state,
         ...payload,
         numDeleted: numDeleted,
         deleteError: null
       };
-    case 'DELETE_ERROR':
+    case 'DELETE_CATEGORIES_ERROR':
       return { ...state, ...payload, numDeleted: null, deleteError: err };
-    case 'EDIT_SUCCESS':
+    case 'EDIT_CATEGORIY_SUCCESS':
       return { ...state, ...payload, editError: null };
-    case 'EDIT_ERROR':
+    case 'EDIT_CATEGORIY_ERROR':
       return { ...state, ...payload, editError: err };
 
     default:

@@ -93,7 +93,8 @@ class BillListHead extends React.Component {
       orderBy,
       numSelected,
       rowCount,
-      onSearch,
+      onSearchByID,
+      onSearchByUserID,
       onFilterDate
     } = this.props;
 
@@ -103,11 +104,18 @@ class BillListHead extends React.Component {
         <TableRow>
           <TableCell colSpan={4}>
             <TextField
-              _id="standard-search"
+              _id="standard-search-by-id"
               label="Search by Bill ID"
               type="search"
               margin="normal"
-              onChange={onSearch}
+              onChange={onSearchByID}
+            />
+            <TextField
+              _id="standard-search-by-user"
+              label="Search by User ID"
+              type="search"
+              margin="normal"
+              onChange={onSearchByUserID}
             />
           </TableCell>
           <TableCell colSpan={4}>
@@ -216,11 +224,17 @@ const toolbarStyles = theme => ({
 class BillListToolbar extends React.Component {
   handleDelete = async () => {
     if (!confirm('Are you sure?')) return;
+
     this.setState({ isDeleting: true });
+
     await this.props.deleteBills(this.props.selected);
+
     if (this.props.deleteError) {
-      alert('Permission Denied!');
-      window.location = '/admin';
+      if (this.props.deleteError === 'Permission Denied') {
+        alert('Permission Denied!');
+        window.location = '/admin';
+      }
+      alert(this.props.deleteError);
     }
   };
 
@@ -286,6 +300,8 @@ BillListToolbar.propTypes = {
 };
 
 const mapStateToProps = state => {
+  console.log(state);
+
   return {
     numDeleted: state.bill.numDeleted,
     deleteError: state.bill.deleteError
@@ -351,13 +367,24 @@ class BillList extends React.Component {
     this.setState({ selected: [] });
   };
 
-  handleSearch = event => {
+  handleSearchByID = event => {
     const value = event.target.value;
     let filterSearch = [];
     filterSearch = this.props.bills.filter(bill => {
       const val = value.trim().toLowerCase();
       const _id = bill._id.trim().toLowerCase();
       return _id.indexOf(val) !== -1;
+    });
+    this.setState({ data: filterSearch });
+  };
+
+  handleSearchByUserID = event => {
+    const value = event.target.value;
+    let filterSearch = [];
+    filterSearch = this.props.bills.filter(bill => {
+      const val = value.trim().toLowerCase();
+      const authId = bill.authId.trim().toLowerCase();
+      return authId.indexOf(val) !== -1;
     });
     this.setState({ data: filterSearch });
   };
@@ -437,7 +464,8 @@ class BillList extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              onSearch={this.handleSearch}
+              onSearchByID={this.handleSearchByID}
+              onSearchByUserID={this.handleSearchByUserID}
               onFilterDate={this.handleFilterDate}
               rowCount={data.length}
             />

@@ -10,43 +10,43 @@ const initialState = {
 
 export default (
   state = initialState,
-  { type, payload, products, err, numDeleted, categories }
+  { type, products, err, numDeleted, categories }
 ) => {
   switch (type) {
-    case 'GET_REQUEST':
-      return { ...state, ...payload, products: products, getError: null };
-    case 'GET_SUCCESS':
-      return { ...state, ...payload, products: products, getError: null };
-    case 'GET_ERROR':
-      return { ...state, ...payload, getError: err };
-    case 'CREATE_SUCCESS':
-      return { ...state, ...payload, createError: null };
-    case 'CREATE_ERROR':
-      return { ...state, ...payload, createError: err };
-    case 'DELETE_SUCCESS':
-      return {
-        ...state,
-        ...payload,
-        deleteError: null,
-        numDeleted: numDeleted
-      };
-    case 'DELETE_ERROR':
-      return { ...state, ...payload, deleteError: err, numDeleted: null };
+    case 'GET_PRODUCTS_REQUEST':
+      return { ...state, products: products, getError: null };
+    case 'GET_PRODUCTS_SUCCESS':
+      return { ...state, products: products, getError: null };
+    case 'GET_PRODUCTS_ERROR':
+      return { ...state, getError: err };
+    case 'CREATE_PRODUCT_SUCCESS':
+      return { ...state, createError: null };
+    case 'CREATE_PRODUCT_ERROR':
+      return { ...state, createError: err };
+    case 'DELETE_PRODUCTS_SUCCESS':
+      return { ...state, deleteError: null, numDeleted: numDeleted };
+    case 'DELETE_PRODUCTS_ERROR':
+      return { ...state, deleteError: err, numDeleted: null };
     case 'CLOSE_ALERT_DELETED':
-      return { ...state, ...payload, numDeleted: null };
-    case 'EDIT_SUCCESS':
-      return { ...state, ...payload, editError: null };
-    case 'EDIT_ERROR':
-      return { ...state, ...payload, editError: err };
+      return { ...state, numDeleted: null };
+    case 'EDIT_PRODUCT_SUCCESS':
+      return { ...state, editError: null };
+    case 'EDIT_PRODUCT_ERROR':
+      return { ...state, editError: err };
     case 'GET_PRODUCTS_AND_CATEGORIES_SUCCESS':
       return {
         ...state,
-        ...payload,
         getError: null,
         products: products,
         categories: categories
       };
-
+    case 'GET_PRODUCTS_AND_CATEGORIES_ERROR':
+      return {
+        ...state,
+        getError: err,
+        products: products,
+        categories: categories
+      };
     default:
       return state;
   }

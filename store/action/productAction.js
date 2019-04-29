@@ -3,9 +3,9 @@ import checkAdmin from './checkAdmin';
 
 export function getProductsWithRedux() {
   return async dispatch => {
-    dispatch({ type: 'GET_REQUEST' });
+    dispatch({ type: 'GET_PRODUCTS_REQUEST' });
     const res = await Axios('/api/products/');
-    return dispatch({ type: 'GET_SUCCESS', products: res.data });
+    return dispatch({ type: 'GET_PRODUCTS_SUCCESS', products: res.data });
   };
 }
 
@@ -13,7 +13,10 @@ export const createProduct = product => {
   return async (dispatch, getState) => {
     const isAdmin = await checkAdmin();
     if (!isAdmin) {
-      return dispatch({ type: 'CREATE_ERROR', err: 'Permision Denied' });
+      return dispatch({
+        type: 'CREATE_PRODUCT_ERROR',
+        err: 'Permision Denied'
+      });
     }
     try {
       const data = new FormData();
@@ -27,9 +30,9 @@ export const createProduct = product => {
       // adding product
       await Axios.post('/api/products/', product);
 
-      return dispatch({ type: 'CREATE_SUCCESS' });
+      return dispatch({ type: 'CREATE_PRODUCT_SUCCESS' });
     } catch (err) {
-      return dispatch({ type: 'CREATE_ERROR', err: err.message });
+      return dispatch({ type: 'CREATE_PRODUCT_ERROR', err: err.message });
     }
   };
 };
@@ -38,19 +41,36 @@ export const deleteProducts = products => {
   return async (dispatch, getState) => {
     const isAdmin = await checkAdmin();
     if (!isAdmin) {
-      return dispatch({ type: 'DELETE_ERROR', err: 'Permision Denied' });
+      return dispatch({
+        type: 'DELETE_PRODUCTS_ERROR',
+        err: 'Permision Denied'
+      });
     }
-
     try {
       let del = [];
+      let err = [];
+
       products.forEach(product => {
         del.push(Axios.delete(`/api/products/${product}`));
       });
-      await Promise.all(del);
-      dispatch(getProductsWithRedux());
-      return dispatch({ type: 'DELETE_SUCCESS', numDeleted: products.length });
+      del = await Promise.all(del);
+
+      del.forEach(item => {
+        if (item.data.err) {
+          err.push(item.data.err);
+        }
+      });
+
+      if (err[0]) {
+        return dispatch({ type: 'DELETE_PRODUCTS_ERROR', err: err });
+      }
+
+      return dispatch({
+        type: 'DELETE_PRODUCTS_SUCCESS',
+        numDeleted: products.length
+      });
     } catch (err) {
-      return dispatch({ type: 'DELETE_ERROR', err: err.message });
+      return dispatch({ type: 'DELETE_PRODUCTS_ERROR', err: err.message });
     }
   };
 };
@@ -65,7 +85,7 @@ export const editProduct = product => {
   return async dispatch => {
     const isAdmin = await checkAdmin();
     if (!isAdmin) {
-      return dispatch({ type: 'EDIT_ERROR', err: 'Permision Denied' });
+      return dispatch({ type: 'EDIT_PRODUCT_ERROR', err: 'Permision Denied' });
     }
     try {
       if (product.product_img) {
@@ -83,15 +103,17 @@ export const editProduct = product => {
       }
       // put product
       await Axios.put(`/api/products/${product._id}`, product);
-      return dispatch({ type: 'EDIT_SUCCESS' });
+      return dispatch({ type: 'EDIT_PRODUCT_SUCCESS' });
     } catch (err) {
-      return dispatch({ type: 'EDIT_ERROR', err });
+      return dispatch({ type: 'EDIT_PRODUCT_ERROR', err });
     }
   };
 };
 
 export const getProductsAndCategories = () => {
   return async dispatch => {
+    console.log('i am in getProductsAndCategories');
+
     try {
       const products = await Axios('/api/products/');
       const producers = await Axios('/api/producers/');
@@ -101,6 +123,8 @@ export const getProductsAndCategories = () => {
         categories: producers.data
       });
     } catch (err) {
+      console.log('i am in getProductsAndCategories and i have an error', err);
+
       return dispatch({
         type: 'GET_PRODUCTS_AND_CATEGORIES_ERROR',
         err: err.message

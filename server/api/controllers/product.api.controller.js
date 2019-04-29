@@ -1,5 +1,6 @@
 const Products = require('../../models/products.model');
 const Producers = require('../../models/producers.model');
+const Bills = require('../../models/bills.model');
 
 // index
 module.exports.index = async (req, res) => {
@@ -71,11 +72,34 @@ module.exports.addProduct = async (req, res) => {
 };
 
 module.exports.deleteProduct = async (req, res) => {
-  if (req.params) {
-    await Products.findOneAndDelete({ product_id: req.params.product_id });
-    res.send(req.params.product_id);
+  const { product_id } = req.params;
+  if (product_id) {
+    try {
+      const product = await Products.findOne({ product_id: product_id });
+      const bills = await Bills.find();
+      let bill;
+      bills.some(item => {
+        const found = item.details.proId.find(id => id == product_id);
+        if (found) {
+          bill = found;
+          return true;
+        }
+      });
+      if (bill) {
+        return res.send({
+          err: `Can't delete ${product.product_name}`
+        });
+      } else {
+        await Products.findByIdAndDelete(product._id);
+        return res.send('success');
+      }
+    } catch (err) {
+      return res.send({ err: err.message });
+    }
   } else {
-    res.send('invalid id');
+    return res.send({
+      err: 'invalid id'
+    });
   }
 };
 

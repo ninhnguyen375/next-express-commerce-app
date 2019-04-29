@@ -176,15 +176,26 @@ module.exports.checkAdmin = async (req, res) => {
 };
 
 module.exports.deleteUser = async (req, res) => {
-  if (req.params.id) {
+  const { id } = req.params;
+  if (id) {
     try {
-      await Users.findByIdAndDelete(req.params.id);
-      res.send('success');
+      const user = await Users.findById(id);
+      const bill = await Bills.findOne({
+        authId: user._id
+      });
+      if (bill) {
+        return res.send({
+          err: `Can't delete ${user.user_name}, this has a lot of Bills`
+        });
+      } else {
+        await Users.findByIdAndDelete(id);
+        return res.send('success');
+      }
     } catch (err) {
-      res.send({ err });
+      return res.send({ err });
     }
   } else {
-    res.send({
+    return res.send({
       err: 'invalid id'
     });
   }

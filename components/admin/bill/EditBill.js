@@ -90,9 +90,9 @@ class EditBill extends Component {
       let details = [];
       for (let i = 0; i < b.details.proId.length; i++) {
         const obj = {
-          proId: b.details.proId,
-          proPrice: b.details.proPrice,
-          proQuantity: b.details.proQuantity
+          proId: b.details.proId[i],
+          proPrice: b.details.proPrice[i],
+          proQuantity: b.details.proQuantity[i]
         };
         details.push(obj);
       }
@@ -112,7 +112,7 @@ class EditBill extends Component {
     if (!this.state.details) {
       return <h2>Waiting...</h2>;
     }
-    const rows = [...this.state.details];
+    const rows = this.state.details;
     return (
       <div className={`${classes.root} fadeIn`}>
         <h2 className={classes.formTitle}>
@@ -239,6 +239,8 @@ class EditBill extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
   const bills = state.bill.bills;
+  console.log('map state to props, bills', state.bill.bills);
+
   let bill = null;
   let haveBill = false;
   if (bills) {

@@ -160,6 +160,7 @@ class EditProduct extends Component {
 
   async componentDidMount() {
     await this.props.getProductsAndCategories();
+
     if (this.props.haveProduct) {
       const pro = this.props.product;
       const producer = this.props.categories.find(

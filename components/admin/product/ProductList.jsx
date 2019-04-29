@@ -21,10 +21,11 @@ import {
   TextField,
   CircularProgress
 } from '@material-ui/core';
-import { Build, FilterList, Delete } from '@material-ui/icons';
+import { Build, FilterList, Delete, Autorenew } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { deleteProducts } from '../../../store/action/productAction';
+import { getProductsWithRedux } from '../../../store/action/productAction';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -174,22 +175,37 @@ const toolbarStyles = theme => ({
   }
 });
 class ProductListToolbar extends React.Component {
-  handleDelete = async () => {
-    if (!confirm('Are you sure?')) return;
-    this.setState({ isDeleting: true });
-    await this.props.deleteProducts(this.props.selected);
-
-    if (this.props.deleteError) {
-      alert('Permission Denied!');
-      window.location = '/admin';
-    }
-  };
-  componentWillUnmount() {
-    this.setState({ isDeleting: false });
-  }
   state = {
     isDeleting: false
   };
+
+  handleDelete = async () => {
+    if (!confirm('Are you sure?')) return;
+
+    this.setState({ isDeleting: true });
+
+    await this.props.deleteProducts(this.props.selected);
+
+    if (this.props.deleteError && this.props.deleteError[0]) {
+      this.props.deleteError.forEach(item => {
+        alert(item);
+        if (item === 'Permission Denied') {
+          alert('Permission Denied!');
+          window.location = '/admin';
+        }
+      });
+    }
+
+    await this.props.getProductsWithRedux();
+  };
+
+  handleReload = async () => {
+    await this.props.getProductsWithRedux();
+  };
+
+  componentWillUnmount() {
+    this.setState({ isDeleting: false });
+  }
 
   render() {
     const { numSelected, classes } = this.props;
@@ -224,9 +240,9 @@ class ProductListToolbar extends React.Component {
                 </IconButton>
               </Tooltip>
             ) : (
-              <Tooltip title="Filter list">
-                <IconButton aria-label="Filter list">
-                  <FilterList />
+              <Tooltip title="Reload">
+                <IconButton aria-label="Reload">
+                  <Autorenew onClick={this.handleReload} />
                 </IconButton>
               </Tooltip>
             )}
@@ -250,7 +266,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    deleteProducts: products => dispatch(deleteProducts(products))
+    deleteProducts: products => dispatch(deleteProducts(products)),
+    getProductsWithRedux: () => dispatch(getProductsWithRedux())
   };
 };
 

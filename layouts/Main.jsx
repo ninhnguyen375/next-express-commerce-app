@@ -26,7 +26,7 @@ class Main extends Component {
     if (auth) {
       // check auth with database
       const user = await Axios.get('/api/users/' + auth.auth_key);
-      if (!user.err) {
+      if (!user.data.err) {
         newAuth = {
           auth_name: user.data.user.user_name,
           auth_key: user.data.user._id,

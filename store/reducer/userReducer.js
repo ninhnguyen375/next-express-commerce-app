@@ -1,34 +1,34 @@
 const initialState = {
   users: [],
   getError: null,
-  createError: null
+  createError: null,
+  deleteError: null,
+  editError: null,
+  numDeleted: null
 };
 
-export default (
-  state = initialState,
-  { type, payload, users, err, numDeleted }
-) => {
+export default (state = initialState, { type, users, err, numDeleted }) => {
   switch (type) {
-    case 'GET_REQUEST':
-      return { ...state, ...payload, users: users, getError: null };
-    case 'GET_SUCCESS':
-      return { ...state, ...payload, users: users, getError: null };
-    case 'GET_ERROR':
-      return { ...state, ...payload, getError: err };
-    case 'CREATE_SUCCESS':
-      return { ...state, ...payload, createError: null };
-    case 'CREATE_ERROR':
-      return { ...state, ...payload, createError: err };
-    case 'DELETE_SUCCESS':
-      return { ...state, ...payload, numDeleted: numDeleted };
+    case 'GET_USER_REQUEST':
+      return { ...state, users: users, getError: null };
+    case 'GET_USER_SUCCESS':
+      return { ...state, users: users, getError: null };
+    case 'GET_USER_ERROR':
+      return { ...state, getError: err };
+    case 'CREATE_USER_SUCCESS':
+      return { ...state, createError: null };
+    case 'CREATE_USER_ERROR':
+      return { ...state, createError: err };
+    case 'DELETE_USER_SUCCESS':
+      return { ...state, numDeleted: numDeleted, deleteError: null };
+    case 'DELETE_USER_ERROR':
+      return { ...state, deleteError: err };
     case 'CLOSE_ALERT_DELETED':
-      return { ...state, ...payload, numDeleted: null };
-    case 'DELETE_ERROR':
-      return { ...state, ...payload, deleteError: err };
-    case 'EDIT_SUCCESS':
-      return { ...state, ...payload, editError: null };
-    case 'EDIT_ERROR':
-      return { ...state, ...payload, editError: err };
+      return { ...state, numDeleted: null };
+    case 'EDIT_USER_SUCCESS':
+      return { ...state, editError: null };
+    case 'EDIT_USER_ERROR':
+      return { ...state, editError: err };
 
     default:
       return state;

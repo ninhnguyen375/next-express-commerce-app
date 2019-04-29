@@ -54,7 +54,7 @@ class Navbar extends React.Component {
               color="inherit"
               className={`${classes.grow} brand-title`}
             >
-              <Link href="/admin">
+              <Link href="/admin#">
                 <a className="brand-text">Admin Page</a>
               </Link>
               <IconButton

@@ -190,9 +190,7 @@ class CategoryListToolbar extends React.Component {
       });
     }
 
-    this.props.getCategoriesWithRedux();
-
-    this.setState({ isDeleting: false });
+    await this.props.getCategoriesWithRedux();
   };
 
   componentWillUnmount() {

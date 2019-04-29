@@ -32,7 +32,7 @@
     "start": "NODE_ENV=production node server/server.js",
     "dev": "nodemon server/server.js",
     "build": "next build",
-    "start:devbuild": "NODE_ENV=devbuild node server/server.js"
+    "start:dev": "NODE_ENV=production DB=local node server/server.js"
   },
   "devDependencies": {
     "node-sass": "^4.11.0"

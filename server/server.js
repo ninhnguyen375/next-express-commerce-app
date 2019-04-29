@@ -8,12 +8,14 @@ const https = require('https');
 
 const PORT = process.env.PORT || 3002;
 const dev = process.env.NODE_ENV !== 'production';
+
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const isUseDBLocal = process.env.DB === 'local';
 
 app.prepare().then(() => {
   const server = express();
-  const MONGO_URI = dev
+  const MONGO_URI = isUseDBLocal
     ? 'mongodb://127.0.0.1:27017/webbanhangdb'
     : process.env.MONGO_URI;
 

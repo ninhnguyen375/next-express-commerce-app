@@ -18,7 +18,7 @@ import '../layouts/styles/ResetPassword.scss';
 import '../layouts/styles/FormCenter.scss';
 import '../layouts/styles/ProductDetails.scss';
 
-if (process.env.NODE_ENV === 'production') {
+if (false) {
   Router.events.on('routeChangeStart', () => {
     Nprogress.start();
   });
