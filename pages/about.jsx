@@ -1,45 +1,41 @@
-import React, { Component } from 'react';
-import { Grid, Paper } from '@material-ui/core';
+import { TextField } from "@material-ui/core";
+import React from "react";
 
-class about extends Component {
+class About extends React.Component {
   state = {
-    name: 'Ninh'
-  };
-
-  handleClickHello = () => {
-    alert('Hello Every Body, My name is Ninh.');
-    console.log('Hello world');
+    name: "Ninh",
+    age: 19
   };
 
   componentDidMount() {
-    console.log('hello world');
+    console.log("Hello " + this.state.name);
   }
 
-  handleDelete = () => {
-    alert('deleted');
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
-
-  helloFunc = () => {
-    console.log('hello');
-  };
-
-  componentDidMount() {
-    alert('Hello World');
-  }
 
   render() {
     return (
-      <Paper>
-        <Grid container={true} justify="center">
-          <Grid item={true}>
-            <h1 onClick={this.handleClickHello} style={{ color: 'gray' }}>
-              Do An Web 2
-            </h1>
-          </Grid>
-        </Grid>
-      </Paper>
+      <div>
+        <h1>Hello World</h1>
+        <h4>{`My name is ${this.state.name}, and i'm ${
+          this.state.age
+        } year old.`}</h4>
+        <TextField
+          value={this.state.name}
+          name={"name"}
+          onChange={this.handleChange}
+        />
+        <TextField
+          value={this.state.age}
+          name={"age"}
+          onChange={this.handleChange}
+          type={"number"}
+        />
+      </div>
     );
   }
 }
 
-export default about;
+export default About;
