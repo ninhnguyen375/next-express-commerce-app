@@ -16,6 +16,7 @@ import ShopContext from "../../context/shop-context";
 import CartItem from "./CartItem";
 import CartStyles from "./Cart.styles.jss";
 import Payment from "../Payment/Payment";
+import moment from "moment";
 
 const styles = CartStyles;
 
@@ -73,6 +74,7 @@ class Cart extends Component {
       console.log(e);
     }
   };
+
   handleDelete = id => async () => {
     try {
       const deleteCart = await Axios.delete("/api/carts/" + id);
@@ -116,9 +118,10 @@ class Cart extends Component {
         proPrice.push(this.state.carts[i].cartItem.proPrice);
         proQuantity.push(this.state.carts[i].cartItem.quantity);
       }
+
       const obj = {
         authId: this.context.auth.auth_key,
-        createAt: new Date(),
+        createAt: moment().format("MM/DD/YYYY"),
         totalPrice: this.getTotalPrice(),
         status: "unpaid",
         details: {
@@ -127,7 +130,9 @@ class Cart extends Component {
           proQuantity
         }
       };
+
       const checkout = await Axios.post("/api/bills", obj);
+
       if (checkout.data.err) alert(checkout.data.err);
       else {
         alert("Check Out Success ");

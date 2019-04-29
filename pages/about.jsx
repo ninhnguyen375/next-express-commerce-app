@@ -18,6 +18,7 @@ class About extends React.Component {
     return (
       <div>
         <h1>Hello World</h1>
+        <div id="hihi" />
         <h4>{`My name is ${this.state.name}, and i'm ${
           this.state.age
         } year old.`}</h4>
