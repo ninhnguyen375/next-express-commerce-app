@@ -1,41 +1,30 @@
-import React from "react";
+import React, { Component } from 'react';
 
-class About extends React.Component {
+export class about extends React.PureComponent {
   state = {
-    name: "Ninh",
+    name: 'Ninh',
     age: 19
   };
 
   componentDidMount() {
-    console.log("Hello " + this.state.name);
+    alert('Hello World');
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  componentWillUnmount() {
+    alert('Good by!');
+  }
 
   render() {
+    const { name, age } = this.state;
     return (
       <div>
         <h1>Hello World</h1>
-        <div id="hihi" />
-        <h4>{`My name is ${this.state.name}, and i'm ${
-          this.state.age
-        } year old.`}</h4>
-        <TextField
-          value={this.state.name}
-          name={"name"}
-          onChange={this.handleChange}
-        />
-        <TextField
-          value={this.state.age}
-          name={"age"}
-          onChange={this.handleChange}
-          type={"number"}
-        />
+        <p>
+          Hello! My name is ${name}, and I'm ${age} year old.
+        </p>
       </div>
     );
   }
 }
 
-export default About;
+export default about;

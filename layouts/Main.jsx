@@ -4,8 +4,9 @@ import Axios from 'axios';
 import Router from 'next/router';
 import GlobalState from '../context/GlobalState';
 import { MainStyles } from './main.styles';
-import { ToVietnamese } from '../translate/ToVietnamese';
 import Navbar from '../components/Navbar/Navbar';
+import { Fab, Button } from '@material-ui/core';
+import ButtonDarkMode from '../components/ButtonDarkMode';
 
 class Main extends Component {
   state = {
@@ -74,18 +75,18 @@ class Main extends Component {
   render() {
     return (
       <GlobalState auth={this.state.auth} checkLogin={this.checkLogin}>
-        {/* Global CSS */}
-        {MainStyles}
-
-        {/* Navigation Bar */}
-        <Navbar auth={this.state.auth} onLogout={this.handleLogout} />
-
-        {/* Content here */}
-        <div className="full-height">{this.props.children}</div>
-
-        {/* Footer */}
-        <Footer />
-        {/* <ToVietnamese /> */}
+        <div style={{ position: 'relative' }}>
+          {/* Global CSS */}
+          {MainStyles}
+          {/* Navigation Bar */}
+          <Navbar auth={this.state.auth} onLogout={this.handleLogout} />
+          {/* Content here */}
+          <div className="full-height">{this.props.children}</div>
+          {/* Footer */}
+          <Footer />
+          {/* Toggle Dark mode */}
+          <ButtonDarkMode />
+        </div>
       </GlobalState>
     );
   }

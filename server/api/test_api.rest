@@ -7,3 +7,6 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:3002/api/products/2 HTTP/1.1
+
+###
+GET url HTTP/1.1

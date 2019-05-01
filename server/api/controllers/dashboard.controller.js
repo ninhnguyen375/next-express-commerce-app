@@ -24,35 +24,48 @@ module.exports.getDashboard = async (req, res) => {
     let totalRevenue = 0;
     const time = {
       start: req.query.dateStart,
-      end: req.query.dateEnd,
+      end: req.query.dateEnd
     };
 
     for (let i = 0; i < bills.length; i += 1) {
       const bill = bills[i];
-      const dateStart = time.start ? moment(time.start, 'YYYY-MM-DD') : undefined;
+      const dateStart = time.start
+        ? moment(time.start, 'YYYY-MM-DD')
+        : undefined;
       const dateEnd = time.end ? moment(time.end, 'YYYY-MM-DD') : undefined;
       const notGetTime = !time.start && !time.end;
 
       // check request time
       if (
-        moment(bill.createAt, 'YYYY-MM-DD').isBetween(dateStart, dateEnd, null, '[]')
-        || notGetTime
+        moment(bill.createAt, 'MM-DD-YYYY').isBetween(
+          dateStart,
+          dateEnd,
+          null,
+          '[]'
+        ) ||
+        notGetTime
       ) {
         // loop all products in this bill
         for (let j = 0; j < bill.details.proId.length; j += 1) {
           const proId = bill.details.proId[j];
           const proQuantity = bill.details.proQuantity[j];
           const proPrice = bill.details.proPrice[j];
-          const currentProduct = products.find(product => product.product_id === proId);
+          const currentProduct = products.find(
+            product => product.product_id === proId
+          );
           const totalPrice = proQuantity * proPrice;
 
           if (!soldProducts[0]) {
             // init soldProducts
-            soldProducts.push({ details: currentProduct, amount: proQuantity, totalPrice });
+            soldProducts.push({
+              details: currentProduct,
+              amount: proQuantity,
+              totalPrice
+            });
           } else {
             // check douplicate
             const douplicateInSoldProducts = soldProducts.findIndex(
-              pro => pro.details.product_id === currentProduct.product_id,
+              pro => pro.details.product_id === currentProduct.product_id
             );
 
             // push this product to sold products. If douplicate, update it
@@ -63,17 +76,21 @@ module.exports.getDashboard = async (req, res) => {
               soldProducts[index] = {
                 details: currentProduct,
                 amount: newAmount,
-                totalPrice: newTotalPrice,
+                totalPrice: newTotalPrice
               };
             } else {
-              soldProducts.push({ details: currentProduct, amount: proQuantity, totalPrice });
+              soldProducts.push({
+                details: currentProduct,
+                amount: proQuantity,
+                totalPrice
+              });
             }
           }
         }
       }
     }
 
-    producers.forEach((producer) => {
+    producers.forEach(producer => {
       const type = producer.producer_name;
 
       // get total price of this type
@@ -97,16 +114,27 @@ module.exports.getDashboard = async (req, res) => {
     });
 
     // get total revenue
-    totalRevenue = statistialOfEachType.reduce((total, curr) => total + curr.totalPrice, 0);
+    totalRevenue = statistialOfEachType.reduce(
+      (total, curr) => total + curr.totalPrice,
+      0
+    );
     // get total sold products
-    totalSoldProducts = soldProducts.reduce((total, curr) => total + curr.amount, 0);
+    totalSoldProducts = soldProducts.reduce(
+      (total, curr) => total + curr.amount,
+      0
+    );
 
     // getTopUser
     let topUsers = [];
-    users.forEach((user) => {
-      const billsOfUser = bills.filter(bill => bill.authId === user.id && bill.status === 'paid');
+    users.forEach(user => {
+      const billsOfUser = bills.filter(
+        bill => bill.authId === user.id && bill.status === 'paid'
+      );
       if (billsOfUser[0]) {
-        const paidMoney = billsOfUser.reduce((total, curr) => total + curr.totalPrice, 0);
+        const paidMoney = billsOfUser.reduce(
+          (total, curr) => total + curr.totalPrice,
+          0
+        );
         topUsers.push({ user, paidMoney });
       }
     });
@@ -122,7 +150,7 @@ module.exports.getDashboard = async (req, res) => {
       totalCategories,
       totalUsers,
       totalSoldProducts,
-      topUsers,
+      topUsers
     });
   } catch (err) {
     res.json(err);

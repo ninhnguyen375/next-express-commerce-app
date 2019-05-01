@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   btnGoToTop: {
     position: 'fixed',
-    bottom: '10px',
+    bottom: '60px',
     right: '10px'
   }
 });

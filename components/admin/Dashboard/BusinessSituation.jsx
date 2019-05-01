@@ -9,15 +9,17 @@ import {
 import Axios from 'axios';
 
 export class BusinessSituation extends Component {
-  async componentDidMount() {
-    const statistical = await Axios.get('/api/dashboard');
-    this.setState({ statistical: statistical.data });
-  }
   state = {
     dateStart: '',
     dateEnd: '',
     statistical: {}
   };
+
+  async componentDidMount() {
+    const statistical = await Axios.get('/api/dashboard');
+    this.setState({ statistical: statistical.data });
+  }
+
   getStatistical = async () => {
     const statistical = await Axios.get(
       `/api/dashboard?dateStart=${this.state.dateStart}&dateEnd=${
@@ -26,6 +28,7 @@ export class BusinessSituation extends Component {
     );
     this.setState({ statistical: statistical.data });
   };
+
   handleChangeDate = async e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -39,6 +42,7 @@ export class BusinessSituation extends Component {
         return x2.totalAmount - x1.totalAmount;
       });
     }
+
     return (
       <div>
         <h2 style={{ color: 'gray' }}>Business Situation</h2>
