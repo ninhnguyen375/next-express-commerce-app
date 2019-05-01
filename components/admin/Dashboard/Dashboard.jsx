@@ -1,37 +1,31 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
-
 import BusinessSituation from './BusinessSituation';
 import TopSellerProducts from './TopSellerProducts';
 import Overview from './Overview';
 import TopUsers from './TopUsers';
-import DashBoardStyles from './dashboard.styles.jss';
-
-// styles jss
-const styles = DashBoardStyles;
 
 export class Dashboard extends Component {
   render() {
-    const { classes } = this.props;
     return (
-      <div className={`${classes.root} fadeIn`}>
-        <div className={classes.header}>Dash Board</div>
+      <div className="admin-content fadeIn">
+        <div className="admin-content-header">Dash Board</div>
 
-        <Divider style={{ margin: 30 }} />
+        <div className="divider" />
         <Overview />
 
-        <Divider style={{ margin: 30 }} />
+        <div className="divider" />
         <BusinessSituation />
 
-        <Divider style={{ margin: 30 }} />
+        <div className="divider" />
         <TopSellerProducts />
 
-        <Divider style={{ margin: 30 }} />
+        <div className="divider" />
         <TopUsers />
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default Dashboard;

@@ -121,7 +121,7 @@ export class Overview extends Component {
               ))}
           </Grid>
         ) : (
-          <p>Loading...</p>
+          <div className="loading-text">Loading...</div>
         )}
       </div>
     );

@@ -67,7 +67,7 @@ export class TopUsers extends Component {
               </TableBody>
             </Table>
           ) : (
-            <div>Loading...</div>
+            <div className="loading-text">Loading...</div>
           )}
         </Paper>
       </>

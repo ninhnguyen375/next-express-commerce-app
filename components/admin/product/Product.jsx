@@ -1,29 +1,27 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import Axios from 'axios';
-
 import { withStyles } from '@material-ui/core/styles';
-import { Divider } from '@material-ui/core';
-
+import { Divider, Button } from '@material-ui/core';
 import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import CustomizedSnackbars from '../snackbar/CustomizedSnackbars';
-
 import {
   getProductsWithRedux,
   closeAlertDeleted
 } from '../../../store/action/productAction';
-
 import ProductStyles from './product.styles.jss';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
 
 const styles = ProductStyles;
 
-class Product extends Component {
+class Product extends PureComponent {
   state = {
     openSnackNumDeleted: false,
     messDeleted: '',
-    adminAccess: true
+    adminAccess: true,
+    isAddFormOpen: false
   };
 
   async componentDidMount() {
@@ -56,28 +54,42 @@ class Product extends Component {
     }
   }
 
+  toggleOpenAddForm = () => {
+    this.setState({ isAddFormOpen: !this.state.isAddFormOpen });
+  };
+
   render() {
     const { classes, numDeleted } = this.props;
+    const { isAddFormOpen } = this.state;
+
     return (
       <>
         {this.state.adminAccess ? (
           <>
-            <div className={`${classes.root} fadeIn`}>
-              <div className={classes.header}>Product Manager</div>
+            <div className="admin-content fadeIn">
+              <div className="admin-content-header">Product Manager</div>
+              <div className="divider" />
 
-              {/* Add new Product */}
-              <Divider variant="middle" className={classes.m_20} />
-              <AddProduct />
+              {/* Button Add */}
+              <Button
+                onClick={this.toggleOpenAddForm}
+                variant={'contained'}
+                color={'primary'}
+              >
+                Add Product{' '}
+                {isAddFormOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+              </Button>
+
+              {/* Form Add*/}
+              {isAddFormOpen && <AddProduct />}
 
               {/* List Product */}
-              <Divider variant="middle" className={classes.m_20} />
-              <div className={classes.header}>All Products</div>
+              <div className="divider" />
+
               {this.props.products ? (
                 <ProductList products={this.props.products.data} />
               ) : (
-                <div className={`${classes.root} fadeIn`}>
-                  <div className={classes.header}>Loading...</div>
-                </div>
+                <div className="loading-text">Loading...</div>
               )}
             </div>
 

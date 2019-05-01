@@ -72,7 +72,7 @@ const rows = [
   { id: 'quantity', numeric: true, disablePadding: false, label: 'Quantity' }
 ];
 
-class ProductListHead extends React.Component {
+class ProductListHead extends React.PureComponent {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -182,7 +182,7 @@ const toolbarStyles = theme => ({
     flex: '0 0 auto'
   }
 });
-class ProductListToolbar extends React.Component {
+class ProductListToolbar extends React.PureComponent {
   state = {
     isDeleting: false
   };
@@ -300,7 +300,7 @@ const styles = theme => ({
   }
 });
 
-class ProductList extends React.Component {
+class ProductList extends React.PureComponent {
   state = {
     order: 'asc',
     orderBy: 'calories',
@@ -396,7 +396,7 @@ class ProductList extends React.Component {
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
+      <Paper className={classes.root + ' fadeIn'}>
         <ProductListToolbar numSelected={selected.length} selected={selected} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">

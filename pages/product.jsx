@@ -59,7 +59,7 @@ class product extends Component {
     return (
       <>
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Product Details</h1>
-        <Divider />
+        <div className="divider" />
 
         {this.props.getError ? (
           <h3 style={{ color: 'gray', textAlign: 'center' }}>
@@ -74,7 +74,7 @@ class product extends Component {
 
         <div style={{ marginTop: 100 }} />
         <h1 style={{ color: 'gray', textAlign: 'center' }}>Another Products</h1>
-        <Divider style={{ margin: 30 }} />
+        <div className="divider" />
 
         {this.state.products[0] ? (
           <ProductList products={this.state.products.slice(12, 20)} />

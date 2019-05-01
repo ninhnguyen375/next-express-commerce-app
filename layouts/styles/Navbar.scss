@@ -73,6 +73,7 @@
     .nav-item {
       display: flex;
       justify-content: center;
+
       button {
         text-transform: uppercase;
         color: rgb(214, 214, 214);
@@ -87,6 +88,7 @@
           background: $primary-bg;
         }
       }
+
       .btn-outline {
         outline: 2px solid $primary-bg;
       }

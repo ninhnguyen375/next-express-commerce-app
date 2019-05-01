@@ -70,16 +70,14 @@ export class Bill extends Component {
       <>
         {this.state.adminAccess ? (
           <>
-            <div className={`${classes.root} fadeIn`}>
-              <div className={classes.header}>Bill Manager</div>
-              <Divider variant="middle" className={classes.m_20} />
+            <div className="admin-content fadeIn">
+              <div className="admin-content-header">Bill Manager</div>
+              <div className="divider" />
               {/* List Bill */}
               {this.props.bills ? (
                 <BillList bills={this.props.bills.data} />
               ) : (
-                <div className={`${classes.root} fadeIn`}>
-                  <div className={classes.header}>Loading...</div>
-                </div>
+                <div className="loading-text">Loading...</div>
               )}
             </div>
 

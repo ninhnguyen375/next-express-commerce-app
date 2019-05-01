@@ -61,11 +61,11 @@ class Bill extends Component {
     return (
       <>
         <h1 className={classes.header}>YOUR BILLS</h1>
-        <Divider variant="middle" className={classes.margin30} />
+        <div className="divider" />
 
         <Paper className={classes.paper + ' ' + classes.root}>
           {this.state.loading ? (
-            <h2 className={classes.textGrayCenter}>Loading...</h2>
+            <div className="loading-text">Loading...</div>
           ) : (
             <>
               {this.state.getError && (

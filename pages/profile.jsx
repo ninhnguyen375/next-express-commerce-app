@@ -16,7 +16,6 @@ class profile extends Component {
   };
   async componentDidMount() {
     await this.context.checkLogin();
-    console.log(this.context);
 
     if (this.context.auth.auth_key) {
       try {
@@ -25,8 +24,6 @@ class profile extends Component {
         );
         if (user.data.err) this.setState({ getError: user.data.err });
         else {
-          console.log('setted', user.data);
-
           this.setState({ user: user.data.user });
         }
       } catch (err) {
@@ -137,7 +134,7 @@ class profile extends Component {
             {user ? (
               <div className="profile">
                 <h1>Your Profile</h1>
-                <Divider />
+                <div className="divider" />
                 <div className="profile-content">
                   {renderDetails()}
                   {editPassword && renderEditPassword()}
@@ -163,7 +160,7 @@ class profile extends Component {
                 </div>
               </div>
             ) : (
-              <h3 style={{ color: 'gray', textAlign: 'center' }}>Loading...</h3>
+              <div className="loading-text">Loading...</div>
             )}
             {getError && <h1>{getError}</h1>}
           </>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Divider } from '@material-ui/core';
+import { Divider, Button } from '@material-ui/core';
 import CategoryList from './CategoryList';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -11,6 +11,7 @@ import {
 import CustomizedSnackbars from '../snackbar/CustomizedSnackbars';
 import AddCategory from './AddCategory';
 import Axios from 'axios';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
 
 const styles = () => ({
   root: {
@@ -33,7 +34,8 @@ export class Category extends Component {
   state = {
     openSnackNumDeleted: false,
     messDeleted: '',
-    adminAccess: true
+    adminAccess: true,
+    isAddFormOpen: false
   };
 
   async componentDidMount() {
@@ -64,25 +66,40 @@ export class Category extends Component {
       });
     }
   }
+
+  toggleOpenAddForm = () => {
+    this.setState({ isAddFormOpen: !this.state.isAddFormOpen });
+  };
+
   render() {
     const { classes, numDeleted } = this.props;
+    const { isAddFormOpen } = this.state;
     return (
       <>
         {this.state.adminAccess ? (
           <>
-            <div className={`${classes.root} fadeIn`}>
-              <div className={classes.header}>Category Manager</div>
-              <Divider variant="middle" className={classes.m_20} />
-              {/* Add new Product */}
-              <AddCategory />
-              <Divider variant="middle" className={classes.m_20} />
+            <div className="admin-content fadeIn">
+              <div className="admin-content-header">Category Manager</div>
+              <div className="divider" />
+              {/* Button Add */}
+              <Button
+                onClick={this.toggleOpenAddForm}
+                variant={'contained'}
+                color={'primary'}
+              >
+                Add Category{' '}
+                {isAddFormOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+              </Button>
+
+              {/* Form Add*/}
+              {isAddFormOpen && <AddCategory />}
+
+              <div className="divider" />
               {/* List Category */}
               {this.props.categories ? (
                 <CategoryList categories={this.props.categories.data} />
               ) : (
-                <div className={`${classes.root} fadeIn`}>
-                  <div className={classes.header}>Loading...</div>
-                </div>
+                <div className="loading-text">Loading...</div>
               )}
             </div>
 

@@ -13,7 +13,7 @@ class CategoryList extends React.Component {
     return (
       <div>
         <h1 className="header">Categories</h1>
-        <Divider />
+        <div className="divider" />
         <div className="CategoryList">
           {this.props.categories && (
             <>

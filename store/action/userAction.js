@@ -18,7 +18,6 @@ export const createUser = user => {
     try {
       // adding user
       const res = await Axios.post('/api/users/', user);
-      console.log(res);
 
       if (res.data.err)
         return dispatch({ type: 'CREATE_USER_ERROR', err: res.data.err });

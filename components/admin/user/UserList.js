@@ -21,7 +21,7 @@ import {
   TextField,
   CircularProgress
 } from '@material-ui/core';
-import { Build, FilterList, Delete } from '@material-ui/icons';
+import { Build, FilterList, Delete, Autorenew } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { deleteUsers } from '../../../store/action/userAction';
@@ -253,9 +253,9 @@ class UserListToolbar extends React.Component {
                 </IconButton>
               </Tooltip>
             ) : (
-              <Tooltip title="Filter list">
-                <IconButton aria-label="Filter list">
-                  <FilterList />
+              <Tooltip title="Reload">
+                <IconButton aria-label="Reload" onClick={this.props.onRenew}>
+                  <Autorenew />
                 </IconButton>
               </Tooltip>
             )}
@@ -398,6 +398,10 @@ class UserList extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleRenew = async () => {
+    this.props.getUsersWithRedux();
+  };
+
   isSelected = _id => this.state.selected.indexOf(_id) !== -1;
 
   render() {
@@ -407,8 +411,12 @@ class UserList extends React.Component {
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
-        <UserListToolbar numSelected={selected.length} selected={selected} />
+      <Paper className={classes.root + ' fadeIn'}>
+        <UserListToolbar
+          numSelected={selected.length}
+          selected={selected}
+          onRenew={this.handleRenew}
+        />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <UserListHead
@@ -501,8 +509,15 @@ class UserList extends React.Component {
   }
 }
 
+const mapDispatchToProps2 = dispatch => {
+  return { getUsersWithRedux: () => dispatch(getUsersWithRedux()) };
+};
+
 UserList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(UserList);
+export default connect(
+  null,
+  mapDispatchToProps2
+)(withStyles(styles)(UserList));

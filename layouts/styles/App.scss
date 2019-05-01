@@ -70,15 +70,48 @@ body {
 .nav-link {
   display: block;
 }
+
 .scrollSmooth {
   scroll-behavior: smooth;
 }
+
 .full-height {
   min-height: 70vh;
 }
-.fadeIn {
-  animation: fadeIn 0.7s;
+
+.divider {
+  height: 1px;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: rgb(207, 207, 207);
 }
+
+.loading-text {
+  color: gray;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.fadeIn {
+  animation: fadeIn 1s;
+}
+
+.admin-content {
+  background: white;
+  padding: 30px 20px;
+  box-shadow: 5px 5px 10px gray;
+  min-height: 90vh;
+
+  .admin-content-header {
+    font-size: 1.7em;
+    color: gray;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

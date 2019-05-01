@@ -69,7 +69,7 @@ export class index extends Component {
           <h1 style={{ color: 'gray', textAlign: 'center', marginTop: 70 }}>
             Products
           </h1>
-          <Divider style={{ margin: 30 }} />
+          <div className="divider" />
           <Product category={query && query.category ? query.category : null} />
 
           <GoToTop />

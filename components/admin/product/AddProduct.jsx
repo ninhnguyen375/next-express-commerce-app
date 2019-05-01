@@ -40,7 +40,7 @@ class AddProduct extends Component {
 
   async componentDidMount() {
     await this.props.getCategoriesWithRedux();
-    if (this.props.categories.data) {
+    if (this.props.categories && this.props.categories.data) {
       this.setState({ categories: this.props.categories.data });
     }
   }

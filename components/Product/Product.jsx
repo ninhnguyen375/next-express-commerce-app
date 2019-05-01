@@ -39,9 +39,7 @@ export class Product extends Component {
         {products[0] ? (
           <ProductList products={products} />
         ) : (
-          <h3 className={'text-gray text-center'}>
-            {isLoading ? 'Loading...' : 'Empty'}
-          </h3>
+          <div className="loading-text">Loading...</div>
         )}
       </>
     );

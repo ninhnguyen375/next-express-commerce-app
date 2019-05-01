@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import Link from "next/link";
-import Axios from "axios";
+import React, { Component } from 'react';
+import Link from 'next/link';
+import Axios from 'axios';
 import {
   Paper,
   Table,
@@ -11,12 +11,12 @@ import {
   Button,
   Divider,
   withStyles
-} from "@material-ui/core";
-import ShopContext from "../../context/shop-context";
-import CartItem from "./CartItem";
-import CartStyles from "./Cart.styles.jss";
-import Payment from "../Payment/Payment";
-import moment from "moment";
+} from '@material-ui/core';
+import ShopContext from '../../context/shop-context';
+import CartItem from './CartItem';
+import CartStyles from './Cart.styles.jss';
+import Payment from '../Payment/Payment';
+import moment from 'moment';
 
 const styles = CartStyles;
 
@@ -24,8 +24,8 @@ class Cart extends Component {
   static contextType = ShopContext;
 
   state = {
-    getError: "",
-    carts: "",
+    getError: '',
+    carts: '',
     renderPayment: false,
     loading: true
   };
@@ -51,13 +51,13 @@ class Cart extends Component {
 
       this.setState({ loading: false });
     } else {
-      this.setState({ getError: "You must to Login first!" });
+      this.setState({ getError: 'You must to Login first!' });
     }
   }
 
   handleClickCheckout = async () => {
     try {
-      let products = await Axios.get("/api/products");
+      let products = await Axios.get('/api/products');
       products = products.data.data;
       for (let i = 0; i < this.state.carts.length; i++) {
         const proId = this.state.carts[i].cartItem.proId;
@@ -70,14 +70,14 @@ class Cart extends Component {
           this.setState({ renderPayment: true });
         }
       }
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   };
 
   handleDelete = id => async () => {
     try {
-      const deleteCart = await Axios.delete("/api/carts/" + id);
+      const deleteCart = await Axios.delete('/api/carts/' + id);
       if (deleteCart.data.err) alert(deleteCart.data.err);
       else {
         this.getCarts(this.context.auth.auth_key);
@@ -91,7 +91,7 @@ class Cart extends Component {
     const { id, value } = e.target;
     const { carts } = this.state;
     if (value < 1 || value > 5) {
-      alert("You must to buy 1 - 5 item for this product");
+      alert('You must to buy 1 - 5 item for this product');
       return;
     }
 
@@ -121,9 +121,9 @@ class Cart extends Component {
 
       const obj = {
         authId: this.context.auth.auth_key,
-        createAt: moment().format("MM/DD/YYYY"),
+        createAt: moment().format('MM/DD/YYYY'),
         totalPrice: this.getTotalPrice(),
-        status: "unpaid",
+        status: 'unpaid',
         details: {
           proId,
           proPrice,
@@ -131,11 +131,11 @@ class Cart extends Component {
         }
       };
 
-      const checkout = await Axios.post("/api/bills", obj);
+      const checkout = await Axios.post('/api/bills', obj);
 
       if (checkout.data.err) alert(checkout.data.err);
       else {
-        alert("Check Out Success ");
+        alert('Check Out Success ');
         this.getCarts(this.context.auth.auth_key);
         this.setState({ renderPayment: false });
       }
@@ -154,11 +154,11 @@ class Cart extends Component {
           }
         `}</style>
         <h1 className={classes.header}>YOUR CART</h1>
-        <Divider variant="middle" className={classes.margin30} />
+        <div className="divider" />
 
-        <Paper className={classes.paper + " " + classes.root}>
+        <Paper className={classes.paper + ' ' + classes.root}>
           {this.state.loading ? (
-            <h2 className={classes.textGrayCenter}>Loading...</h2>
+            <div className="loading-text">Loading...</div>
           ) : (
             <>
               {this.state.renderPayment ? (
@@ -214,7 +214,7 @@ class Cart extends Component {
                             Result :
                           </TableCell>
                           <TableCell colSpan={6}>
-                            <b style={{ color: "red" }}>
+                            <b style={{ color: 'red' }}>
                               ${this.getTotalPrice()}
                             </b>
                           </TableCell>
@@ -225,7 +225,7 @@ class Cart extends Component {
                               <a>
                                 <Button
                                   color="secondary"
-                                  style={{ display: "block", width: "100%" }}
+                                  style={{ display: 'block', width: '100%' }}
                                   variant="contained"
                                 >
                                   Back To Shopping
@@ -237,7 +237,7 @@ class Cart extends Component {
                           <TableCell colSpan={3}>
                             <a href="#">
                               <Button
-                                style={{ display: "block", width: "100%" }}
+                                style={{ display: 'block', width: '100%' }}
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleClickCheckout}
@@ -257,7 +257,7 @@ class Cart extends Component {
                             {this.state.getError}
                           </p>
                         ) : (
-                          "Your cart is Empty"
+                          'Your cart is Empty'
                         )}
                         <Link href="/">
                           <a>

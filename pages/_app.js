@@ -18,11 +18,17 @@ import '../layouts/styles/CategoryList.scss';
 import '../layouts/styles/ResetPassword.scss';
 import '../layouts/styles/FormCenter.scss';
 import '../layouts/styles/ProductDetails.scss';
+import '../layouts/styles/AdminFooter.scss';
+
+Router.events.on('routeChangeComplete', () => {
+  if (Router.route !== '/') window.scrollTo({ top: '0' });
+});
 
 if (false) {
   Router.events.on('routeChangeStart', () => {
     Nprogress.start();
   });
+
   Router.events.on('routeChangeComplete', () => {
     Nprogress.done();
   });
@@ -43,16 +49,22 @@ Router.events.on('routeChangeComplete', () => {
   const navbar = document.querySelector('.NavBar');
   const { route } = Router;
 
-  if (route === '/') {
-    const slider = document.querySelector('.slider');
-    navbar.style.position = 'fixed';
-    toggleBgNavBar(navbar, slider);
-    window.onscroll = () => {
+  if (navbar) {
+    if (route === '/') {
+      const slider = document.querySelector('.slider');
+      if (window.screen.width < 560) {
+        navbar.style.position = 'sticky';
+      } else {
+        navbar.style.position = 'fixed';
+      }
       toggleBgNavBar(navbar, slider);
-    };
-  } else {
-    navbar.classList.remove('bg-transparent');
-    navbar.style.position = 'sticky';
+      window.onscroll = () => {
+        toggleBgNavBar(navbar, slider);
+      };
+    } else {
+      navbar.classList.remove('bg-transparent');
+      navbar.style.position = 'sticky';
+    }
   }
 });
 

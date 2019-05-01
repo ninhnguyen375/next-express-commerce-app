@@ -6,7 +6,7 @@ class SignedNav extends Component {
     return (
       <div>
         <button className="btn-outline-secondary dropdown">
-          {this.props.userName}
+          {this.props.userName.split(' ')[0]}
           <div className="dropdown-content">
             {this.props.isAdmin && (
               <Link href="/admin">

@@ -21,7 +21,7 @@ class User extends Component {
     openSnackNumDeleted: false,
     messDeleted: '',
     adminAccess: true,
-    isAddUserOpen: false
+    isAddFormOpen: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -60,53 +60,41 @@ class User extends Component {
     dispatch(closeAlertDeleted());
   };
 
-  handleToggleAddUser = () => {
-    this.setState({ isAddUserOpen: !this.state.isAddUserOpen });
+  toggleOpenAddForm = () => {
+    this.setState({ isAddFormOpen: !this.state.isAddFormOpen });
   };
 
   render() {
     const { classes, numDeleted } = this.props;
-    const { isAddUserOpen } = this.state;
+    const { isAddFormOpen } = this.state;
     return (
       <>
         {this.state.adminAccess ? (
           <>
-            <div className={`${classes.root} fadeIn`}>
-              <div className={classes.header}>User Manager</div>
-              <Divider variant="middle" className={classes.m_20} />
+            <div className="admin-content fadeIn">
+              <div className="admin-content-header">User Manager</div>
+              <div className="divider" />
 
-              {/* add user */}
+              {/* Button Add */}
+              <Button
+                onClick={this.toggleOpenAddForm}
+                variant={'contained'}
+                color={'primary'}
+              >
+                Add User{' '}
+                {isAddFormOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+              </Button>
 
-              {isAddUserOpen ? (
-                <>
-                  <Button
-                    onClick={this.handleToggleAddUser}
-                    variant={'contained'}
-                    color={'primary'}
-                  >
-                    Add User <KeyboardArrowUp />
-                  </Button>
-                  <AddUser />
-                </>
-              ) : (
-                <Button
-                  onClick={this.handleToggleAddUser}
-                  variant={'contained'}
-                  color={'primary'}
-                >
-                  Add User <KeyboardArrowDown />
-                </Button>
-              )}
+              {/* Form Add*/}
+              {isAddFormOpen && <AddUser />}
 
-              <Divider variant="middle" className={classes.m_20} />
+              <div className="divider" />
 
               {/* List User */}
               {this.props.users ? (
                 <UserList users={this.props.users.data} />
               ) : (
-                <div className={`${classes.root} fadeIn`}>
-                  <div className={classes.header}>Loading...</div>
-                </div>
+                <div className="loading-text">Loading...</div>
               )}
             </div>
 

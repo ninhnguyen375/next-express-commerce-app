@@ -21,7 +21,7 @@ import {
   TextField,
   CircularProgress
 } from '@material-ui/core';
-import { Build, FilterList, Delete } from '@material-ui/icons';
+import { Build, FilterList, Delete, Autorenew } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import {
@@ -233,9 +233,9 @@ class CategoryListToolbar extends React.Component {
                 </IconButton>
               </Tooltip>
             ) : (
-              <Tooltip title="Filter list">
-                <IconButton aria-label="Filter list">
-                  <FilterList />
+              <Tooltip title="Reload">
+                <IconButton aria-label="Reload" onClick={this.props.onRenew}>
+                  <Autorenew />
                 </IconButton>
               </Tooltip>
             )}
@@ -357,6 +357,10 @@ class CategoryList extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleRenew = async () => {
+    this.props.getCategoriesWithRedux();
+  };
+
   isSelected = _id => this.state.selected.indexOf(_id) !== -1;
 
   render() {
@@ -366,10 +370,11 @@ class CategoryList extends React.Component {
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
+      <Paper className={classes.root + ' fadeIn'}>
         <CategoryListToolbar
           numSelected={selected.length}
           selected={selected}
+          onRenew={this.handleRenew}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
@@ -458,8 +463,15 @@ class CategoryList extends React.Component {
   }
 }
 
+const mapDispatchToProps2 = dispatch => {
+  return { getCategoriesWithRedux: () => dispatch(getCategoriesWithRedux()) };
+};
+
 CategoryList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CategoryList);
+export default connect(
+  null,
+  mapDispatchToProps2
+)(withStyles(styles)(CategoryList));

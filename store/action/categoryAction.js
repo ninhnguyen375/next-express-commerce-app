@@ -49,11 +49,8 @@ export const deleteCategories = categories => {
       });
 
       del = await Promise.all(del);
-      console.log('del', del);
 
       del.forEach(item => {
-        console.log('item', item);
-
         if (item.data.err) {
           err.push(item.data.err);
         }

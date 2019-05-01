@@ -1,0 +1,15 @@
+.admin-footer {
+  display: flex;
+  padding: 20px;
+
+  .left-content {
+    flex-grow: 1;
+  }
+
+  .right-content,
+  .left-content {
+    a {
+      color: blue;
+    }
+  }
+}

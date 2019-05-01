@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import SearchForm from "../components/Product/SearchForm";
-import Axios from "axios";
-import ProductList from "../components/Product/ProductList";
-import { Divider } from "@material-ui/core";
+import React, { Component } from 'react';
+import SearchForm from '../components/Product/SearchForm';
+import Axios from 'axios';
+import ProductList from '../components/Product/ProductList';
+import { Divider } from '@material-ui/core';
 
 export class search extends Component {
   state = {
@@ -13,8 +13,8 @@ export class search extends Component {
   };
 
   async componentDidMount() {
-    const products = await Axios.get("/api/products");
-    const categories = await Axios.get("/api/producers");
+    const products = await Axios.get('/api/products');
+    const categories = await Axios.get('/api/producers');
     this.setState({
       ...this.state,
       isLoading: false,
@@ -57,7 +57,7 @@ export class search extends Component {
     // sort by price
     if (query.sortByPrice) {
       products.sort((a, b) => {
-        if (query.sortByPrice === "Asc")
+        if (query.sortByPrice === 'Asc')
           return a.product_price - b.product_price;
         else return b.product_price - a.product_price;
       });
@@ -68,7 +68,7 @@ export class search extends Component {
       products.sort((a, b) => {
         const name_a = a.product_name.toLowerCase();
         const name_b = b.product_name.toLowerCase();
-        if (query.sortByName === "A-Z") return name_a < name_b ? -1 : 1;
+        if (query.sortByName === 'A-Z') return name_a < name_b ? -1 : 1;
         else return name_a > name_b ? -1 : 1;
       });
     }
@@ -84,20 +84,20 @@ export class search extends Component {
             scroll-behavior: smooth;
           }
         `}</style>
-        <h1 style={{ color: "gray", textAlign: "center" }}>YOUR SEARCH</h1>
-        <Divider style={{ margin: 30 }} />
+        <h1 style={{ color: 'gray', textAlign: 'center' }}>YOUR SEARCH</h1>
+        <div className="divider" />
         <SearchForm
           categories={this.state.categories}
           renderSearchResult={this.renderSearchResult}
         />
         {this.state.isLoading ? (
-          <h1 style={{ color: "gray", textAlign: "center" }}>Loading...</h1>
+          <div className="loading-text">Loading...</div>
         ) : (
           <>
             {this.state.searchResult[0] ? (
               <ProductList products={this.state.searchResult} />
             ) : (
-              <h1 style={{ color: "gray", textAlign: "center" }}>Empty</h1>
+              <h1 style={{ color: 'gray', textAlign: 'center' }}>Empty</h1>
             )}
           </>
         )}

@@ -112,8 +112,6 @@ export const editProduct = product => {
 
 export const getProductsAndCategories = () => {
   return async dispatch => {
-    console.log('i am in getProductsAndCategories');
-
     try {
       const products = await Axios('/api/products/');
       const producers = await Axios('/api/producers/');
@@ -123,8 +121,6 @@ export const getProductsAndCategories = () => {
         categories: producers.data
       });
     } catch (err) {
-      console.log('i am in getProductsAndCategories and i have an error', err);
-
       return dispatch({
         type: 'GET_PRODUCTS_AND_CATEGORIES_ERROR',
         err: err.message

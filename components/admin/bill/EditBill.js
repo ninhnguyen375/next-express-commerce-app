@@ -239,8 +239,6 @@ class EditBill extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
   const bills = state.bill.bills;
-  console.log('map state to props, bills', state.bill.bills);
-
   let bill = null;
   let haveBill = false;
   if (bills) {

@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
+import Link from 'next/link';
 
 class Footer extends Component {
   render() {
     return (
-      <Grid
-        container
-        style={{ flexGrow: 1, padding: 20, color: 'gray' }}
-        spacing={16}
-      >
-        <Grid item style={{ flexGrow: 1 }}>
-          &copy; ShopPhone 2019
-        </Grid>
-        <Grid item>
+      <footer className="admin-footer">
+        <div className="left-content">
+          <Link href="/">
+            <a>&copy; ShopPhone</a>
+          </Link>
+        </div>
+        <div className="right-content">
           <a
-            style={{ color: 'blue' }}
+            target="blank"
             href="https://github.com/ninhnguyen375/next-express-commerce-app"
           >
             Project on Github
           </a>
-        </Grid>
-      </Grid>
+        </div>
+      </footer>
     );
   }
 }

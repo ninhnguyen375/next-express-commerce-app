@@ -11,6 +11,11 @@
   flex-wrap: wrap;
   width: 60%;
   margin: 20px auto;
+
+  @include mobile {
+    width: 100%;
+  }
+
   .item {
     padding: 15px 40px;
     font-size: 20px;
@@ -18,13 +23,16 @@
     margin: 20px 20px 0 0;
     box-shadow: 1px 1px 3px gray;
     border-radius: 9999px;
+    transition: 0.5s;
+
     &:hover,
     &.active {
       box-shadow: 2px 2px 15px orange;
       color: orange;
     }
     @include mobile {
-      width: 60vw;
+      width: 40vw;
+      padding: 15px 30px;
       text-align: center;
     }
   }
