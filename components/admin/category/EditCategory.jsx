@@ -110,7 +110,7 @@ class EditCategory extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={`${classes.root} fadeIn`}>
+      <div className="admin-content fadeIn">
         <h2 className={classes.formTitle}>
           Edit Category
           <Link href="/admin/category">

@@ -109,12 +109,19 @@ class EditBill extends Component {
   }
   render() {
     const { classes } = this.props;
+
     if (!this.state.details) {
-      return <h2>Waiting...</h2>;
+      return (
+        <div className="admin-content fadeIn">
+          <div className="loading-text">Loading...</div>
+        </div>
+      );
     }
+
     const rows = this.state.details;
+
     return (
-      <div className={`${classes.root} fadeIn`}>
+      <div className="admin-content fadeIn">
         <h2 className={classes.formTitle}>
           Edit Bill
           <Link href="/admin/bill">

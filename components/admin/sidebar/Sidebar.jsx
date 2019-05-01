@@ -8,6 +8,7 @@ import {
   Dashboard
 } from '@material-ui/icons';
 import Link from 'next/link';
+import Router from 'next/router';
 
 export class Sidebar extends Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,6 +56,10 @@ export class Sidebar extends Component {
         hidden: !this.props.adminPermission.category
       }
     ];
+
+    const { route } = Router;
+    console.log(route);
+
     return (
       <div>
         <List className="sidebar">
@@ -63,7 +68,10 @@ export class Sidebar extends Component {
             NavLinks.map((item, i) => {
               return item.hidden ? null : (
                 <Link href={item.href} key={i}>
-                  <a onClick={this.handleSidebarClick}>
+                  <a
+                    className={item.href === route ? 'active' : ''}
+                    onClick={this.handleSidebarClick}
+                  >
                     <ListItem button>
                       {item.icon}
                       <ListItemText

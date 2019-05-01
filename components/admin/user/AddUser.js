@@ -221,7 +221,7 @@ class EditUser extends Component {
     } = this.state;
 
     return (
-      <div className={`${classes.root} fadeIn`}>
+      <div className="admin-content fadeIn">
         <h2 className={classes.formTitle}>Create New User</h2>
         <Grid container>
           <Grid item xs={6}>

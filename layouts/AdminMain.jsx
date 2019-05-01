@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import rootReducer from '../store/reducer/rootReducer';
 import thunk from 'redux-thunk';
 import SignInAdmin from '../components/admin/SignInAdmin';
+import './styles/AdminStyle.scss';
+
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 class AdminMain extends Component {

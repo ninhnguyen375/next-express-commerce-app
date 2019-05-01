@@ -181,7 +181,7 @@ class EditProduct extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={`${classes.root} fadeIn`}>
+      <div className="admin-content fadeIn">
         <h2 className={classes.formTitle}>
           Edit Product
           <Link href="/admin/product">

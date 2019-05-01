@@ -169,7 +169,7 @@ class EditUser extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={`${classes.root} fadeIn`}>
+      <div className="admin-content fadeIn">
         <h2 className={classes.formTitle}>
           Edit User
           <Link href="/admin/user">
@@ -198,15 +198,6 @@ class EditUser extends Component {
                   onChange={this.handleChange}
                 />
                 <br />
-                {/* User Password */}
-                {/* <TextField
-                  required
-                  name="user_password"
-                  label="Password"
-                  className={classes.textField}
-                  onChange={this.handleChange}
-                  value={this.state.user_password}
-                /> */}
                 <Button
                   variant="contained"
                   color="primary"

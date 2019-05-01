@@ -1,0 +1,94 @@
+@import './App.scss';
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.full-height {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: initial;
+}
+
+.fixed-left {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  bottom: 0;
+}
+
+.mt-66 {
+  margin-top: 66px;
+}
+
+.sidebar {
+  background: rgb(48, 52, 58);
+  position: fixed !important;
+  top: 65px;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  display: block;
+  a {
+    color: rgb(194, 194, 194) !important;
+
+    &:hover {
+      color: #fff !important;
+    }
+    &.active {
+      color: #fff !important;
+
+      div:first-child {
+        position: relative;
+        background: #565656;
+        &:before {
+          height: 100%;
+          width: 3px;
+          position: absolute;
+          content: '';
+          top: 0;
+          left: 0;
+          background: orange;
+        }
+      }
+    }
+  }
+}
+
+.App {
+  margin-left: 166px;
+  margin-top: 66px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@include mobile {
+  .sidebar {
+    display: none;
+    top: 48px;
+  }
+  .App {
+    margin-left: 0;
+    margin-top: 48px;
+  }
+  .brand-title {
+    font-size: 14px !important;
+  }
+  .brand-text {
+    display: none;
+  }
+}
+
+.brand-text {
+  color: rgb(117, 117, 117);
+}
