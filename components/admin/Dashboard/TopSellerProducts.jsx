@@ -63,7 +63,7 @@ export class TopSellerProducts extends Component {
         <Grid container spacing={16} justify="flex-start" alignItems="stretch">
           {this.state.statistical.soldProducts &&
             this.state.statistical.soldProducts
-              .sort((x1, x2) => x1.amount - x2.amount < 1)
+              .sort((x1, x2) => x2.amount - x1.amount)
               .slice(0, 10)
               .map((item, i) => (
                 <Grid item xs={6} md={3} key={i} style={{ padding: 10 }}>
