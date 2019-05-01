@@ -20,8 +20,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  TextField
+  TextField,
+  InputAdornment,
+  IconButton
 } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 const styles = SignInStyle;
 
@@ -35,7 +38,8 @@ class SignIn extends React.Component {
     isOpenForgotPassword: false,
     isSendingMail: false,
     emailForgotPassword: '',
-    sendMailMess: ''
+    sendMailMess: '',
+    showPassword: false
   };
 
   async componentDidMount() {
@@ -70,6 +74,10 @@ class SignIn extends React.Component {
     this.setState({ isSendingMail: false });
   };
 
+  handleClickShowPassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
+  };
+
   handleSubmit = async e => {
     this.setState({ onLoading: true });
     e.preventDefault();
@@ -90,6 +98,7 @@ class SignIn extends React.Component {
     }
     this.setState({ onLoading: false });
   };
+
   render() {
     const { classes } = this.props;
 
@@ -121,11 +130,25 @@ class SignIn extends React.Component {
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="user_password">Password</InputLabel>
               <Input
-                type="password"
+                type={!this.state.showPassword ? 'password' : 'text'}
                 id="user_password"
                 name="user_password"
                 value={this.state.user_password}
                 onChange={this.handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {this.state.showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
             </FormControl>
             <p

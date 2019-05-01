@@ -37,18 +37,18 @@ module.exports.postSignUp = async (req, res) => {
   }
   try {
     const obj = {
+      user_email: reqUser.user_email,
       user_name: reqUser.user_name,
-      user_password: reqUser.user_password,
       user_phone: reqUser.user_phone,
-      user_status: true,
-      user_permission: {
-        user: false,
+      user_password: reqUser.user_password,
+      user_status: reqUser.user_status || true,
+      user_group: reqUser.user_group || 'client',
+      user_permission: reqUser.user_permission || {
         product: false,
         bill: false,
+        user: false,
         category: false
-      },
-      user_group: 'client',
-      user_email: reqUser.user_email
+      }
     };
     await Users.insertMany(obj);
     res.send('success');

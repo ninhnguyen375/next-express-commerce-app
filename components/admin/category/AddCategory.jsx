@@ -81,6 +81,7 @@ class AddCategory extends Component {
 
     e.preventDefault();
     if (!this.valudated__form()) {
+      this.setState({ isAdding: false });
       return;
     }
 

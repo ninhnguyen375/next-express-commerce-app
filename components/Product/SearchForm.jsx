@@ -44,6 +44,7 @@ export class SearchForm extends Component {
       <>
         <style jsx>{`
           .search-form {
+            background: #fff;
             display: flex;
             flex-wrap: wrap;
             align-items: flex-end;

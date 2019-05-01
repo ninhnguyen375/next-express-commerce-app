@@ -3,14 +3,13 @@ import Footer from '../components/Footer/Footer';
 import Axios from 'axios';
 import Router from 'next/router';
 import GlobalState from '../context/GlobalState';
-import { MainStyles } from './main.styles';
 import Navbar from '../components/Navbar/Navbar';
-import { Fab, Button } from '@material-ui/core';
 import ButtonDarkMode from '../components/ButtonDarkMode';
 
 class Main extends Component {
   state = {
-    auth: {}
+    auth: {},
+    isDarkMode: false
   };
 
   handleLogout = () => {
@@ -72,18 +71,34 @@ class Main extends Component {
     }
   }
 
+  toggleDarkMode = () => {
+    this.setState({ isDarkMode: !this.state.isDarkMode });
+  };
+
   render() {
+    const { isDarkMode, auth } = this.state;
     return (
-      <GlobalState auth={this.state.auth} checkLogin={this.checkLogin}>
+      <GlobalState
+        isDarkMode={isDarkMode}
+        auth={auth}
+        checkLogin={this.checkLogin}
+        toggleDarkMode={this.toggleDarkMode}
+      >
+        <style jsx global>{`
+          body {
+            background: ${isDarkMode ? '#000' : '#fff'};
+          }
+        `}</style>
         <div style={{ position: 'relative' }}>
-          {/* Global CSS */}
-          {MainStyles}
           {/* Navigation Bar */}
           <Navbar auth={this.state.auth} onLogout={this.handleLogout} />
+
           {/* Content here */}
           <div className="full-height">{this.props.children}</div>
+
           {/* Footer */}
           <Footer />
+
           {/* Toggle Dark mode */}
           <ButtonDarkMode />
         </div>

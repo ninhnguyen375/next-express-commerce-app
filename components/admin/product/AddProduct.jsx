@@ -124,7 +124,10 @@ class AddProduct extends Component {
     this.setState({ isAdding: true });
     e.preventDefault();
 
-    if (!this.valudated__form()) return;
+    if (!this.valudated__form()) {
+      this.setState({ isAdding: false });
+      return;
+    }
 
     await createProduct(this.state);
 

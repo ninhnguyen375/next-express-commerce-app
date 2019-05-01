@@ -1,4 +1,4 @@
-@import "./App.scss";
+@import './App.scss';
 
 .header {
   margin-top: 150px;
@@ -21,7 +21,7 @@
     &:hover,
     &.active {
       box-shadow: 2px 2px 15px orange;
-      color: rgb(214, 74, 18);
+      color: orange;
     }
     @include mobile {
       width: 60vw;

@@ -173,6 +173,10 @@ const toolbarStyles = theme => ({
   }
 });
 class CategoryListToolbar extends React.Component {
+  state = {
+    isDeleting: false
+  };
+
   handleDelete = async () => {
     if (!confirm('Are you sure?')) return;
 
@@ -196,9 +200,6 @@ class CategoryListToolbar extends React.Component {
   componentWillUnmount() {
     this.setState({ isDeleting: false });
   }
-  state = {
-    isDeleting: false
-  };
   render() {
     const { numSelected, classes } = this.props;
     return (

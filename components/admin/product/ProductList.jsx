@@ -1,8 +1,8 @@
-import React from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Link from "next/link";
+import React from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
 import {
   Toolbar,
   Tooltip,
@@ -20,12 +20,12 @@ import {
   Button,
   TextField,
   CircularProgress
-} from "@material-ui/core";
-import { Build, Delete, Autorenew } from "@material-ui/icons";
-import { connect } from "react-redux";
-import { lighten } from "@material-ui/core/styles/colorManipulator";
-import { deleteProducts } from "../../../store/action/productAction";
-import { getProductsWithRedux } from "../../../store/action/productAction";
+} from '@material-ui/core';
+import { Build, Delete, Autorenew } from '@material-ui/icons';
+import { connect } from 'react-redux';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { deleteProducts } from '../../../store/action/productAction';
+import { getProductsWithRedux } from '../../../store/action/productAction';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -48,28 +48,28 @@ function stableSort(array, cmp) {
 }
 
 function getSorting(order, orderBy) {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => desc(a, b, orderBy)
     : (a, b) => -desc(a, b, orderBy);
 }
 
 const rows = [
   {
-    id: "product_id",
+    id: 'product_id',
     numeric: false,
     disablePadding: true,
-    label: "Id"
+    label: 'Id'
   },
-  { id: "product_img", numeric: true, disablePadding: false, label: "Image" },
-  { id: "product_name", numeric: true, disablePadding: false, label: "Name" },
+  { id: 'product_img', numeric: true, disablePadding: false, label: 'Image' },
+  { id: 'product_name', numeric: true, disablePadding: false, label: 'Name' },
   {
-    id: "product_price",
+    id: 'product_price',
     numeric: true,
     disablePadding: false,
-    label: "Price ($)"
+    label: 'Price ($)'
   },
-  { id: "producer", numeric: true, disablePadding: false, label: "Producer" },
-  { id: "quantity", numeric: true, disablePadding: false, label: "Quantity" }
+  { id: 'producer', numeric: true, disablePadding: false, label: 'Producer' },
+  { id: 'quantity', numeric: true, disablePadding: false, label: 'Quantity' }
 ];
 
 class ProductListHead extends React.Component {
@@ -84,7 +84,8 @@ class ProductListHead extends React.Component {
       orderBy,
       numSelected,
       rowCount,
-      onSearch
+      onSearchById,
+      onSearchByName
     } = this.props;
 
     return (
@@ -95,9 +96,16 @@ class ProductListHead extends React.Component {
             <TextField
               id="standard-search"
               label="Search by Name"
-              type="search"
+              type="text"
               margin="normal"
-              onChange={onSearch}
+              onChange={onSearchByName}
+            />
+            <TextField
+              id="standard-search-by-id"
+              label="Search by ID"
+              type="text"
+              margin="normal"
+              onChange={onSearchById}
             />
           </TableCell>
         </TableRow>
@@ -113,13 +121,13 @@ class ProductListHead extends React.Component {
             row => (
               <TableCell
                 key={row.id}
-                align={row.numeric ? "right" : "left"}
-                padding={row.disablePadding ? "none" : "default"}
+                align={row.numeric ? 'right' : 'left'}
+                padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
               >
                 <Tooltip
                   title="Sort"
-                  placement={row.numeric ? "bottom-end" : "bottom-start"}
+                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
                   <TableSortLabel
@@ -155,7 +163,7 @@ const toolbarStyles = theme => ({
     paddingRight: theme.spacing.unit
   },
   highlight:
-    theme.palette.type === "light"
+    theme.palette.type === 'light'
       ? {
           color: theme.palette.secondary.main,
           backgroundColor: lighten(theme.palette.secondary.light, 0.85)
@@ -165,13 +173,13 @@ const toolbarStyles = theme => ({
           backgroundColor: theme.palette.secondary.dark
         },
   spacer: {
-    flex: "1 1 100%"
+    flex: '1 1 100%'
   },
   actions: {
     color: theme.palette.text.secondary
   },
   title: {
-    flex: "0 0 auto"
+    flex: '0 0 auto'
   }
 });
 class ProductListToolbar extends React.Component {
@@ -180,7 +188,7 @@ class ProductListToolbar extends React.Component {
   };
 
   handleDelete = async () => {
-    if (!confirm("Are you sure?")) return;
+    if (!confirm('Are you sure?')) return;
 
     this.setState({ isDeleting: true });
 
@@ -189,9 +197,9 @@ class ProductListToolbar extends React.Component {
     if (this.props.deleteError && this.props.deleteError[0]) {
       this.props.deleteError.forEach(item => {
         alert(item);
-        if (item === "Permission Denied") {
-          alert("Permission Denied!");
-          window.location = "/admin";
+        if (item === 'Permission Denied') {
+          alert('Permission Denied!');
+          window.location = '/admin';
         }
       });
     }
@@ -241,8 +249,8 @@ class ProductListToolbar extends React.Component {
               </Tooltip>
             ) : (
               <Tooltip title="Reload">
-                <IconButton aria-label="Reload">
-                  <Autorenew onClick={this.handleReload} />
+                <IconButton onClick={this.handleReload} aria-label="Reload">
+                  <Autorenew />
                 </IconButton>
               </Tooltip>
             )}
@@ -281,21 +289,21 @@ ProductListToolbar = withStyles(toolbarStyles)(
 
 const styles = theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     marginTop: theme.spacing.unit * 3
   },
   table: {
     minWidth: 1020
   },
   tableWrapper: {
-    overflowX: "auto"
+    overflowX: 'auto'
   }
 });
 
 class ProductList extends React.Component {
   state = {
-    order: "asc",
-    orderBy: "calories",
+    order: 'asc',
+    orderBy: 'calories',
     selected: [],
     data: [],
     page: 0,
@@ -310,10 +318,10 @@ class ProductList extends React.Component {
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
-    let order = "desc";
+    let order = 'desc';
 
-    if (this.state.orderBy === property && this.state.order === "desc") {
-      order = "asc";
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc';
     }
 
     this.setState({ order, orderBy });
@@ -327,13 +335,25 @@ class ProductList extends React.Component {
     this.setState({ selected: [] });
   };
 
-  handleSearch = event => {
+  handleSearchByName = event => {
     const value = event.target.value;
     let filterSearch = [];
     filterSearch = this.props.products.filter(product => {
       const val = value.trim().toLowerCase();
       const name = product.product_name.trim().toLowerCase();
       return name.indexOf(val) !== -1;
+    });
+    this.setState({ data: filterSearch });
+  };
+
+  handleSearchById = event => {
+    const value = event.target.value;
+    let filterSearch = [];
+
+    filterSearch = this.props.products.filter(product => {
+      const val = value;
+      const product_id = product.product_id + '';
+      return product_id.indexOf(val) !== -1;
     });
     this.setState({ data: filterSearch });
   };
@@ -386,7 +406,8 @@ class ProductList extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              onSearch={this.handleSearch}
+              onSearchByName={this.handleSearchByName}
+              onSearchById={this.handleSearchById}
               rowCount={data.length}
             />
             <TableBody>
@@ -455,10 +476,10 @@ class ProductList extends React.Component {
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
-            "aria-label": "Previous Page"
+            'aria-label': 'Previous Page'
           }}
           nextIconButtonProps={{
-            "aria-label": "Next Page"
+            'aria-label': 'Next Page'
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
