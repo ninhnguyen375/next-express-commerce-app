@@ -5,7 +5,7 @@ const styles = theme => ({
     margin: 'auto',
     padding: '10px 0',
     [theme.breakpoints.down('sm')]: {
-      padding: 10,
+      padding: 0,
       width: '100%'
     }
   },

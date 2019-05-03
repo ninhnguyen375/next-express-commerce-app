@@ -8,6 +8,12 @@ const isServer = !process.browser;
 const isProduction = !process.env.NODE_ENV === 'production';
 
 class product extends Component {
+  state = {
+    isLoading: false,
+    products: [],
+    err: ''
+  };
+
   static async getInitialProps(ctx) {
     const id = ctx.query.id;
     const url = isServer
@@ -33,22 +39,20 @@ class product extends Component {
       return { getError: err.message };
     }
   }
-  state = {
-    products: [],
-    err: ''
-  };
 
   getProducts = async () => {
+    this.setState({ isLoading: true });
     try {
       const res = await Axios.get('/api/products');
       const products = res.data.data;
 
       this.setState({
         ...this.state,
-        products
+        products,
+        isLoading: false
       });
     } catch (err) {
-      this.setState({ ...this.state, err: err.message });
+      this.setState({ ...this.state, err: err.message, isLoading: false });
     }
   };
 
@@ -79,7 +83,9 @@ class product extends Component {
         {this.state.products[0] ? (
           <ProductList products={this.state.products.slice(12, 20)} />
         ) : (
-          <div style={{ textAlign: 'center', color: 'gray' }}>loading</div>
+          <div style={{ textAlign: 'center', color: 'gray' }}>
+            {this.state.isLoading ? 'Loading...' : 'Empty'}
+          </div>
         )}
       </>
     );

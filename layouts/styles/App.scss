@@ -136,3 +136,34 @@ body {
 .mb-5 {
   margin-bottom: 5px;
 }
+
+.group-btn-plus-and-minus {
+  display: flex;
+
+  .btn-plus,
+  .btn-minus {
+    background: rgb(226, 226, 226);
+    border: none;
+    padding-top: 3px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px gray;
+    outline: none;
+
+    @include mobile {
+      box-shadow: none;
+      padding: 0;
+    }
+  }
+
+  .input-number {
+    border: none;
+    margin: 1px;
+    width: 30px;
+    text-indent: 12px;
+
+    @include mobile {
+      text-indent: 4px;
+      width: 20px;
+    }
+  }
+}

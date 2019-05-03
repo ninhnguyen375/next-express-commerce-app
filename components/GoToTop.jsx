@@ -7,7 +7,8 @@ const styles = theme => ({
   btnGoToTop: {
     position: 'fixed',
     bottom: '60px',
-    right: '10px'
+    right: '10px',
+    zIndex: '1000'
   }
 });
 class GoToTop extends Component {

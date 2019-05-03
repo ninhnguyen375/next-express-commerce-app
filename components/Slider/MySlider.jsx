@@ -30,7 +30,7 @@ export class MySlider extends Component {
   render() {
     return (
       <>
-        <Slider autoplay={3000}>
+        <Slider autoplay={3000} touchDisabled={true}>
           {content.map((item, index) => (
             <div
               key={index}

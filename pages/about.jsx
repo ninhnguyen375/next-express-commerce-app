@@ -1,18 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 export class about extends React.PureComponent {
   state = {
     name: 'Ninh',
     age: 19
   };
-
-  componentDidMount() {
-    alert('Hello World');
-  }
-
-  componentWillUnmount() {
-    alert('Good by!');
-  }
 
   render() {
     const { name, age } = this.state;

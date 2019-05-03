@@ -28,6 +28,7 @@
   .card-image {
     .card-image-wrap {
       position: relative;
+
       img {
         top: 10px;
         border-radius: 5px;
@@ -49,7 +50,6 @@
         text-align: center;
         padding: 5px;
         width: 100px;
-        // border: 2px solid orange;
         cursor: pointer;
         animation: neon 1.5s ease-in-out infinite alternate;
         color: rgb(226, 226, 226);
@@ -68,7 +68,22 @@
           animation: neon 1.5s ease-in-out infinite alternate;
           box-shadow: 0 0 25px rgb(144, 49, 5);
         }
+
+        @include mobile {
+          opacity: 1;
+          top: 10px;
+          left: 15px;
+          height: 30px;
+          width: 40px;
+          padding: 0;
+          border-radius: 0 0 5px 0;
+          background: #fff;
+          border: none;
+          outline: none;
+          animation: none;
+        }
       }
+
       &:hover .btn-cart {
         bottom: 10%;
         opacity: 1;

@@ -9,9 +9,6 @@ class UnSignedNav extends Component {
             <button>Home</button>
           </a>
         </Link>
-        <a href="#about">
-          <button>About</button>
-        </a>
         <Link href="/signin">
           <a>
             <button>Sign In</button>

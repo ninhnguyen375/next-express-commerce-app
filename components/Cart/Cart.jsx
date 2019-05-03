@@ -144,6 +144,34 @@ class Cart extends Component {
     }
   };
 
+  plusQuantity = id => {
+    console.log(id);
+
+    const { carts } = this.state;
+    const value = carts[id].cartItem.quantity + 1;
+    if (value < 1 || value > 5) {
+      alert('You must to buy 1 - 5 item for this product');
+      return;
+    }
+
+    carts[id].cartItem.quantity = value;
+
+    this.setState({ carts });
+  };
+
+  minusQuantity = id => {
+    const { carts } = this.state;
+    const value = carts[id].cartItem.quantity - 1;
+    if (value < 1 || value > 5) {
+      alert('You must to buy 1 - 5 item for this product');
+      return;
+    }
+
+    carts[id].cartItem.quantity = value;
+
+    this.setState({ carts });
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -173,8 +201,8 @@ class Cart extends Component {
                           <TableCell>Image</TableCell>
                           <TableCell>Name</TableCell>
                           <TableCell>Quantity</TableCell>
-                          <TableCell>Price ($)</TableCell>
-                          <TableCell>Total Price ($)</TableCell>
+                          <TableCell>Price($)</TableCell>
+                          <TableCell>Total($)</TableCell>
                           <TableCell>Action</TableCell>
                         </TableRow>
                       </TableHead>
@@ -186,6 +214,8 @@ class Cart extends Component {
                             onDelete={this.handleDelete}
                             id={index.toString()}
                             handleChange={this.handleChange}
+                            plusQuantity={this.plusQuantity}
+                            minusQuantity={this.minusQuantity}
                           />
                         ))}
 
