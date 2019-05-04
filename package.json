@@ -6,7 +6,6 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "@zeit/next-sass": "^1.0.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
@@ -36,6 +35,7 @@
     "start:dev": "docker restart mongo && yarn build && yarn start"
   },
   "devDependencies": {
+    "@zeit/next-sass": "^1.0.1",
     "node-sass": "^4.11.0"
   }
 }

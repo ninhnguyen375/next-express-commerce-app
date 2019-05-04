@@ -24,18 +24,16 @@ Router.events.on('routeChangeComplete', () => {
   if (Router.route !== '/') window.scrollTo({ top: '0' });
 });
 
-if (false) {
-  Router.events.on('routeChangeStart', () => {
-    Nprogress.start();
-  });
+Router.events.on('routeChangeStart', () => {
+  Nprogress.start();
+});
 
-  Router.events.on('routeChangeComplete', () => {
-    Nprogress.done();
-  });
-  Router.events.on('routeChangeError', () => {
-    Nprogress.done();
-  });
-}
+Router.events.on('routeChangeComplete', () => {
+  Nprogress.done();
+});
+Router.events.on('routeChangeError', () => {
+  Nprogress.done();
+});
 
 const toggleBgNavBar = (navbar, slider) => {
   if (window.scrollY > slider.clientHeight - navbar.clientHeight) {
